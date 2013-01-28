@@ -6,7 +6,7 @@ class Auth < ActiveRecord::Base
   
   has_many :exports
   
-  attr_accessible :provider, :uid, :token, :secret
+  attr_accessible :provider, :uid, :token, :secret, :user, :site
   
   validates :provider, :presence => true
   validates :uid, :presence => true
