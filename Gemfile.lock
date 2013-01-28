@@ -280,7 +280,7 @@ DEPENDENCIES
   navigasmic (= 1.0.4)
   omniauth-desk (= 0.1.4)
   paperclip (= 3.4.0)
-  pg
+  pg (~> 0.14.1)
   rack-livereload (= 0.3.8)
   rails (= 3.2.11)
   rb-fsevent (= 0.9.1)
