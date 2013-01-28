@@ -91,6 +91,12 @@ describe Auth do
         auth = Auth.from_omniauth(@hash)
         auth.id.should_not be_nil
       end
+      
+      it 'saves the user to the auth' do
+        auth = Auth.from_omniauth(@hash)
+        auth2 = Auth.find auth.id
+        auth2.user.should_not be_nil
+      end
     end
   end
 end

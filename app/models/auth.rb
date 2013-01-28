@@ -49,6 +49,7 @@ class Auth < ActiveRecord::Base
       end
       
       auth.user.update_omniauth(hash)
+      auth.save
       auth
     end
   end
