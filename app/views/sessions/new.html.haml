@@ -1,0 +1,36 @@
+- content_for :title do
+  Login
+- content_for :tagline do
+  Desk.com Toolbelt provides you with a range of data management tools but for those to work you need to authorize it with your Desk.com environment. 
+
+.row
+  .span6
+    = simple_form_for(Site.new, :url => '/auth/desk', :html => {:class => 'form-horizontal' }) do |f|
+      %fieldset
+        %legend Desk.com Authorization
+        = f.input :name, :wrapper => :append_and_prepend, :hint => 'Enter the name of your desk.com site' do
+          = content_tag :span, 'https://', :class => 'add-on'
+          = f.input_field :name, :name => 'desk_site', :class => 'input-small', :placeholder => 'devel'
+          = content_tag :span, '.desk.com', :class => 'add-on' 
+        .form-actions
+          = f.button :submit, 'Login', :class => 'btn-primary'
+          = submit_tag 'Cancel', :type => :reset, :class => 'btn'
+  .span4
+    %legend Authorization Process
+    %ol
+      %li
+        Upon submitting your Desk.com site in the form to the left, you'll be redirected to the Desk.com Login page.
+      %li
+        Before you login to your Desk.com environment take notice of the SSL certificate!
+      %li
+        After you logged in you'll be redirected to an authorize page, where you can grant access to Desk.com Exporter.
+      %li
+        Once you granted access to Desk.com Exporter you'll be automatically redirected and logged in.
+  .span2
+    %ul.thumbnails
+      %li.span2
+        %a.thumbnail{:href => '#'}
+          = image_tag 'desk_certificate.jpg', :alt => 'Desk.com SSL certificate'
+      %li.span2
+        %a.thumbnail{:href => '#'}
+          = image_tag 'desk_grant.jpg', :alt => 'Desk.com Authorize Page'

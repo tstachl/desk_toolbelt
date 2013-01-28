@@ -1,0 +1,16 @@
+%section.row#articles
+  .span12
+    %h2
+      Articles
+      %small Exports a collection of articles for a given topic.
+      
+  = simple_form_for :article, { url: new_export_path, html: { 'data-modal' => 'true', method: 'GET' }, defaults: { required: false, input_html: { class: 'input-block-level' } } } do |f|
+    .span12
+      %fieldset
+        %legend Topic related
+        = f.input :topic_id, hint: 'The numerical ID of the desired topic'
+    .span12
+      .form-actions
+        .pull-right
+          = f.submit 'Preview', class: 'btn btn-primary btn-large', 'data-loading-text' => 'Loading ...', autocomplete: 'off', onclick: "$(this).button('loading');"
+          = button_tag 'Cancel', class: 'btn btn-large', 'data-reset' => 'true'

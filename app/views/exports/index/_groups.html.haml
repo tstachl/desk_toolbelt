@@ -1,0 +1,12 @@
+%section.row#groups
+  .span12
+    %h2
+      Groups
+      %small Exports a list of groups.
+
+  = simple_form_for :group, { url: new_export_path, html: { 'data-modal' => 'true', method: 'GET' }, defaults: { required: false, input_html: { class: 'input-block-level' } } } do |f|
+    .span12
+      .form-actions
+        .pull-right
+          = f.submit 'Preview', class: 'btn btn-primary btn-large', 'data-loading-text' => 'Loading ...', autocomplete: 'off', onclick: "$(this).button('loading');"
+          = button_tag 'Cancel', class: 'btn btn-large', 'data-reset' => 'true'

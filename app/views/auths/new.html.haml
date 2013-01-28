@@ -1,0 +1,20 @@
+- content_for :title do
+  New Authorization
+- content_for :tagline do
+  Create a new authorization to gain access to additional resources.
+- content_for :modal_footer do
+  %a.btn{href: '#', 'data-dismiss' => 'modal', 'aria-hidden' => true} Close
+  %a.btn.btn-primary{href: '#', 'data-submit' => 'modal'} New
+
+= simple_form_for(@auth, url: '/auth/desk', html: { class: 'form-horizontal', id: dom_id(@auth) }) do |f|
+  %fieldset
+    %legend Create a new authorization
+    = simple_fields_for @auth.site do |s|
+      = s.input :name, wrapper: :append_and_prepend, hint: 'Enter the name of your desk.com site' do
+        = content_tag :span, 'https://', class: 'add-on'
+        = s.input_field :name, name: 'desk_site', class: 'input-small', placeholder: 'devel'
+        = content_tag :span, '.desk.com', class: 'add-on'
+    - unless xhr?
+      .form-actions
+        = f.button :submit, 'New', class: 'btn-primary'
+        = submit_tag 'Cancel', type: :reset, class: 'btn'

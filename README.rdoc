@@ -1,0 +1,41 @@
+
+Custom Fields?
+
+Export Relationships?
+
+Facade?
+
+- User loggs in
+- Clicks on export
+- authentication used through site context
+- Defines markup (has to be ready)
+- Defines filter
+- Defines format
+- Defines export schedule
+- Saves export
+
+Export
+  - Name
+  - AuthenticationId
+    - SiteId
+    - UserId
+  - Markup (json??)
+  - Filter (json??)
+  - Format (CSV, JSON, XML)
+
+Tasks
+  - Date/Time
+  - WhatId (Export, Import, ...)
+  - Run?
+  - SeriesId
+  - Single? (Can be a repeated task, reschedule after run)
+  - Error?
+  - ErrorMessage
+
+Series
+  - Minute (0-59, *)
+  - Hour (0-23, *)
+  - Day (1-31, *)
+  - Month (1-12, *)
+  - DayOfWeek (0-7, *) 0 and 7 are Sunday
+

@@ -1,0 +1,41 @@
+%section.row#exports
+  .span12
+    %h2
+      Exports
+      %small
+        List of all exports for the current user.
+    %hr
+    %table.table.table-striped
+      %thead
+        %tr
+          %th ID
+          %th Object
+          %th Description
+          %th Status
+          %th Format
+          %th Created At
+          %th Updated At
+          %th Actions
+      %tbody
+        - @exports.each do |export|
+          %tr
+            %td
+              = export.id
+            %td
+              = export.method.titleize
+            %td
+              = export.description
+            %td
+              = export.is_exported ? icon('download', 'Finished!') : export.is_exporting ? icon('road', 'In Progress ...') : icon('time', 'In Queue ...')
+            %td
+              = export.format
+            %td
+              = export.created_at.to_formatted_s(:short)
+            %td
+              = export.updated_at.to_formatted_s(:short)
+              / = Time.at(export.file.updated_at).to_formatted_s(:short)
+            %td
+              .btn-group
+                = link_to(icon('download', nil, true), export.file.url, class: 'btn btn-primary btn-mini')
+                / = link_to(icon('edit', nil), edit_export_path(export.id), class: 'btn btn-mini')
+                = link_to(icon('remove', nil, true), export_path(export.id), method: :delete, class: 'btn btn-danger btn-mini')

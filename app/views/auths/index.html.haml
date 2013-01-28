@@ -1,0 +1,49 @@
+- content_for :title do
+  Authorizations
+- content_for :tagline do
+  This is an overview of authorizations for the current user.
+
+.row
+  .span12
+    %h2
+      Authorizations
+      %small
+        List of all authorizations for the current user.
+    %hr
+    %table.table.table-striped
+      %thead
+        %tr
+          %th ID
+          %th Provider
+          %th Site
+          %th Uid
+          %th Created At
+          %th Updated At
+          %th Actions
+      %tbody
+        - @auths.each do |auth|
+          %tr
+            %td
+              = auth.id
+            %td
+              = auth.provider.titleize
+            %td
+              = auth.site.name_clean
+            %td
+              = auth.uid
+            %td
+              = auth.created_at.to_formatted_s(:short)
+            %td
+              = auth.updated_at.to_formatted_s(:short)
+            %td
+              .btn-group
+                %a.btn.btn-primary.btn-mini.dropdown-toggle{:href => '#', 'data-toggle' => 'dropdown'}
+                  Actions
+                  %span.caret
+                %ul.dropdown-menu
+                  - if auth.provider != 'desk'
+                    %li
+                      = link_to(icon('edit', 'Edit'), edit_auth_path(auth.id))
+                  %li
+                    = link_to(icon('remove', 'Delete'), auth_path(auth.id), method: :delete)
+        

@@ -1,0 +1,45 @@
+- content_for :title do
+  = "Export Preview <small>(#{@export.total} records)</small>".html_safe
+- content_for :tagline do
+  Preview of cases that'll be exported.
+- content_for :modal_footer do
+  %a.btn{href: '#', 'data-dismiss' => 'modal', 'aria-hidden' => true} Close
+  - if @export.total > 0
+    .btn-group.dropup
+      %a.btn.btn-primary.submit{href: '#', onclick: "$('#export_format').val('json');", 'data-submit' => 'modal'}
+        %i.icon-file.icon-white
+        JSON
+      %button.btn.btn-primary.dropdown-toggle{'data-toggle' => 'dropdown'}
+        %span.caret
+      %ul.dropdown-menu.pull-right
+        %li
+          %a.submit{href: '#', onclick: "$('#export_format').val('xml');", 'data-submit' => 'modal'}
+            XML
+        %li
+          %a.submit{href: '#', onclick: "$('#export_format').val('csv');", 'data-submit' => 'modal'}
+            CSV
+
+- if @export.total > 0
+  = simple_form_for(@export, html: { class: 'form-horizontal new_export' }) do |f|
+    = f.input :filter, as: :hidden, input_html: { value: @export.filter.to_json }
+    = f.input :method, as: :hidden, input_html: { value: @export.method }
+    = f.input :total, as: :hidden, input_html: { value: @export.total }
+    = f.input :pages, as: :hidden, input_html: { value: @export.pages }
+    = f.input :format, as: :hidden, input_html: { value: '' }
+    = f.input :description, hint: 'Describe your export to find it easier in the list.', input_html: { rows: 3, class: 'input-block-level' }
+    
+    %table.table.table-bordered.table-striped.table-preview
+      %thead
+        %tr
+          - preview_headers.each do |key|
+            %th
+              = key.to_s.humanize
+      %tbody
+        - preview_values.each do |item|
+          %tr
+            - item.each do |value|
+              %td
+                = value
+- else
+  %h2 Your search didn't return a result
+  %p Please change your parameters and filter criteria and try again.

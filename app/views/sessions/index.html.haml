@@ -1,0 +1,54 @@
+- content_for :title do
+  Desk.com Toolbelt
+- content_for :tagline do
+  Desk.com Toolbelt is a compilation of data management tools to manage your Desk.com environment.
+
+.carousel.slide
+  .carousel-inner
+    .active.item
+      %a.thumbnail{:href => '#'}
+        = image_tag 'export_top.png', :alt => 'The header of the export view.'
+    .item
+      %a.thumbnail{:href => '#'}
+        = image_tag 'export_cases.png', :alt => 'The export cases filter and search form.'
+    .item
+      %a.thumbnail{:href => '#'}
+        = image_tag 'export_preview.png', :alt => 'The export preview of cases.'
+
+.row.home
+  .span6
+    .page-header
+      %h2 
+        What is Desk.com Toolbelt?<br>
+        %small Search and export based on criteria and parameters
+    %p
+      Desk.com Toolbelt is a data management suit for Desk.com. It allows you to export data from your Desk.com environment into multiple output formats like <abbr class="initialism" title="JavaScript Object Notation">JSON</abbr> and <abbr class="initialism" title="Extensible Markup Language">XML</abbr>.
+    %p
+      Also you don't have to export all your data and filter it afterwards, we filter your data beforehand and you only export what you really want or need. Our search and filter criteria are very extensive eg. you can search for all cases of a specific customer or only cases that have been created in the last week.
+    %p
+      %span.label.label-info Heads up!
+      We are still working hard on getting all the features up and running therefore we are only accepting alpha testers at the moment.
+    %p
+      For more information or if you want to become a alpha/beta tester please don't hesitate to sign up.
+    
+  .span6
+    .page-header
+      %h2
+        Features<br>
+        %small Desk.com Toolbelt does more than just exporting
+    %ul
+      %li Export Cases, Customers, Interactions, Users and Groups, Topics and Articles as well as your Macros.
+      %li Search and Filter and export only what you really need.
+      %li Request your export in multiple different formats like <abbr class="initialism" title="JavaScript Object Notation">JSON</abbr> and <abbr class="initialism" title="Extensible Markup Language">XML</abbr>.
+      %li Create Customers, Interactions, Topics and Articles or Macros.
+      %li Know exactly what has been exported when and by whom.
+  
+  - if !logged_in?
+    .span12
+      .form-actions
+        .input-prepend.input-append.pull-right
+          %span.add-on
+            For more information
+          = link_to 'sign up and login', login_url, class: 'btn btn-success'
+          %span.add-on
+            today!

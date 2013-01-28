@@ -1,0 +1,72 @@
+!!!
+%html{html_attrs}
+  %head
+    %meta{:'http-equiv' => "Content-Type", :content => "text/html; charset=utf-8"}
+    %meta{:name => "lang", :content => "en"}
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    
+    %title
+      = "#{yield(:title) ? yield(:title) + ' - ' : ''}Desk.com Toolbelt"
+    
+    = csrf_meta_tag
+    
+    = stylesheet_link_tag :application
+    %link{:href => "/favicon.png", :rel => "shortcut icon", :type => "image/png"}
+  
+  %body{class: controller_class, 'data-spy' => 'scroll', 'data-target' => '.subnav', 'data-offset' => '50', 'data-twttr-rendered' => 'true'}
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.btn.btn-navbar{'data-toggle' => 'collapse', 'data-target' => '.nav-collapse'}
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+        
+          %a.brand{href: "/"} Desk.com Toolbelt
+          
+          .nav-collapse
+            = semantic_navigation config: :bootstrap do |n|
+              - n.item 'Home', '/'
+              / - n.item 'Dashboard', '/dashboard', hidden_unless: proc{ logged_in? }
+              - n.item 'Export', exports_path, hidden_unless: proc{ logged_in? }
+            = semantic_navigation config: :bootstrap, class: 'pull-right' do |n|
+              - if logged_in?
+                - n.group username_with_icon do
+                  %li.profile
+                    = image_tag current_auth.user.gravatar(48), alt: current_auth.user.name, class: 'img-polaroid'
+                    %h3
+                      = current_auth.user.name
+                    %span
+                      = "(#{current_auth.user.email})"
+                  %li.divider
+                  %li.nav-header Authorizations
+                  - current_auth.user.auths.each do |auth|
+                    %li.dropdown-submenu
+                      %a{tabindex: '-1', href: '#'}
+                        = auth.site.name_clean
+                      %ul.dropdown-menu
+                        - if auth.provider != 'desk'
+                          %li
+                            = link_to(icon('edit', 'Edit'), edit_auth_path(auth.id))
+                        %li
+                          = link_to(icon('ok', 'Select'), change_auth_path(auth.id))
+                        %li
+                          = link_to(icon('remove', 'Delete'), auth_path(auth.id), method: :delete)
+                  %li
+                    = link_to(icon('plus', 'Add authorization ...'), new_auth_path, data: { modal: 'true' })
+                  %li.divider
+                  %li
+                    = link_to(icon('off', 'Logout'), logout_path, method: :delete)
+              - n.item 'Login', login_path, hidden_unless: proc{ !logged_in? }
+    
+    .container
+      %header
+        .hero-unit
+          %h1
+            = yield :title
+          %p
+            = yield :tagline
+        = flash_messages
+      = yield
+    
+    = javascript_include_tag :application

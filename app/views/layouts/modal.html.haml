@@ -1,0 +1,12 @@
+.modal.hide.fade{class: controller_class}
+  .modal-header
+    %button.close{type: 'button', 'data-dismiss' => 'modal', 'aria-hidden' => true}= '&times;'.html_safe
+    %h3
+      = yield :title
+  .modal-body
+    = yield
+  .modal-footer
+    = yield :modal_footer
+    :javascript
+      application.datepicker()
+                 .tooltips();

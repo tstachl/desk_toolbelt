@@ -1,0 +1,29 @@
+%section.row#customers
+  .span12
+    %h2
+      Customers
+      %small Exports a collection of customers.
+  
+  = simple_form_for :customer, { url: new_export_path, html: { 'data-modal' => 'true', method: 'GET' }, defaults: { required: false, input_html: { class: 'input-block-level' } } } do |f|
+    = hidden_field_tag(:type, :customer, id: '')
+    .span6
+      %fieldset
+        %legend Customer related
+        = f.input :email, hint: 'Comma delimited list of customer emails'
+        = f.input :phone, hint: 'Comma delimited list of customer phone numbers'
+        = f.input :twitter, hint: 'Comma delimited list of customer twitter screennames'
+        = f.input :external_id, hint: 'Comma delimited list of customer external ids'
+    .span6
+      %fieldset
+        %legend Time related
+        = f.input :since_created_at, input_html: { class: 'datepicker input-block-level', 'data-date-format' => 'mm/dd/yy' }, hint: 'Returns results with a Create Date greater than specified.'
+        = f.input :max_created_at, input_html: { class: 'datepicker input-block-level', 'data-date-format' => 'mm/dd/yy' }, hint: 'Returns results with a Create Date less than specified.'
+        = f.input :since_updated_at, input_html: { class: 'datepicker input-block-level', 'data-date-format' => 'mm/dd/yy' }, hint: 'Returns results with an Update Date greater than specified.'
+        = f.input :max_updated_at, input_html: { class: 'datepicker input-block-level', 'data-date-format' => 'mm/dd/yy' }, hint: 'Returns results with an Update Date less than specified.'
+        = f.input :since_id, hint: 'Returns results with an ID greater than the specified ID.'
+        = f.input :max_id, hint: 'Returns results with an ID less than or equal to the specified ID.'
+    .span12
+      .form-actions
+        .pull-right
+          = f.submit 'Preview', class: 'btn btn-primary btn-large', 'data-loading-text' => 'Loading ...', autocomplete: 'off'
+          = button_tag 'Cancel', class: 'btn btn-large', 'data-reset' => 'true'

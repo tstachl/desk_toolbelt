@@ -1,0 +1,47 @@
+%section.row#cases
+  .span12
+    %h2
+      Cases
+      %small Export cases based on a combination of parameters.
+  
+  = simple_form_for :case, { url: new_export_path, html: { 'data-modal' => 'true', method: 'GET' }, defaults: { required: false, input_html: { class: 'input-block-level' } } } do |f|
+    = hidden_field_tag(:type, :case, id: '')
+    .span4
+      %fieldset
+        %legend Customer related
+        = f.input :name, hint: 'Comma delimited list of customer names'
+        = f.input :first_name, hint: 'Comma delimited list of customer first names'
+        = f.input :last_name, hint: 'Comma delimited list of customer last names'
+        = f.input :email, hint: 'Comma delimited list of customer emails'
+        = f.input :phone, hint: 'Comma delimited list of customer phone numbers'
+        = f.input :company, hint: 'Comma delimited list of customer company names'
+        = f.input :twitter, hint: 'Comma delimited list of customer twitter screennames'
+    .span4
+      %fieldset
+        %legend Case related
+        = f.input :labels, hint: 'Comma delimited list of case labels'
+        = f.input :case_id, hint: 'Comma delimited list of case ids'
+        = f.input :subject, hint: 'Search the case subject for the specified keyword'
+        = f.input :description, hint: 'Search the case description for the specified keyword'
+        = f.input :priority, collection: 1..10, input_html: { multiple: true }
+        = f.input :assigned_group, hint: 'Case assigned group'
+        = f.input :assigned_user, hint: 'Case assigned user ("me", "none", "unassigned", or name of agent)'
+        = f.input :channels, hint: 'Channel types (comma delimited list of channels "email", "twitter", "chat", "callback", "phone")'
+        = f.input :notes, hint: 'Search the case notes for the specified keyword'
+        = f.input :attachments, hint: 'Search the case attachments for the specified keyword'
+    .span4
+      %fieldset
+        %legend Time related
+        = f.input :created, collection: ["today", "yesterday", "week", "month", "year"]
+        = f.input :updated, collection: ["today", "yesterday", "week", "month", "year"]
+        = f.input :since_created_at, input_html: { class: 'datepicker input-block-level', 'data-date-format' => 'mm/dd/yy' }, hint: 'Returns results with a Create Date greater than specified.'
+        = f.input :max_created_at, input_html: { class: 'datepicker input-block-level', 'data-date-format' => 'mm/dd/yy' }, hint: 'Returns results with a Create Date less than specified.'
+        = f.input :since_updated_at, input_html: { class: 'datepicker input-block-level', 'data-date-format' => 'mm/dd/yy' }, hint: 'Returns results with an Update Date greater than specified.'
+        = f.input :max_updated_at, input_html: { class: 'datepicker input-block-level', 'data-date-format' => 'mm/dd/yy' }, hint: 'Returns results with an Update Date less than specified.'
+        = f.input :since_id, hint: 'Returns results with an ID greater than the specified ID.'
+        = f.input :max_id, hint: 'Returns results with an ID less than or equal to the specified ID.'
+    .span12
+      .form-actions
+        .pull-right
+          = f.submit 'Preview', class: 'btn btn-primary btn-large', 'data-loading-text' => 'Loading ...', autocomplete: 'off'
+          = button_tag 'Cancel', class: 'btn btn-large', 'data-reset' => 'true'
