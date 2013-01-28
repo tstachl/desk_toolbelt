@@ -24,7 +24,7 @@ class Auth < ActiveRecord::Base
     def find_or_initialize_by_omniauth(hash)
       Auth.find_or_initialize_by_uid({
         :provider => hash.provider,
-        :uid => hash.uid,
+        :uid => hash.uid.to_s,
         :token => hash.credentials.token,
         :secret => hash.credentials.secret
       })
