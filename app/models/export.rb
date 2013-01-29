@@ -27,24 +27,24 @@ class Export < ActiveRecord::Base
       "{\"#{method}\":["
     elsif format == 'xml'
       # write the xml header
-      "<#{method}>\n"
+      "<#{method}>"
     else
       # write the csv header
-      "#{item[method.singularize].keys.to_csv}\n"
+      "#{item[method.singularize].keys.to_csv}"
     end
   end
   
-  def row(item, last = false)
+  def row(item)
     # append to the file
     if format == 'json'
       # write json record
-      item[method.singularize].to_json.concat(last ? '' : ",\n")
+      item[method.singularize].to_json
     elsif format == 'xml'
       # write xml record
       item[method.singularize].to_xml(root: method.singularize, skip_instruct: true)
     else
       # write the csv record
-      item[method.singularize].values.map{ |v| Export.tabular_value(v) }.to_csv.concat(last ? '' : "\n")
+      item[method.singularize].values.map{ |v| Export.tabular_value(v) }.to_csv
     end
   end
   
@@ -72,7 +72,7 @@ class Export < ActiveRecord::Base
       results = fetch_export(Export::DEFAULT_MAX_COUNT, page)
       results['results'].each_index{ |index|
         tmp << header(results['results'].at(index)) if tmp.size == 0
-        tmp << row(results['results'].at(index), ((page == pages) && (results['results'].size == index + 1)))
+        tmp << row(results['results'].at(index))
       }
       
       break if page == pages
