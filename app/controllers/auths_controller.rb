@@ -32,7 +32,7 @@ class AuthsController < ApplicationController
       redirect_to controller: :sessions, action: :index
     end
   rescue AuthError => e
-    redirect_to action: :failure, message: e.message
+    redirect_to controller: :sessions, action: :failure, message: e.message
   end
 
   def update

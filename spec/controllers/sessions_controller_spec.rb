@@ -23,7 +23,7 @@ describe SessionsController do
     end
   end
 
-  describe "POST 'create'" do
+  describe "POST 'create'", moved: true do
     context "with valid attributes" do
       before do
         request.env['omniauth.auth'] = OmniAuth.config.mock_auth[:desk]

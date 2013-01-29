@@ -7,8 +7,4 @@ class Site < ActiveRecord::Base
   def name_clean
     name.match(/^https?:\/\/(?:([^\.]+)\.)?desk.*\.com\/?$/)[1].titleize
   end
-  
-  def authorization_for(user)
-    auths.where(:user_id => user.id).first
-  end
 end

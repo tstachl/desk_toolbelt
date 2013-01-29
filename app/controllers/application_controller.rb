@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
   end
   
   def render_modal
-    if request.xhr?
+    if xhr?
       self.class.layout 'modal'
     else
       self.class.layout nil

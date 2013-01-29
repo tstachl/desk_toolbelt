@@ -28,7 +28,7 @@ describe User do
     end
   end
   
-  context 'has to work with omniauth hashes and' do
+  describe 'has to work with omniauth hashes and' do
     context 'if the user exists' do
       before do
         @hash = OmniAuth.config.mock_auth[:desk]
@@ -40,7 +40,7 @@ describe User do
         })
       end
       
-      it 'can befound by omniauth' do
+      it 'can be found by omniauth' do
         user = User.find_or_initialize_by_omniauth @hash
         user.id.should eq(@user.id)
       end
@@ -67,6 +67,20 @@ describe User do
         user = User.find_or_initialize_by_omniauth @hash
         user.should be_new_record
       end
+    end
+  end
+  
+  context 'a valid and ordinary user' do
+    before do
+      @user = User.create({
+        :name => Faker::Name.name,
+        :email => Faker::Internet.email,
+        :role => Role.new({ :name => Faker::Lorem.word })
+      })
+    end
+    
+    it 'has a gravatar url' do
+      @user.gravatar.should_not be_nil
     end
   end
 end
