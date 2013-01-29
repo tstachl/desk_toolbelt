@@ -25,7 +25,7 @@ OmniAuth.config.mock_auth[:desk] = OmniAuth::AuthHash.new({
     :user_level   => 'siteadmin_billing',
     :login_count  => 55,
     :time_zone    => '',
-    :site => 'devel.desk.com'
+    :site => 'https://devel.desk.com'
   },
   :credentials => {
     :token        => Faker::Lorem.characters,
@@ -43,7 +43,7 @@ OmniAuth.config.mock_auth[:desk_dan] = OmniAuth::AuthHash.new({
     :user_level   => 'siteadmin_billing',
     :login_count  => 55,
     :time_zone    => '',
-    :site => 'zzz-dan.desk.com'
+    :site => 'https://zzz-dan.desk.com'
   },
   :credentials => {
     :token        => Faker::Lorem.characters,
