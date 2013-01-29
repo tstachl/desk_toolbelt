@@ -39,12 +39,24 @@ class AuthsController < ApplicationController
   end
 
   def destroy
-    auths = Auth.destroy_all(id: params[:id], user_id: current_auth.user.id)
+    user = current_auth.user
+    auths = Auth.destroy_all(id: params[:id], user_id: user.id)
+    
     respond_to do |format|
       format.json { render json: { success: true, auths: auths } }
       format.xml { render xml: { success: true, auths: auths } }
       format.html do
-        flash[:success] = 'Authentication has been deleted.'
+        unless Auth.exists?(current_auth.id)
+          if user.auths(true).empty?
+            flash[:info] = 'Your last authorization has been deleted. You have been logged out.'
+            return redirect_to login_path
+          else
+            current_auth user.auths.first
+            flash[:info] = "Your context has been changed to <strong>#{current_auth.site.name_clean}</strong>."
+          end
+        end
+
+        flash[:success] = 'Authorization has been deleted.'
         redirect_back action: :index
       end
     end
