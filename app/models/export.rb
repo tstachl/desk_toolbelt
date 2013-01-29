@@ -127,19 +127,22 @@ private
     end
     
     def tabular_value(value, use_id = true, date_format = :iso)
-      value.map{ |i| self.tabular_value(i) }.join(';') if value.is_a?(Array)
-      if value.is_a? Hash
+      if value.is_a?(Array)
+        value.map{ |i|
+          self.tabular_value(i, use_id, date_format)
+        }.join(';')
+      elsif value.is_a? Hash
         if use_id
-          value['email']['id'] if value.key?('email')
-          value['twitter']['id'] if value.key?('twitter')
-          value['id'] if value.key?('id')
+          return value['email']['id'] if value.key?('email')
+          return value['twitter']['id'] if value.key?('twitter')
+          return value['id'] if value.key?('id')
         else
-          value['email']['email'] if value.key?('email')
-          value['twitter']['login'] if value.key?('twitter')
-          value['name'] if value.key?('name')
+          return value['email']['email'] if value.key?('email')
+          return value['twitter']['login'] if value.key?('twitter')
+          return value['name'] if value.key?('name')
         end
       else
-        (DateTime.strptime(value, "%Y-%m-%dT%H:%M:%S%z").to_s(date_format) rescue value)
+        return (DateTime.strptime(value, "%Y-%m-%dT%H:%M:%S%z").to_s(date_format) rescue value)
       end
     end
   end
