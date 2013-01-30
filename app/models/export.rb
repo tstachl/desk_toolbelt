@@ -7,14 +7,20 @@ class Export < ActiveRecord::Base
   belongs_to :auth
   serialize :filter
   attr_accessible :filter, :is_exported, :is_exporting, :method, :description, :format, :total, :pages, :file, :auth
+  
+  validates :filter, presence: true
+  validates :method, presence: true
+  validates :format, presence: true
+  validates :auth, presence: true
+  
   has_attached_file :file,
-    :storage => :s3,
-    :s3_credentials => {
-      :bucket => ENV['AWS_BUCKET'],
-      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+    storage: :s3,
+    s3_credentials: {
+      bucket: ENV['AWS_BUCKET'],
+      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
     },
-    :path => "tempfiles/exporter/:filename"
+    path: "tempfiles/exporter/:filename"
   
   def preview
     fetch_and_update(10)
@@ -34,11 +40,11 @@ class Export < ActiveRecord::Base
     end
   end
   
-  def row(item)
+  def row(item, last = false)
     # append to the file
     if format == 'json'
       # write json record
-      item[method.singularize].to_json
+      item[method.singularize].to_json.concat(last ? '' : ',')
     elsif format == 'xml'
       # write xml record
       item[method.singularize].to_xml(root: method.singularize, skip_instruct: true)
@@ -59,32 +65,35 @@ class Export < ActiveRecord::Base
     end
   end
   
-  def export
-    page = 0
-    
+  def process_export
     Rails.logger.info("Creating the tempfile for the export.")
-    tmp = Tempfile.new(["#{Time.now.strftime('%Y%m%d%H%M%S')}_#{method}", ".#{format}"])
+    tempfile = Tempfile.new(["#{Time.now.strftime('%Y%m%d%H%M%S')}_#{method}", ".#{format}"])
 
+    page = 0
     while true
       page += 1
       
       Rails.logger.info("Exporting page #{page} of #{pages} pages.")
       results = fetch_export(Export::DEFAULT_MAX_COUNT, page)
       results['results'].each_index{ |index|
-        tmp << header(results['results'].at(index)) if tmp.size == 0
-        tmp << row(results['results'].at(index))
+        tempfile << header(results['results'].at(index)) if tempfile.size == 0
+        tempfile << row(results['results'].at(index), ((page == pages) && (results['results'].size == index + 1)))
       }
       
       break if page == pages
     end
-    
-    Rails.logger.info("Writing the footer to the tempfile.")
-    tmp << footer
-    update_attribute(:file, tmp)
 
+    Rails.logger.info("Writing the footer to the tempfile.")
+    tempfile << footer
+    tempfile
+  end
+  
+  def export
+    tempfile = process_export
+    update_attribute(:file, tempfile)
     Rails.logger.info("Removing the tempfile.")
-    tmp.close
-    tmp.unlink
+    tempfile.close
+    tempfile.unlink
   end
   
 private  

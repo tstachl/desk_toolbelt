@@ -55,8 +55,4 @@ class ApplicationController < ActionController::Base
       self.class.layout nil
     end
   end
-  
-  def client
-    Desk.client subdomain: current_auth.site.name, oauth_token: current_auth.token, oauth_token_secret: current_auth.secret
-  end
 end

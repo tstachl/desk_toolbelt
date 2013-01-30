@@ -7,8 +7,6 @@ class ExportsController < ApplicationController
   end
 
   def show
-    @results = client.cases
-    @debug = @results['results'].first.to_xml skip_instruct: true
   end
 
   def new
@@ -25,7 +23,7 @@ class ExportsController < ApplicationController
 
   def create
     # parse the filter if json
-    if params[:export][:filter].is_a?(String) and params[:export][:filter].is_json?
+    if params[:export][:filter].is_a?(String) and params[:export][:filter].json?
       params[:export][:filter] = JSON.parse! params[:export][:filter]
     end
     
@@ -48,29 +46,15 @@ class ExportsController < ApplicationController
   def destroy
     @export = Export.find params[:id]
     unless @export.is_exporting
-      if @export.destroy
-        flash[:success] = "The export job has been deleted."
-        redirect_back action: :index
-      else
-        flash[:error] = "The export job couldn't be deleted. Please try again later."
-        redirect_back action: :index
-      end
+      @export.destroy
+      flash[:success] = "The export job has been deleted."
+      redirect_back action: :index
     else
       flash[:info] = "Our worker is currently working on this job, please delete it once we're done."
       redirect_back action: :index
     end
+  rescue => err
+    flash[:error] = err
+    redirect_back action: :index
   end
 end
-
-=begin
-  Export
-  
-  - auth
-  - hash filter
-  - method
-  - is_exported
-  
-  rails g model Export method:string filter:text auth:references is_exported:boolean
-
-
-=end

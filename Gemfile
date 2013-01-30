@@ -10,6 +10,7 @@ gem 'delayed_job_active_record', '0.3.3'
 gem 'desk', :git => 'git://github.com/tstachl/desk.git', :tag => 'v0.3.3toolbelt'
 gem 'aws-sdk', '1.8.0'
 gem 'paperclip', '3.4.0'
+gem 'nokogiri', '1.5.5'
 
 group :test, :development do
   gem 'rspec-rails', '2.11.4'
@@ -23,6 +24,7 @@ group :test do
   gem 'simplecov', '0.7.1', :require => false
   gem 'webmock', '1.9.0', :require => false
   gem 'capybara', '1.1.3'
+  gem 'factory_girl_rails', '4.2.0'
   gem 'faker', '1.1.2'
 end
 
