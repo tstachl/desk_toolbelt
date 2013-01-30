@@ -11,6 +11,7 @@ gem 'desk', :git => 'git://github.com/tstachl/desk.git', :tag => 'v0.3.3toolbelt
 gem 'aws-sdk', '1.8.0'
 gem 'paperclip', '3.4.0'
 gem 'nokogiri', '1.5.5'
+gem 'newrelic_rpm', '3.5.5.38'
 
 group :test, :development do
   gem 'rspec-rails', '2.11.4'
