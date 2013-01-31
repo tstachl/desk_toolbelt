@@ -6,7 +6,7 @@ class Export < ActiveRecord::Base
   
   belongs_to :auth
   serialize :filter
-  attr_accessible :filter, :is_exported, :is_exporting, :method, :description, :format, :total, :pages, :file, :auth
+  attr_accessible :filter, :is_exported, :is_exporting, :method, :description, :format, :total, :pages, :file
   
   validates :filter, presence: true
   validates :method, presence: true

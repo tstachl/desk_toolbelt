@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   end
   belongs_to :role, :autosave => true
   
+  attr_accessible :name, :email, :role, :sites
+  
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
   validates :role, presence: true

@@ -27,6 +27,7 @@ class AuthsController < ApplicationController
       flash[:success] = 'Authentication has been saved.'
       redirect_back action: :index
     else
+      reset_session
       current_auth Auth.login_omniauth request.env['omniauth.auth']
       flash[:success] = 'You are now logged in.'
       redirect_to controller: :sessions, action: :index
@@ -63,7 +64,7 @@ class AuthsController < ApplicationController
   end
 
   def change
-    current_auth Auth.where(id: params[:id], user_id: current_auth.user.id).first
+    current_auth current_auth.user.auths.find params[:id]
     flash[:info] = "Your context has been changed to <strong>#{current_auth.site.name_clean}</strong>."
     redirect_back action: :index
   end

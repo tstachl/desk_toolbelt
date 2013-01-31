@@ -4,7 +4,9 @@ class Site < ActiveRecord::Base
   
   validates :name, :presence => true, :uniqueness => true, :domain => true
   
+  attr_accessible :name
+  
   def name_clean
-    name.match(/^https?:\/\/(?:([^\.]+)\.)?desk.*\.com\/?$/)[1].titleize
+    name.match(/\Ahttps?:\/\/(?:([^\.]+)\.)?desk.*\.com\/?\z/)[1].titleize
   end
 end

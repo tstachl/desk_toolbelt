@@ -17,4 +17,14 @@ describe Site do
       is_valid(@site, :name, 'nodomain', 'devel.desk.com')
     end
   end
+  
+  context '#name_clean' do
+    it 'returns the titleized subdomain' do
+      Site.new(name: 'https://devel.desk.com/').name_clean.should == 'Devel'
+    end
+    
+    it "doesn't look at the domain as long as desk is in it" do
+      Site.new(name: 'https://zzz-dan.desk-staging.com/').name_clean.should == 'Zzz Dan'
+    end
+  end
 end

@@ -48,7 +48,7 @@ module DeskToolbelt
     # This will create an empty whitelist of attributes available for mass-assignment for all models
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
-    # config.active_record.whitelist_attributes = true
+    config.active_record.whitelist_attributes = true
 
     # Enable the asset pipeline
     config.assets.enabled = true
@@ -67,16 +67,5 @@ module DeskToolbelt
         :request_specs => true
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
-    
-    # Amazon S3 settings for Paperclip uploads
-    config.paperclip_defaults = {
-      :storage => :s3,
-      :s3_protocol => 'https',
-      :s3_credentials => {
-        :bucket => ENV['AWS_BUCKET'],
-        :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-        :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
-      }
-    }
   end
 end

@@ -62,14 +62,16 @@ describe Auth do
           :role => Role.create(:name => 'siteadmin_billing')
         })
         
-        @auth = Auth.create({
+        @auth = Auth.new({
           :provider => @hash.provider,
           :uid => @hash.uid,
-          :token => Faker::Lorem.characters,
-          :secret => Faker::Lorem.characters,
           :user => @user,
           :site => Site.create(:name => 'dev.desk.com')
         })
+        # Can't mass-assign protected attributes: token, secret
+        @auth.token = Faker::Lorem.characters
+        @auth.secret = Faker::Lorem.characters
+        @auth.save!
       end
       
       it 'updates the auth record' do

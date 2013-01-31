@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Export do
+  before do
+    Desk.configure{ |c| c.use_max_requests = false }
+  end
+  
   context 'has to be valid and' do
     before do
       @export = Export.new
@@ -22,7 +26,6 @@ describe Export do
   
   context '#preview' do
     before do
-      Desk.configure{|c| c.max_requests = 60}
       @export = FactoryGirl.create :preview_export
     end
     
@@ -37,7 +40,6 @@ describe Export do
     before do
       stub_request(:get, "https://devel.desk.com/api/v1/cases.json?assigned_group=&assigned_user=&attachments=&case_id=&channels=&company=&count=10&created=&description=&email=&first_name=&labels=&last_name=&max_created_at=&max_id=&max_updated_at=&name=&notes=&page=1&phone=&priority=&since_created_at=&since_id=&since_updated_at=&subject=&twitter=&updated=").
          to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
-      Desk.configure{|c| c.max_requests = 60}
       @export = FactoryGirl.create :exporting_export
       @item = @export.preview['results'].first
     end
@@ -137,13 +139,24 @@ describe Export do
       @export = FactoryGirl.create :preview_export
     end
     
-    it 'sleeps for a minute after 60' do
-      Desk.max_requests = 60
-      Desk.counter = 0
-      70.times {
-        @export.instance_eval{ fetch_export(Export::DEFAULT_MAX_COUNT, 2) } 
-      }
-      Desk.counter.should == 10
+    context 'testing max requests' do
+      before do
+        Desk.use_max_requests = true
+        Desk.max_requests = 60
+        Desk.counter = 0
+      end
+      
+      after do
+        Desk.use_max_requests = false
+        Desk.counter = 0
+      end
+      
+      it 'sleeps for a minute after 60' do
+        70.times {
+          @export.instance_eval{ fetch_export(Export::DEFAULT_MAX_COUNT, 2) } 
+        }
+        Desk.counter.should == 10
+      end
     end
   end
   

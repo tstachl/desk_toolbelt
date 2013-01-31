@@ -15,7 +15,9 @@ class ExportsController < ApplicationController
     # make sure all arrays are comma separated
     params[key].each{ |k, v| v.is_a?(Array) ? params[key][k] = v.join(',') : params[key][k] = v }
     # create the export with the filter, the method and the auth
-    @export = Export.new filter: params[key], method: key.to_s.pluralize.to_sym, auth: current_auth
+    @export = Export.new filter: params[key], method: key.to_s.pluralize.to_sym
+    # Can't mass-assign protected attributes: auth
+    @export.auth = current_auth
     
     # get the preview
     @result = @export.preview
@@ -44,7 +46,7 @@ class ExportsController < ApplicationController
   end
 
   def destroy
-    @export = Export.find params[:id]
+    @export = current_auth.exports.find params[:id]
     unless @export.is_exporting
       @export.destroy
       flash[:success] = "The export job has been deleted."

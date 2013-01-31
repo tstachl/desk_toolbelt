@@ -40,3 +40,4 @@ Icon
 
 # Ignore local environment
 /.env
+*.env

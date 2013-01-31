@@ -6,7 +6,7 @@ class Auth < ActiveRecord::Base
   
   has_many :exports
   
-  attr_accessible :provider, :uid, :token, :secret, :user, :site
+  attr_accessible :provider, :uid, :user, :site
   
   validates :provider, :presence => true
   validates :uid, :presence => true
@@ -14,20 +14,24 @@ class Auth < ActiveRecord::Base
   validates :token, :presence => true
   
   def update_omniauth(hash)
-    update_attributes({
-      :token => hash.credentials.token,
-      :secret => hash.credentials.secret
-    })
+    # Can't mass-assign protected attributes: token, secret
+    token = hash.credentials.token
+    secret = hash.credentials.secret
+    save
   end
   
   class << self
     def find_or_initialize_by_omniauth(hash)
-      Auth.find_or_initialize_by_uid({
+      auth = Auth.find_or_initialize_by_uid({
         :provider => hash.provider,
-        :uid => hash.uid.to_s,
-        :token => hash.credentials.token,
-        :secret => hash.credentials.secret
+        :uid => hash.uid.to_s
       })
+      
+      # Can't mass-assign protected attributes: token, secret
+      auth.token = hash.credentials.token
+      auth.secret = hash.credentials.secret
+      
+      auth
     end
     
     def login_omniauth(hash)
