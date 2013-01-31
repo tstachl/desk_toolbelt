@@ -13,14 +13,7 @@ class Export < ActiveRecord::Base
   validates :format, presence: true
   validates :auth, presence: true
   
-  has_attached_file :file,
-    storage: :s3,
-    s3_credentials: {
-      bucket: ENV['AWS_BUCKET'],
-      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
-    },
-    path: "tempfiles/exporter/:filename"
+  has_attached_file :file
   
   def preview
     fetch_and_update(10)
