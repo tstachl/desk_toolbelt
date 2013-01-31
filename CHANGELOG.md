@@ -1,4 +1,13 @@
 # CHANGE LOG
+## v0.1.2 (alpha) - 2012-01-31
+This release is plain a security overhaul.
+
+* Issue #5: Exports are now separated by the environment.
+* Issue #11: Downloads are now private which means the urls are expiring after 5 minutes.
+* Issue #12: We used http://guides.rubyonrails.org/security.html to check the app for security vulnerabilities.
+* Issue #13: Added Google Analytics for the production environment.
+* Issue #14: Changed Procfile to use RAILS_ENV as environment.
+
 ## v0.1.1 (alpha) - 2012-01-30
 Some bugs have been fixed and the codebase is now 100% covered with tests. 
 
