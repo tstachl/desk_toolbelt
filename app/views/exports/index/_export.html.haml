@@ -36,6 +36,7 @@
               / = Time.at(export.file.updated_at).to_formatted_s(:short)
             %td
               .btn-group
-                = link_to(icon('download', nil, true), export.file.url, class: 'btn btn-primary btn-mini')
-                / = link_to(icon('edit', nil), edit_export_path(export.id), class: 'btn btn-mini')
-                = link_to(icon('remove', nil, true), export_path(export.id), method: :delete, class: 'btn btn-danger btn-mini')
+                - if export.is_exported
+                  = link_to(icon('download', nil, true), export.file.expiring_url(300), class: 'btn btn-primary btn-mini')
+                - unless export.is_exporting
+                  = link_to(icon('remove', nil, true), export_path(export.id), method: :delete, class: 'btn btn-danger btn-mini')

@@ -5,6 +5,6 @@ Paperclip::Attachment.default_options.merge!(
     secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
     bucket: ENV["AWS_BUCKET"]
   },
-  # s3_permissions: :private,
+  s3_permissions: :private,
   path: "tempfiles/exporter/#{Rails.env}/:filename"
 )
