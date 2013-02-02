@@ -7,6 +7,6 @@ class Site < ActiveRecord::Base
   attr_accessible :name
   
   def name_clean
-    name.match(/\Ahttps?:\/\/(?:([^\.]+)\.)?desk.*\.com\/?\z/)[1].titleize
+    name.match(/\Ahttps?:\/\/(?:([^\.]+)\.)?[desk|zendesk].*\.com\/?\z/)[1].titleize
   end
 end

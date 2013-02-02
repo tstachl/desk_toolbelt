@@ -4,11 +4,22 @@
   Create a new authorization to gain access to additional resources.
 - content_for :modal_footer do
   %a.btn{href: '#', 'data-dismiss' => 'modal', 'aria-hidden' => true} Close
-  %a.btn.btn-primary{href: '#', 'data-submit' => 'modal'} New
+  %a.btn.btn-primary{href: '#', 'data-submit' => "modal"} Create
+  :javascript
+    $('.auths-new a[data-toggle="tab"]').on('shown', function(e) {
+      var action = $(e.target).data('provider') == 'zendesk' ? '/auth/zendesk/callback' : '/auth/' + $(e.target).data('provider');
+      $('.auths-new .form-horizontal').attr('action', action)
+    })
 
-= simple_form_for(@auth, url: '/auth/desk', html: { class: 'form-horizontal', id: dom_id(@auth) }) do |f|
-  %fieldset
-    %legend Create a new authorization
+%ul.nav.nav-tabs
+  %li.active
+    %a{href: '#desk', 'data-toggle' => 'tab', 'data-provider' => 'desk'} Desk.com
+  %li
+    %a{href: '#zendesk', 'data-toggle' => 'tab', 'data-provider' => 'zendesk'} Zendesk
+
+= simple_form_for(@auth, url: '/auth/desk', html: { class: 'form-horizontal tab-content' }) do |f|
+  %fieldset.tab-pane.active#desk
+    %legend Desk.com Authorization   
     = simple_fields_for @auth.site do |s|
       = s.input :name, wrapper: :append_and_prepend, hint: 'Enter the name of your desk.com site' do
         = content_tag :span, 'https://', class: 'add-on'
@@ -16,5 +27,18 @@
         = content_tag :span, '.desk.com', class: 'add-on'
     - unless xhr?
       .form-actions
-        = f.button :submit, 'New', class: 'btn-primary'
+        = f.button :submit, 'Create', class: 'btn-primary'
+        = submit_tag 'Cancel', type: :reset, class: 'btn'
+  %fieldset.tab-pane#zendesk
+    %legend Zendesk Authorization
+    = f.input :token, label: 'Username', hint: 'Enter your Zendesk username', input_html: { name: 'email' }
+    = f.input :secret, label: 'Password', required: true, as: :password, hint: 'Enter your Zendesk password', input_html: { name: 'password' }
+    = simple_fields_for @auth.site do |s|
+      = s.input :name, wrapper: :append_and_prepend, hint: 'Enter the name of your Zendesk site' do
+        = content_tag :span, 'https://', class: 'add-on'
+        = s.input_field :name, name: 'site', class: 'input-small', placeholder: 'devel'
+        = content_tag :span, '.zendesk.com', class: 'add-on'
+    - unless xhr?
+      .form-actions
+        = f.button :submit, 'Create', class: 'btn-primary'
         = submit_tag 'Cancel', type: :reset, class: 'btn'

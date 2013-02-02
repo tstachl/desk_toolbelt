@@ -20,17 +20,6 @@ describe Auth do
     end
   end
   
-  context 'can handle additional authorizations' do
-    before do
-      @desk = OmniAuth.config.mock_auth[:desk]
-      @user = User.create({
-        :name => Faker::Name.name,
-        :email => @desk.info.email,
-        :role => Role.create(:name => 'siteadmin_billing')
-      })
-    end
-  end
-  
   context 'is used in the login/signup process' do
     before do
       @hash = OmniAuth.config.mock_auth[:desk]

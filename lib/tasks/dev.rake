@@ -13,10 +13,15 @@ namespace :dev do
   task :start do |t, args|
     system('foreman start -f config/environments/Procfile.dev -d ./ -c -e config/environments/development.env')
   end
-  
+
   desc 'start the test environment'
   task :test do |t, args|
     system('foreman run -e config/environments/test.env bundle exec rake spec')
+  end
+
+  desc 'start the console environment'
+  task :console do |t, args|
+    system('foreman run -e config/environments/development.env bundle exec rails c')
   end
   
   desc 'export by id, this is only for tests'
