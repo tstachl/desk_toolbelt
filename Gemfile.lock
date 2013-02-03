@@ -45,6 +45,8 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.2)
     arel (3.0.2)
+    attr_encryptor (1.0.2)
+      encryptor2 (>= 1.0.0)
     aws-sdk (1.8.0)
       httparty (~> 0.7)
       json (~> 1.4)
@@ -81,6 +83,7 @@ GEM
     em-websocket (0.3.8)
       addressable (>= 2.1.1)
       eventmachine (>= 0.12.9)
+    encryptor2 (1.0.0)
     erubis (2.7.0)
     eventmachine (1.0.0)
     execjs (1.4.0)
@@ -268,6 +271,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  attr_encryptor (= 1.0.2)
   aws-sdk (= 1.8.0)
   bootstrap-sass (~> 2.1.1.0)
   capybara (= 1.1.3)
