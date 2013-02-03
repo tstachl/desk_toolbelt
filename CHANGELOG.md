@@ -1,4 +1,7 @@
 # CHANGE LOG
+## v0.1.2-encryption (hotfix) - 2012-02-03
+* Added attr_encryptor to safely encrypt the secret column.
+
 ## v0.1.2 (alpha) - 2012-01-31
 This release is plain a security overhaul.
 
