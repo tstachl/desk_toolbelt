@@ -7,6 +7,7 @@ class Auth < ActiveRecord::Base
   has_many :exports
   
   attr_accessible :provider, :uid, :user, :site
+  attr_encrypted :secret, key: ENV['ENCRYPTION_KEY'], encode: true
   
   validates :provider, :presence => true
   validates :uid, :presence => true
