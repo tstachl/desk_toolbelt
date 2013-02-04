@@ -13,7 +13,7 @@
     = stylesheet_link_tag :application
     %link{:href => "/favicon.png", :rel => "shortcut icon", :type => "image/png"}
     
-    - if Rails.env == 'production'
+    - if Rails.env.production?
       :javascript
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-32104003-2']);
