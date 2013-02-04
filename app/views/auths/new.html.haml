@@ -7,8 +7,8 @@
   %a.btn.btn-primary{href: '#', 'data-submit' => "modal"} Create
   :javascript
     $('.auths-new a[data-toggle="tab"]').on('shown', function(e) {
-      var action = $(e.target).data('provider') == 'zendesk' ? '/auth/zendesk/callback' : '/auth/' + $(e.target).data('provider');
-      $('.auths-new .form-horizontal').attr('action', action)
+      //var action = $(e.target).data('provider') == 'zendesk' ? '/auth/zendesk/callback' : '/auth/' + $(e.target).data('provider');
+      $('.auths-new .form-horizontal').attr('action', '/auth/' + $(e.target).data('provider'))
     })
 
 %ul.nav.nav-tabs
