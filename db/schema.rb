@@ -11,17 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130128102457) do
+ActiveRecord::Schema.define(:version => 20130203144114) do
 
   create_table "auths", :force => true do |t|
     t.string   "provider"
     t.string   "uid"
     t.string   "token"
-    t.string   "secret"
     t.integer  "user_id"
     t.integer  "site_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+    t.string   "encrypted_secret"
+    t.string   "encrypted_secret_salt"
+    t.string   "encrypted_secret_iv"
   end
 
   add_index "auths", ["provider"], :name => "index_auths_on_provider"
