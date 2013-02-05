@@ -89,10 +89,18 @@ class Export < ActiveRecord::Base
     tempfile.unlink
   end
   
-private  
+private
+  def prepare_filter
+    tmp = {}
+    filter.each_pair{ |key, value| 
+      tmp[key] = (DateTime.strptime(value, "%m/%d/%y").strftime("%s") rescue value)
+    }
+    tmp
+  end
+  
   def fetch count, page = 1
     client = Object.const_get("#{auth.provider.capitalize}").client subdomain: auth.site.name, oauth_token: auth.token, oauth_token_secret: auth.secret, max_requests: 50
-    client.send(method, filter.merge(page: page, count: count))
+    client.send(method, prepare_filter.merge(page: page, count: count))
   end
   
   def fetch_and_update count, page = 1
