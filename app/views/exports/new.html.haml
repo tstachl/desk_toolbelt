@@ -6,9 +6,9 @@
   %a.btn{href: '#', 'data-dismiss' => 'modal', 'aria-hidden' => true} Close
   - if @export.total > 0
     .btn-group.dropup
-      %a.btn.btn-primary.submit{href: '#', onclick: "$('#export_format').val('json');", 'data-submit' => 'modal'}
+      %a.btn.btn-primary.submit{href: '#', onclick: "$('#export_format').val('csv');", 'data-submit' => 'modal'}
         %i.icon-file.icon-white
-        JSON
+        CSV
       %button.btn.btn-primary.dropdown-toggle{'data-toggle' => 'dropdown'}
         %span.caret
       %ul.dropdown-menu.pull-right
@@ -16,8 +16,9 @@
           %a.submit{href: '#', onclick: "$('#export_format').val('xml');", 'data-submit' => 'modal'}
             XML
         %li
-          %a.submit{href: '#', onclick: "$('#export_format').val('csv');", 'data-submit' => 'modal'}
-            CSV
+          %a.submit{href: '#', onclick: "$('#export_format').val('json');", 'data-submit' => 'modal'}
+            JSON
+
 
 - if @export.total > 0
   = simple_form_for(@export, html: { class: 'form-horizontal new_export' }) do |f|
