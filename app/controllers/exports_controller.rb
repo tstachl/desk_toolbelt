@@ -1,12 +1,24 @@
 class ExportsController < ApplicationController
   def index
     @exports = current_auth.exports
+    respond_to do |format|
+      format.json { render json: @exports }
+      format.xml { render xml: @exports }
+      format.html
+    end
   end
 
   def edit
   end
 
   def show
+    @export = current_auth.exports.find params[:id]
+    url = @export.is_exported ? @export.file.expiring_url(300) : ''
+    respond_to do |format|
+      format.json { render json: @export.attributes.merge(url: url) }
+      format.xml { render xml: @export.attributes.merge(url: url) }
+      format.html
+    end
   end
 
   def new
