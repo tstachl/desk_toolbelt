@@ -31,15 +31,17 @@ class @Application.Export
     @dom_el.find('.wizard-step').removeClass('active')
     @dom_el.find(".wizard-step:nth-child(#{step})").addClass('active')
   
-  download: (show = false) ->
-    @btnGroup.find('.btn-success').remove()
-    if show
-      @btnGroup.prepend '<a href="' + @url + '" class="wizard-action btn btn-success btn-large" rel="nofollow"><i class="icon-download icon-white"></i> Download</a>'
+  download: (enabled = false) ->
+    if enabled
+      @btnGroup.find('.btn-success').removeClass('disabled').attr('href', @url)
+    else
+      @btnGroup.find('.btn-success').addClass('disabled').attr('href', '#')
   
-  delete: (show = false) ->
-    @btnGroup.find('.btn-danger').remove()
-    if show
-      @btnGroup.append '<a href="/exports/' + @id + '" class="wizard-action btn btn-danger btn-large" data-method="delete" rel="nofollow"><i class="icon-remove icon-white"></i> Delete</a>'
+  delete: (enabled = false) ->
+    if enabled
+      @btnGroup.find('.btn-danger').removeClass('disabled').attr('href', "/exports/#{@id}").attr('data-method', 'delete')
+    else
+      @btnGroup.find('.btn-danger').addClass('disabled').attr('href', '#').removeAttr('data-method')
   
   finish: ->
     @step 3
