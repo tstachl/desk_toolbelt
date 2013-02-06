@@ -5,38 +5,50 @@
       %small
         List of all exports for the current user.
     %hr
-    %table.table.table-striped
-      %thead
-        %tr
-          %th ID
-          %th Object
-          %th Description
-          %th Status
-          %th Format
-          %th Created At
-          %th Updated At
-          %th Actions
-      %tbody
-        - @exports.each do |export|
-          %tr
-            %td
-              = export.id
-            %td
-              = export.method.titleize
-            %td
-              = export.description
-            %td
-              = export.is_exported ? icon('download', 'Finished!') : export.is_exporting ? icon('road', 'In Progress ...') : icon('time', 'In Queue ...')
-            %td
-              = export.format
-            %td
-              = export.created_at.to_formatted_s(:short)
-            %td
-              = export.updated_at.to_formatted_s(:short)
-              / = Time.at(export.file.updated_at).to_formatted_s(:short)
-            %td
-              .btn-group
-                - if export.is_exported
-                  = link_to(icon('download', nil, true), export.file.expiring_url(300), class: 'btn btn-primary btn-mini')
-                - unless export.is_exporting
-                  = link_to(icon('remove', nil, true), export_path(export.id), method: :delete, class: 'btn btn-danger btn-mini')
+  - @exports.each do |export|
+    .export.span6
+      %h3
+        = export.method.titleize
+        %small
+          = export.format
+      %hr
+      .wizard{ id: dom_id(export), 'data-export' => "#{export.attributes.merge(url: export.file.expiring_url(300)).to_json}" }
+        %ul.wizard-steps
+          %li.wizard-step.active
+            %span.badge 1
+            Queued
+            %span.chevron
+          %li.wizard-step
+            %span.badge 2
+            Exporting
+            %span.chevron
+          %li.wizard-step
+            %span.badge 3
+            Finished
+            %span.chevron
+        .wizard-content    
+          %h4 Description
+          %hr
+          %p
+            = export.description
+          %h4 Filter
+          %hr
+          = export_filter export.filter
+          %h4 Export
+          %hr
+          .row-fluid
+            .span6
+              %h5 Created At
+              %p
+                = export.created_at.to_formatted_s(:short)
+            .span6
+              %h5 Updated At
+              %p
+                = export.updated_at.to_formatted_s(:short)
+        .wizard-actions
+          %a.wizard-action.btn.btn-success.btn-large.disabled{href: '#', rel: 'nofollow'}
+            %i.icon-download.icon-white
+            Download
+          %a.wizard-action.btn.btn-danger.btn-large.disabled{href: '#', rel: 'nofollow'}
+            %i.icon-remove.icon-white
+            Delete

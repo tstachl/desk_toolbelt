@@ -4,10 +4,12 @@ class @Application
   doc: $(document)
   
   constructor: ->
-    this.carousel()
-        .datepicker()
-        .tooltips()
-        .events()
+    $ =>
+      this.carousel()
+          .datepicker()
+          .tooltips()
+          .events()
+          .exports()
   
   events: ->
     @doc.on Application.click, 'a[href="#"]', (e) ->
@@ -19,6 +21,7 @@ class @Application
     @doc.on 'submit', 'form[data-modal="true"]', @modal
     @doc.on Application.click, 'a[data-modal="true"]', @modal
     @doc.on Application.click, 'input[data-reset="true"]', @resetForm
+    @
   
   carousel: ->
     $('.carousel').carousel()
@@ -70,6 +73,10 @@ class @Application
     
     form.find('input:text, input:password, input:file, select, textarea').val ''
     form.find('input:radio, input:checkbox').removeAttr('checked').removeAttr 'selected'
-    
+  
+  exports: ->
+    $('[data-export]').each (index, item) ->
+      new Application.Export $(item).data('export')
+    @
 
 @application = new Application()
