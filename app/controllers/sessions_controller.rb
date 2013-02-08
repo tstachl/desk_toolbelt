@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
   end
 
   def failure
-    flash[:error] = params[:message]
-    redirect_to login_path
+    flash[:error] = I18n.t params[:message]
+    redirect_to params[:origin] =~ /\/migrations\/zendesk/ ? migrations_zendesk_path : login_path
   end
 end
