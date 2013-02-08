@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203144114) do
+ActiveRecord::Schema.define(:version => 20130208101357) do
 
   create_table "auths", :force => true do |t|
     t.string   "provider"
@@ -66,6 +66,21 @@ ActiveRecord::Schema.define(:version => 20130203144114) do
   end
 
   add_index "exports", ["auth_id"], :name => "index_exports_on_auth_id"
+
+  create_table "migrations", :force => true do |t|
+    t.integer  "to_id"
+    t.integer  "from_id"
+    t.boolean  "customers"
+    t.boolean  "cases"
+    t.boolean  "interactions"
+    t.boolean  "topics"
+    t.boolean  "articles"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "migrations", ["from_id"], :name => "index_migrations_on_from_id"
+  add_index "migrations", ["to_id"], :name => "index_migrations_on_to_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
