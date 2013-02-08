@@ -1,4 +1,9 @@
 # CHANGE LOG
+## v0.1.4 (alpha) - 2013-02-08
+* Issue #19: Fixed the weird calendar bug by updating the calendar source.
+* Issue #21: Fixed the export overview bug.
+* Issue #22: Switched from sprockets css combine to SASS import
+
 ## v0.1.3 (alpha) - 2013-02-05
 * Issue #18: The bug with date filter has been fixed.
 * Issue #20: CSV is now default export.

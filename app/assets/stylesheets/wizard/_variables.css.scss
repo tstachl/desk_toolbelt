@@ -1,0 +1,10 @@
+$wizardBackground:            darken(#fff, 2.5%) !default;
+$wizardBorder:                rgba(0,0,0,.2) !default;
+$wizardMaxSteps:              10;
+
+
+$wizardStepActiveColor:       $linkColor !default;
+$wizardStepBackground:        darken($wizardBackground, 5%) !default;
+$wizardStepBackgroundActive:  lighten($wizardStepActiveColor, 50%) !default;
+
+$wizardContentBackground:     #fff !default;
