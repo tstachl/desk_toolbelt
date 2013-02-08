@@ -19,7 +19,7 @@ module ExportsHelper
       html.push '</div>' if counter % 2 == 1
       counter += 1
     end
-    html.push '</div>' unless html.last == '</div>'
+    html.push '</div>' unless html.empty? or html.last == '</div>'
     html.join.html_safe
   end
 end
