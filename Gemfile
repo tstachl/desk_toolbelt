@@ -34,7 +34,7 @@ end
 
 group :development do
   gem 'haml-rails', '0.3.5'
-  gem 'guard-rails', '0.1.1'
+  gem 'guard-rails', '0.2.3'
   gem 'rack-livereload', '0.3.8'
   gem 'guard-livereload', '1.1.0'
 end
