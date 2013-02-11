@@ -1,4 +1,6 @@
 class ExportsController < ApplicationController
+  before_filter :is_desk
+  
   def index
     @exports = current_auth.exports
     respond_to do |format|
@@ -70,5 +72,13 @@ class ExportsController < ApplicationController
   rescue => err
     flash[:error] = err
     redirect_back action: :index
+  end
+  
+private
+  def is_desk
+    if current_auth.provider != 'desk'
+      flash = flash
+      return redirect_to root_path
+    end
   end
 end
