@@ -21,6 +21,10 @@ class Auth < ActiveRecord::Base
     save
   end
   
+  def client
+    Object.const_get("#{provider.capitalize}").client subdomain: site.name, oauth_token: token, oauth_token_secret: secret
+  end
+  
   class << self
     def find_or_initialize_by_omniauth(hash)
       auth = Auth.find_or_initialize_by_uid({

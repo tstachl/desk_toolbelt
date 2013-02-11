@@ -99,8 +99,7 @@ private
   end
   
   def fetch count, page = 1
-    client = Object.const_get("#{auth.provider.capitalize}").client subdomain: auth.site.name, oauth_token: auth.token, oauth_token_secret: auth.secret, max_requests: 50
-    client.send(method, prepare_filter.merge(page: page, count: count))
+    auth.client(is_exporting ? 50 : 10).send(method, prepare_filter.merge(page: page, count: count))
   end
   
   def fetch_and_update count, page = 1
