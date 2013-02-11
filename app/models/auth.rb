@@ -21,8 +21,8 @@ class Auth < ActiveRecord::Base
     save
   end
   
-  def client
-    Object.const_get("#{provider.capitalize}").client subdomain: site.name, oauth_token: token, oauth_token_secret: secret
+  def client(max_requests = 10)
+    Object.const_get("#{provider.capitalize}").client subdomain: site.name, oauth_token: token, oauth_token_secret: secret, max_requests: max_requests
   end
   
   class << self
