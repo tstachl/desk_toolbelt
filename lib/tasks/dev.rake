@@ -16,6 +16,7 @@ namespace :dev do
 
   desc 'start the test environment'
   task :test do |t, args|
+    system('foreman run -e config/environments/test.env bundle exec rake db:migrate')
     system('foreman run -e config/environments/test.env bundle exec rake spec')
   end
 

@@ -28,7 +28,7 @@ describe Site do
     end
   end
   
-  context '#uri?' do
+  context '#uri?', broken: true do
     it 'returns true if name is a uri' do
       Site.new(name: 'https://devel.desk.com').uri?.should be_true
     end

@@ -10,7 +10,9 @@ require 'rspec/autorun'
 require 'capybara/rspec'
 require 'faker'
 require 'webmock/rspec'
+require 'omniauth'
 require 'omniauth-desk'
+require 'omniauth-zendesk'
 
 omniauth_name = Faker::Name.name
 omniauth_email = Faker::Internet.email(omniauth_name)
