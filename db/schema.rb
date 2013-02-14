@@ -11,10 +11,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130203144114) do
+ActiveRecord::Schema.define(:version => 20130214103317) do
 
   create_table "auths", :force => true do |t|
-    t.string   "provider"
     t.string   "uid"
     t.string   "token"
     t.integer  "user_id"
@@ -24,9 +23,9 @@ ActiveRecord::Schema.define(:version => 20130203144114) do
     t.string   "encrypted_secret"
     t.string   "encrypted_secret_salt"
     t.string   "encrypted_secret_iv"
+    t.integer  "provider_id"
   end
 
-  add_index "auths", ["provider"], :name => "index_auths_on_provider"
   add_index "auths", ["site_id"], :name => "index_auths_on_site_id"
   add_index "auths", ["uid"], :name => "index_auths_on_uid"
   add_index "auths", ["user_id"], :name => "index_auths_on_user_id"
@@ -66,6 +65,14 @@ ActiveRecord::Schema.define(:version => 20130203144114) do
   end
 
   add_index "exports", ["auth_id"], :name => "index_exports_on_auth_id"
+
+  create_table "providers", :force => true do |t|
+    t.string "type"
+    t.string "name"
+  end
+
+  add_index "providers", ["name"], :name => "index_providers_on_name", :unique => true
+  add_index "providers", ["type"], :name => "index_providers_on_type", :unique => true
 
   create_table "roles", :force => true do |t|
     t.string   "name"

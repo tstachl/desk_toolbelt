@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe AuthsController do
   render_views
+  before(:each) do
+    FactoryGirl.create :provider
+    FactoryGirl.create :provider_zendesk
+  end
   
   describe "GET 'index'" do
     before do

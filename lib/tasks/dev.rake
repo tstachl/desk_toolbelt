@@ -14,8 +14,20 @@ namespace :dev do
     system('foreman start -f config/environments/Procfile.dev -d ./ -c -e config/environments/development.env')
   end
   
-  desc 'start the test environment'
-  task :test do |t, args|
+  namespace :test do
+    desc 'run controller tests'
+    task :controllers do
+      system('foreman run -e config/environments/test.env bundle exec rake spec:controllers')
+    end
+    
+    desc 'run model tests'
+    task :models do
+      system('foreman run -e config/environments/test.env bundle exec rake spec:models')
+    end
+  end
+  
+  desc 'run all tests'
+  task :test do
     system('foreman run -e config/environments/test.env bundle exec rake spec')
   end
   

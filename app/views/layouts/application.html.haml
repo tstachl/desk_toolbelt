@@ -56,7 +56,7 @@
                       %a{tabindex: '-1', href: '#'}
                         = auth.site.name_clean
                       %ul.dropdown-menu
-                        - if auth.provider != 'desk'
+                        - if auth.provider.name != 'desk'
                           %li
                             = link_to(icon('edit', 'Edit'), edit_auth_path(auth.id))
                         %li
