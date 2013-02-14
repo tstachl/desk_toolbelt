@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe SessionsController do
+  before(:each) do
+    FactoryGirl.create :provider
+    FactoryGirl.create :provider_zendesk
+  end
 
   describe "GET 'new'" do
     context "user logged in" do

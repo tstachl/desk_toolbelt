@@ -7,7 +7,7 @@ describe Auth do
     end
     
     it 'validates the provider is present' do
-      is_valid(@auth, :provider, Faker::Lorem.word)
+      is_valid(@auth, :provider, Provider.new)
     end
     it 'validates the uid is present' do
       is_valid(@auth, :uid, Faker::Lorem.characters)
@@ -35,7 +35,7 @@ describe Auth do
     it 'can initialize by omniauth' do
       auth = Auth.find_or_initialize_by_omniauth @hash
       auth.should be_new_record
-      auth.provider.should eq(@hash.provider)
+      auth.provider.name.should eq(@hash.provider)
       auth.uid.should eq(@hash.uid)
       auth.token.should eq(@hash.credentials.token)
       auth.secret.should eq(@hash.credentials.secret)      
@@ -44,20 +44,7 @@ describe Auth do
     context 'if it exists' do
       before do
         @hash = OmniAuth.config.mock_auth[:desk]
-        
-        @user = User.create({
-          :name => Faker::Name.name,
-          :email => Faker::Internet.email,
-          :role => Role.create(:name => 'siteadmin_billing')
-        })
-        
-        @auth = Auth.new({
-          :provider => @hash.provider,
-          :uid => @hash.uid,
-          :user => @user,
-          :site => Site.create(:name => 'dev.desk.com')
-        })
-        # Can't mass-assign protected attributes: token, secret
+        @auth = Auth.login_omniauth OmniAuth.config.mock_auth[:desk]
         @auth.token = Faker::Lorem.characters
         @auth.secret = Faker::Lorem.characters
         @auth.save!

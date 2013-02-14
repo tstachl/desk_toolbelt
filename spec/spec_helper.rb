@@ -18,44 +18,48 @@ omniauth_name = Faker::Name.name
 omniauth_email = Faker::Internet.email(omniauth_name)
 
 OmniAuth.config.mock_auth[:desk] = OmniAuth::AuthHash.new({
-  :provider => 'desk',
-  :uid => '1234565',
-  :info => {
-    :name         => omniauth_name,
-    :name_public  => omniauth_name,
-    :email        => omniauth_email,
-    :user_level   => 'siteadmin_billing',
-    :login_count  => 55,
-    :time_zone    => '',
-    :site => 'https://devel.desk.com'
+  provider:  'desk',
+  uid:       '1234565',
+  info: {
+    name:         omniauth_name,
+    name_public:  omniauth_name,
+    email:        omniauth_email,
+    user_level:   'siteadmin_billing',
+    login_count:  55,
+    time_zone:    '',
+    site:         'https://devel.desk.com'
   },
-  :credentials => {
-    :token        => Faker::Lorem.characters,
-    :secret       => Faker::Lorem.characters
+  credentials: {
+    token:        Faker::Lorem.characters,
+    secret:       Faker::Lorem.characters
   }
 })
 
 OmniAuth.config.mock_auth[:desk_dan] = OmniAuth::AuthHash.new({
-  :provider => 'desk',
-  :uid => '1324565',
-  :info => {
-    :name         => omniauth_name,
-    :name_public  => omniauth_name,
-    :email        => omniauth_email,
-    :user_level   => 'siteadmin_billing',
-    :login_count  => 55,
-    :time_zone    => '',
-    :site => 'https://zzz-dan.desk.com'
+  provider:  'desk',
+  uid:       '1324565',
+  info: {
+    name:         omniauth_name,
+    name_public:  omniauth_name,
+    email:        omniauth_email,
+    user_level:   'siteadmin_billing',
+    login_count:  55,
+    time_zone:    '',
+    site:         'https://zzz-dan.desk.com'
   },
-  :credentials => {
-    :token        => Faker::Lorem.characters,
-    :secret       => Faker::Lorem.characters
+  credentials: {
+    token:        Faker::Lorem.characters,
+    secret:       Faker::Lorem.characters
   }
 })
 
 OmniAuth.config.mock_auth[:zendesk] = OmniAuth::AuthHash.new({
-  :provider => 'zendesk',
-  :uid => '1234565'
+  provider: 'zendesk',
+  uid:      '1234565',
+  credentials: {
+    token:        Faker::Lorem.characters,
+    secret:       Faker::Lorem.characters
+  }
 })
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -75,7 +79,7 @@ RSpec.configure do |config|
   config.filter_run_excluding broken: true, moved: true
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

@@ -5,3 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Provider.create type: 'Provider::Desk', name: 'desk'
+Provider.create type: 'Provider::Zendesk', name: 'zendesk'

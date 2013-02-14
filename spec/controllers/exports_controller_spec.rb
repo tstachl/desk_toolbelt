@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe ExportsController do
   render_views
-    
-  before do
+  before(:each) do
+    FactoryGirl.create :provider
+    FactoryGirl.create :provider_zendesk
     @auth = Auth.login_omniauth OmniAuth.config.mock_auth[:desk]
     session[:aid] = @auth.id
   end
