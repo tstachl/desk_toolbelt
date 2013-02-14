@@ -1,2 +1,71 @@
-%h1 Migrations#mapping
-%p Find me in app/views/migrations/mapping.html.haml
+- content_for :title do
+  Mapping
+- content_for :tagline do
+  The mapping allows you to specify how to map fields from Zendesk to fields in your Desk.com environment.
+
+%section.row
+  .span10
+    = simple_form_for(@migration, url: migrations_mapping_path, html: { class: 'form-horizontal accordion' }) do |f|
+      .accordion-group
+        .accordion-heading
+          %a.accordion-toggle{href: '#customers', 'data-toggle' => 'collapse', 'data-parent' => '.accordion'}
+            %i.icon-chevron-down
+            Customers
+        .accordion-body.collapse.in#customers
+          .accordion-inner
+            .row-fluid
+              .span5
+                Customers
+              .span5
+                Users
+      .accordion-group
+        .accordion-heading
+          %a.accordion-toggle{href: '#cases', 'data-toggle' => 'collapse', 'data-parent' => '.accordion'}
+            %i.icon-chevron-right
+            Cases
+        .accordion-body.collapse#cases
+          .accordion-inner
+            .row-fluid
+              .span5
+                Cases
+              .span5
+                Tickets
+      .accordion-group
+        .accordion-heading
+          %a.accordion-toggle{href: '#interactions', 'data-toggle' => 'collapse', 'data-parent' => '.accordion'}
+            %i.icon-chevron-right
+            Interactions
+        .accordion-body.collapse#interactions
+          .accordion-inner
+            .row-fluid
+              .span5
+                Interactions
+              .span5
+                Comments
+      .accordion-group
+        .accordion-heading
+          %a.accordion-toggle{href: '#topics', 'data-toggle' => 'collapse', 'data-parent' => '.accordion'}
+            %i.icon-chevron-right
+            Topics
+        .accordion-body.collapse#topics
+          .accordion-inner
+            .row-fluid
+              .span5
+                Topics
+              .span5
+                Forums
+      .accordion-group
+        .accordion-heading
+          %a.accordion-toggle{href: '#articles', 'data-toggle' => 'collapse', 'data-parent' => '.accordion'}
+            %i.icon-chevron-right
+            Articles
+        .accordion-body.collapse#articles
+          .accordion-inner
+            .row-fluid
+              .span5
+                Articles
+              .span5
+                Topics
+      .form-actions
+        = f.button :submit, 'continue', :class => 'btn-primary btn-large pull-right'
+        %a.btn.btn-large.pull-left{href: migrations_zendesk_path} back

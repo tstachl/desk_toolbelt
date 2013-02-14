@@ -4,3 +4,8 @@
 
 $ ->
   $('.message').slideDown().delay(5000).slideUp()
+  $('.accordion .collapse').on 'hide', ->
+    $(@).parents('.accordion-group').find('i').removeClass('icon-chevron-down').addClass('icon-chevron-right')
+  $('.accordion .collapse').on 'show', ->
+    $(@).parents('.accordion-group').find('i').removeClass('icon-chevron-right').addClass('icon-chevron-down')
+  return

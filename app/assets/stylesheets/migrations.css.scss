@@ -6,7 +6,7 @@ $bodyBackground: #f0f0ed;
 $gridColumns: 10;
 $baseFontSize: 18px;
 
-@import "boot";
+@import "application";
 @import "slidr/core";
 
 .container {
@@ -156,3 +156,20 @@ html:not(.ie) .form-horizontal label.checkbox {
 }
 
 html.ie .form-horizontal label.checkbox span.slidr { display: none; }
+
+.accordion-group {
+  margin-left: 20px;
+  margin-right: 20px;
+  
+  .accordion-heading {
+    background: lighten($heroUnitBackground, 50%);
+    
+    i { margin-top: 4px; }
+    a { font-weight: bolder; }
+    a:hover { text-decoration: none; }
+  }
+  
+  .accordion-body .accordion-inner {
+    padding: 8px 15px;
+  }
+}

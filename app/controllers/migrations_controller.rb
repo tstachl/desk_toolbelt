@@ -30,6 +30,8 @@ class MigrationsController < ApplicationController
   end
 
   def mapping
+    @migration = Migration.new params[:migration]
+    @migration.setup_mapping
   end
 
   def finish
