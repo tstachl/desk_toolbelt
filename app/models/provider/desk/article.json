@@ -1,0 +1,83 @@
+{
+    "id": 13,
+    "subject": "API Tips",
+    "show_in_portal": true,
+    "position": 1,
+    "main_content": "Tips on using our API",
+    "agent_content": null,
+    "email": "Tips on using our API",
+    "chat": "Tips on using our API",
+    "twitter": "Tips on using our API",
+    "question_answer": "Tips on using our API",
+    "phone": "Tips on using our API",
+    "facebook": "Tips on using our API",
+    "quickcode": null,
+    "created_by": {
+        "user": {
+            "id": 1,
+            "name": "API User",
+            "name_public": "API User",
+            "email": "apiuser@yoursite.com",
+            "created_at": "2011-01-13T22:41:42Z",
+            "updated_at": "2011-01-19T22:04:33Z",
+            "user_level": "admin",
+            "login_count": 9,
+            "time_zone": "Pacific Time (US & Canada)",
+            "last_login_at": "2011-01-19T18:21:52Z",
+            "current_login_at": "2011-01-19T22:04:33Z"
+        }
+    },
+    "updated_by": {
+        "user": {
+            "id": 1,
+            "name": "API User",
+            "name_public": "API User",
+            "email": "apiuser@yoursite.com",
+            "created_at": "2011-01-13T22:41:42Z",
+            "updated_at": "2011-01-19T22:04:33Z",
+            "user_level": "admin",
+            "login_count": 9,
+            "time_zone": "Pacific Time (US & Canada)",
+            "last_login_at": "2011-01-19T18:21:52Z",
+            "current_login_at": "2011-01-19T22:04:33Z"
+        }
+    },
+    "updated_at": "2012-04-06T11:52:57-04:00",
+    "publish_at": "2012-04-06T11:52:57-04:00",
+    "translations": [
+        {
+            "article_translation": {
+                "locale": "en",
+                "subject": "API Tips",
+                "main_content": "Tips on using our API",
+                "agent_content": null,
+                "email": "Tips on using our API",
+                "chat": "Tips on using our API",
+                "twitter": "Tips on using our API",
+                "question_answer": "Tips on using our API",
+                "phone": "Tips on using our API",
+                "facebook": "Tips on using our API",
+                "updated_at": "2012-04-06T11:52:57-04:00",
+                "publish_at": "2012-04-06T11:52:57-04:00",
+                "out_of_date": false
+            }
+        },
+        {
+            "article_translation": {
+                "locale": "ar",
+                "subject": "API نصائح",
+                "main_content": "Tips on using our API",
+                "agent_content": null,
+                "email": "نصائح حول كيفية استخدام API لدينا",
+                "chat": "نصائح حول كيفية استخدام API لدينا",
+                "twitter": "نصائح حول كيفية استخدام API لدينا",
+                "question_answer": "نصائح حول كيفية استخدام API لدينا",
+                "phone": "نصائح حول كيفية استخدام API لدينا",
+                "facebook": "نصائح حول كيفية استخدام API لدينا",
+                "updated_at": "2012-04-06T11:52:57-04:00",
+                "publish_at": "2012-04-06T11:52:57-04:00",
+                "out_of_date": false
+            }
+        }
+    ]
+}

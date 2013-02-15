@@ -1,6 +1,12 @@
 class Provider < ActiveRecord::Base
+  SUPPORTED_TYPES = [:case, :interaction, :customer, :topic, :article]
+  
   has_many :auths
   attr_accessible :type, :name
+  attr_accessor :auth
+  
+  def markup; raise "This method must be redefined in the subclass"; end
+  def markup_create; raise "This method must be redefined in the subclass"; end
   
   def cases(filter = {}); raise "This method must be redefined in the subclass"; end
   def case(case_id); raise "This method must be redefined in the subclass"; end
@@ -26,11 +32,4 @@ class Provider < ActiveRecord::Base
   def article(article_id); raise "This method must be redefined in the subclass"; end
   def update_article(article_id, options = {}); raise "This method must be redefined in the subclass"; end
   def create_article(options = {}); raise "This method must be redefined in the subclass"; end
-  
-  class << self
-    def find_by_provider(provider)
-      return class_variable_get("@@#{provider}") if class_variable_defined?("@@#{provider}")
-      class_variable_set("@@#{provider}", Provider.find_by_name(provider))
-    end
-  end
 end
