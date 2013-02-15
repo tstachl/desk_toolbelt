@@ -10,10 +10,15 @@ class Auth < ActiveRecord::Base
   attr_accessible :provider, :uid, :user, :site
   attr_encrypted :secret, key: ENV['ENCRYPTION_KEY'], encode: true
   
-  validates :provider, :presence => true
   validates :uid, :presence => true
   validates :user, :presence => true
   validates :token, :presence => true
+  
+  alias_method :original_provider, :provider
+  def provider 
+    original_provider.auth = self
+    original_provider
+  end
   
   def update_omniauth(hash)
     if new_record?
@@ -32,14 +37,10 @@ class Auth < ActiveRecord::Base
     save
   end
   
-  def client(max_requests = 10)
-    Object.const_get("#{provider.name.capitalize}").client subdomain: site.name, oauth_token: token, oauth_token_secret: secret, max_requests: max_requests
-  end
-  
   class << self
     def find_or_initialize_by_omniauth(hash)
       auth = Auth.find_or_initialize_by_uid({
-        provider: Provider.find_by_provider(hash.provider),
+        provider: Provider.find_by_name(hash.provider),
         uid: hash.uid.to_s
       })
       
@@ -54,7 +55,7 @@ class Auth < ActiveRecord::Base
       raise AuthError, "Something went wrong, please try again in a few minutes or contact your administrator." unless hash
       
       auth = Auth.find_or_initialize_by_omniauth hash
-      unless auth.provider == Provider.find_by_provider('desk')
+      unless auth.provider == Provider.find_by_name('desk')
         raise AuthError, "This authorization process doesn't allow #{hash.provider.to_s.titleize} as a Service Provider."
       end
       

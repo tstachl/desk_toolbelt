@@ -90,16 +90,8 @@ class Export < ActiveRecord::Base
   end
   
 private
-  def prepare_filter
-    tmp = {}
-    filter.each_pair{ |key, value| 
-      tmp[key] = (DateTime.strptime(value, "%m/%d/%y").strftime("%s") rescue value)
-    }
-    tmp
-  end
-  
   def fetch count, page = 1
-    auth.client(is_exporting ? 50 : 10).send(method, prepare_filter.merge(page: page, count: count))
+    auth.provider.cases filter.merge(page: page, count: count)
   end
   
   def fetch_and_update count, page = 1
