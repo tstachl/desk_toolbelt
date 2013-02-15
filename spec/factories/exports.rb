@@ -1,34 +1,36 @@
 FactoryGirl.define do
-  filter_hash = { 
-    name: '', 
-    first_name: '', 
-    last_name: '', 
-    email: '', 
-    phone: '', 
-    company: '',
-    twitter: '',
-    labels: '',
-    case_id: '',
-    subject: '',
-    description: '',
-    priority: '',
-    assigned_group: '',
-    assigned_user: '',
-    channels: '',
-    notes: '',
-    attachments: '',
-    created: '',
-    updated: '',
-    since_created_at: '',
-    max_created_at: '',
-    since_updated_at: '',
-    max_updated_at: '',
-    since_id: '',
-    max_id: ''
-  }
+  sequence :filter do |n|
+    { 
+      'name' => (n % 2 == 1) ? '' : Faker::Name.name, 
+      'first_name' => '', 
+      'last_name' => '', 
+      'email' => (n % 2 == 1) ? '' : Faker::Internet.email, 
+      'phone' => '', 
+      'company' => '',
+      'twitter' => '',
+      'labels' => '',
+      'case_id' => '',
+      'subject' => '',
+      'description' => '',
+      'priority' => '',
+      'assigned_group' => '',
+      'assigned_user' => '',
+      'channels' => '',
+      'notes' => '',
+      'attachments' => '',
+      'created' => '',
+      'updated' => '',
+      'since_created_at' => '',
+      'max_created_at' => '',
+      'since_updated_at' => '',
+      'max_updated_at' => '',
+      'since_id' => '',
+      'max_id' => ''
+    }
+  end
   
   factory :export do
-    filter filter_hash
+    filter
     method 'cases'
     description 'RSpec test'
     format 'json'
