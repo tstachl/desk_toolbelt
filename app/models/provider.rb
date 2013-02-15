@@ -1,7 +1,12 @@
 class Provider < ActiveRecord::Base
+  SUPPORTED_TYPES = [:case, :interaction, :customer, :topic, :article]
+  
   has_many :auths
   attr_accessible :type, :name
   attr_accessor :auth
+  
+  def markup; raise "This method must be redefined in the subclass"; end
+  def markup_create; raise "This method must be redefined in the subclass"; end
   
   def cases(filter = {}); raise "This method must be redefined in the subclass"; end
   def case(case_id); raise "This method must be redefined in the subclass"; end

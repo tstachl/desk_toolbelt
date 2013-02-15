@@ -7,6 +7,23 @@ class Provider::Desk < Provider
     })
   end
   
+  def markup_create
+    @@markup_create ||= ({}).tap do |markup|
+      SUPPORTED_TYPES.each do |item|
+        markup[item] = JSON.parse(File.new("#{Rails.root}/app/models/provider/desk/#{item.to_s}_create.json").read)
+      end
+    end
+  end
+  
+  def markup
+    @@markup ||= ({}).tap do |markup|
+      SUPPORTED_TYPES.each do |item|
+        markup[item] = JSON.parse(File.new("#{Rails.root}/app/models/provider/desk/#{item.to_s}.json").read)
+      end
+    end
+  end
+  
+  
   def cases(filter = {})
     client.cases(prepare_filter(filter))
   end
