@@ -13,7 +13,7 @@ class CreateProvidersTable < ActiveRecord::Migration
     add_column :auths, :provider_id, :integer
 
     Auth.all.each do |auth|
-      auth.send :write_attribute, 'provider_id', Provider.find_by_provider(auth.read_attribute('provider')).id
+      auth.send :write_attribute, 'provider_id', Provider.find_by_name(auth.read_attribute('provider')).id
       auth.save
     end
 
