@@ -12,6 +12,7 @@
 # It's strongly recommended to check this file into your version control system.
 
 ActiveRecord::Schema.define(:version => 20130214103317) do
+
   create_table "auths", :force => true do |t|
     t.string   "uid"
     t.string   "token"
@@ -65,6 +66,21 @@ ActiveRecord::Schema.define(:version => 20130214103317) do
 
   add_index "exports", ["auth_id"], :name => "index_exports_on_auth_id"
 
+  create_table "migrations", :force => true do |t|
+    t.integer  "to_id"
+    t.integer  "from_id"
+    t.boolean  "customers"
+    t.boolean  "cases"
+    t.boolean  "interactions"
+    t.boolean  "topics"
+    t.boolean  "articles"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "migrations", ["from_id"], :name => "index_migrations_on_from_id"
+  add_index "migrations", ["to_id"], :name => "index_migrations_on_to_id"
+
   create_table "providers", :force => true do |t|
     t.string "type"
     t.string "name"
@@ -96,4 +112,5 @@ ActiveRecord::Schema.define(:version => 20130214103317) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
+
 end
