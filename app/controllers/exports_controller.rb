@@ -76,7 +76,7 @@ class ExportsController < ApplicationController
   
 private
   def is_desk
-    if current_auth.provider != 'desk'
+    if current_auth.provider.name != 'desk'
       flash = flash
       return redirect_to root_path
     end
