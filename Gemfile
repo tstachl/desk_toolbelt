@@ -6,10 +6,10 @@ gem 'foreman', '0.60.2'
 gem 'rails', '3.2.11'
 gem 'haml', '3.1.7'
 gem 'omniauth-desk', '0.1.4'
-gem 'omniauth-zendesk', '0.1.2'
+gem 'omniauth-zendesk', '0.1.3'
 gem 'delayed_job_active_record', '0.3.3'
 gem 'desk', :git => 'git://github.com/tstachl/desk.git', :tag => 'v0.3.3toolbelt'
-gem 'zendesk_api', '0.2.2'
+gem 'zendesk_api', '0.3.0'
 gem 'aws-sdk', '1.8.0'
 gem 'paperclip', '3.4.0'
 gem 'nokogiri', '1.5.5'
@@ -27,6 +27,7 @@ group :test do
   gem 'rb-fsevent', '0.9.1', :require => false
   gem 'simplecov', '0.7.1', :require => false
   gem 'webmock', '1.9.0', :require => false
+  gem 'vcr', '2.4.0', :require => false
   gem 'capybara', '1.1.3'
   gem 'factory_girl_rails', '4.2.0'
   gem 'faker', '1.1.2'

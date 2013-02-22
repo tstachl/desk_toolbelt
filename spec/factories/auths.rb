@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :auth do
-    provider
+    provider { Provider.find_by_name('desk') || FactoryGirl.create(:provider) }
     uid '21084237'
     token Faker::Lorem.characters
     secret Faker::Lorem.characters

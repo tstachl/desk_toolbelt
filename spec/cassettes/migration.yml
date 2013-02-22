@@ -1,0 +1,49 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://holly.morar%40ornabernathy.info:54exxx8e2rgy1nuevyjulpbeuf786abyeshy3xnwjwpvw5ik5kb8354i8ut8aqwvum3puk0zhgt8eq7fg5ggmv49moyhjxggfqpimhmvsl0q3s9tzigrqyuzob2l8rcw28st7k8m4yvmau5y8t5td0g96eaysreo1u488m8xqae0gex7oxchyd454089r3ikl235ttz69jd2ma0at2nfa7ezag2rm2kmfuy7xoomrl80zw9k2fgp24nx7i9rrqf@globalsurfco.zendesk.com/api/v2/users/209014002
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - ZendeskAPI API 0.3.0
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Server:
+      - nginx/1.0.15
+      Date:
+      - Fri, 22 Feb 2013 15:00:19 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 401 Unauthorized
+      Www-Authenticate:
+      - Basic realm="Web Password"
+      X-Zendesk-Origin-Server:
+      - app26.sys.zendesk.com
+      Set-Cookie:
+      - _zendesk_session=BAh7BzoPc2Vzc2lvbl9pZCIlZmNkMmJhMGI5MmMwMGYxZmFlMjdlMzAxOTk4M2MyMDI6DGFjY291bnRpA39wAg%3D%3D--d751e24ad86f66345770fe74ed83a79fd77a85ee;
+        path=/; secure; HttpOnly
+      - _zendesk_shared_session=eyJpZCI6ImFiZDg1NjUwZTVjOTk2MzlkMjVjMzVhZjQwMTI1MjI2IiwiYWNjb3VudCI6MTU5ODcxfQ%3D%3D--e98b0100fbf4aa2df694878dff2bda602099d06b;
+        path=/; secure; HttpOnly
+      Content-Length:
+      - '38'
+    body:
+      encoding: US-ASCII
+      string: ! '{"error":"Couldn''t authenticate you"}
+
+'
+    http_version: 
+  recorded_at: Fri, 22 Feb 2013 15:00:19 GMT
+recorded_with: VCR 2.4.0
