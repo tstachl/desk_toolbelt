@@ -24,6 +24,11 @@ namespace :dev do
     task :models do
       system('foreman run -e config/environments/test.env bundle exec rake spec:models')
     end
+    
+    desc 'run input tests'
+    task :inputs do
+      system('foreman run -e config/environments/test.env bundle exec rspec spec/inputs')
+    end
   end
   
   desc 'run all tests'
