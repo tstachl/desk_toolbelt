@@ -26,18 +26,17 @@ describe Export do
   
   context '#preview' do
     it 'fetches and return 10 cases' do
-      @export = FactoryGirl.create :exporting_export
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?#{@export.filter.merge(count: 10, page: 1).to_query}").
-         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
-      @export.preview['count'].should == 10 
+      stub_request(:get, /.*devel\.desk\.com.*/).
+         to_return(body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'))
+      FactoryGirl.create(:exporting_export).preview['count'].should == 10 
     end
   end
 
   context '#header' do
     before do
       @export = FactoryGirl.create :exporting_export
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?#{@export.filter.merge(count: 10, page: 1).to_query}").
-         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
+      stub_request(:get, /.*devel\.desk\.com.*/).
+         to_return(body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'))
       @item = @export.preview['results'].first
     end
 
@@ -60,8 +59,8 @@ describe Export do
   context '#row' do
     before do
       @export = FactoryGirl.create :exporting_export
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?#{@export.filter.merge(count: 10, page: 1).to_query}").
-         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
+      stub_request(:get, /.*devel\.desk\.com.*/).
+         to_return(body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'))
       @item = @export.preview['results'].first
     end
 
@@ -84,8 +83,6 @@ describe Export do
   context '#footer' do
     before do
       @export = FactoryGirl.create :exporting_export
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?#{@export.filter.merge(count: 10, page: 1).to_query}").
-         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
     end
 
     it 'returns the case file header for json' do
@@ -101,7 +98,9 @@ describe Export do
   
   context '#export' do
     before do
-      @export = export_preview({ count: 100, page: 1 })
+      stub_request(:get, /.*devel\.desk\.com.*/).
+         to_return(body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'))
+      @export = FactoryGirl.build(:preview_export)
       @export.save
     end
 
@@ -130,7 +129,7 @@ describe Export do
   context '#fetch_export' do
     before do
       Export.any_instance.stub(:save_attached_files).and_return(true)
-      @export = export_preview({ count: 100, page: 2 })
+      @export = FactoryGirl.build(:preview_export)
       @export.save
     end
     
@@ -158,7 +157,9 @@ describe Export do
   context '#run' do
     before do
       Export.any_instance.stub(:save_attached_files).and_return(true)
-      @export = export_preview({ count: 100, page: 1 })
+      stub_request(:get, /.*devel\.desk\.com.*/).
+         to_return(body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'))
+      @export = FactoryGirl.build(:preview_export)
       @export.save
     end
     

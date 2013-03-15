@@ -55,8 +55,8 @@
                     %li.dropdown-submenu
                       %a{tabindex: '-1', href: '#'}
                         = auth.site.name_clean
-                        %span{class: "badge #{auth.provider == 'desk' ? 'badge-important' : ''}"}
-                          = auth.provider
+                        %span{class: "badge #{auth.provider.name == 'desk' ? 'badge-important' : ''}"}
+                          = auth.provider.name
                       %ul.dropdown-menu
                         - if auth.provider.name != 'desk'
                           %li

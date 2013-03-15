@@ -1,2 +1,21 @@
-%h1 Migrations#finish
-%p Find me in app/views/migrations/finish.html.haml
+- content_for :title do
+  Finish
+- content_for :tagline do
+  We stored your information and will be starting the migration shortly.
+
+%section.row
+  .span10
+    .content
+      %h1 The Process
+      %ol
+        %li
+          %h3 The Export
+          %p This is the first step of the migration. We'll be requesting all the previously selected information from Zendesk and create one big data file.
+        %li
+          %h3 The Import
+          %p Once we have the data file we schedule an import of the data. Depending on the utilization of our service this might take a few more minutes.
+        %li
+          %h3 The Email
+          %p As soon as both processes have been completed (or if we encounter an error) we'll send an Email to your Desk.com email address containing the relevant information.
+          
+    

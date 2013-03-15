@@ -19,13 +19,20 @@ require
     plumb: [
       'libs/jsplumb'
     ]
-    app: ['modules/app']
+    touch: [
+      '//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min'
+      'libs/touch'
+    ]
   shim:
     jquery: 
       exports: 'jQuery'
     jqueryui: ['jquery']
     bootstrap: ['jquery']
     datepicker: ['jquery']
-    plumb: ['jquery']
-, ['modules/migration'], (Migration) ->
+    plumb: 
+      exports: 'jsPlumb'
+      deps: ['jquery']
+    touch: ['jquery', 'jqueryui']
+, ['modules/application', 'modules/migration'], (Application, Migration) ->
+  Application.getInstance()
   new Migration()

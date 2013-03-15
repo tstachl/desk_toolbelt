@@ -27,13 +27,30 @@ class MigrationsController < ApplicationController
 
   def select
     @migration = Migration.new
+    @migration.from = Auth.find session[:zendesk]
+    @migration.to = current_auth
   end
 
-  def mapping
-    @migration = Migration.new params[:migration]
-    @migration.setup_mapping
-  end
+  # def mapping
+  #   from_id, to_id = get_from_to_id
+  #   @migration = Migration.new params[:migration]
+  #   @migration.from_id = from_id
+  #   @migration.to_id = to_id
+  # end
 
   def finish
+    from_id, to_id = get_from_to_id
+    @migration = Migration.new params[:migration]
+    @migration.from_id = from_id
+    @migration.to_id = to_id
+  end
+  
+private
+  def get_from_to_id
+    if params[:migration] && params[:migration].key?(:from_id)
+      [params[:migration].delete(:from_id), params[:migration].delete(:to_id)]
+    else
+      [Auth.find(session[:zendesk]).id, current_auth.id]
+    end
   end
 end

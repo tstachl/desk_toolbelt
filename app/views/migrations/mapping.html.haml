@@ -6,6 +6,13 @@
 %section.row
   .span10
     = simple_form_for(@migration, url: migrations_mapping_path, html: { class: 'form-horizontal accordion' }) do |f|
+      = f.input :from_id, as: :hidden
+      = f.input :to_id, as: :hidden
+      = f.input :customers, as: :hidden
+      = f.input :cases, as: :hidden
+      = f.input :interactions, as: :hidden
+      = f.input :topics, as: :hidden
+      = f.input :articles, as: :hidden
       .accordion-group
         .accordion-heading
           %a.accordion-toggle{href: '#customers', 'data-toggle' => 'collapse', 'data-parent' => '.accordion'}
@@ -13,11 +20,11 @@
             Customers
         .accordion-body.collapse.in#customers
           .accordion-inner
-            .row-fluid
-              .span5
-                Customers
-              .span5
-                Users
+            .row-fluid.mapping
+              .span4
+                %ul.from{'data-mapping' => @migration.from.provider.markup[:customer].to_json, 'data-type' => 'customer'}
+              .span4.offset2
+                %ul.to{'data-mapping' => @migration.to.provider.markup_create[:customer].to_json, 'data-type' => 'customer'}
       .accordion-group
         .accordion-heading
           %a.accordion-toggle{href: '#cases', 'data-toggle' => 'collapse', 'data-parent' => '.accordion'}
@@ -25,47 +32,11 @@
             Cases
         .accordion-body.collapse#cases
           .accordion-inner
-            .row-fluid
-              .span5
-                Cases
-              .span5
-                Tickets
-      .accordion-group
-        .accordion-heading
-          %a.accordion-toggle{href: '#interactions', 'data-toggle' => 'collapse', 'data-parent' => '.accordion'}
-            %i.icon-chevron-right
-            Interactions
-        .accordion-body.collapse#interactions
-          .accordion-inner
-            .row-fluid
-              .span5
-                Interactions
-              .span5
-                Comments
-      .accordion-group
-        .accordion-heading
-          %a.accordion-toggle{href: '#topics', 'data-toggle' => 'collapse', 'data-parent' => '.accordion'}
-            %i.icon-chevron-right
-            Topics
-        .accordion-body.collapse#topics
-          .accordion-inner
-            .row-fluid
-              .span5
-                Topics
-              .span5
-                Forums
-      .accordion-group
-        .accordion-heading
-          %a.accordion-toggle{href: '#articles', 'data-toggle' => 'collapse', 'data-parent' => '.accordion'}
-            %i.icon-chevron-right
-            Articles
-        .accordion-body.collapse#articles
-          .accordion-inner
-            .row-fluid
-              .span5
-                Articles
-              .span5
-                Topics
+            .row-fluid.mapping
+              .span4
+                %ul.from{'data-mapping' => @migration.from.provider.markup[:case].to_json, 'data-type' => 'case'}
+              .span4.offset2
+                %ul.to{'data-mapping' => @migration.to.provider.markup_create[:case].to_json, 'data-type' => 'case'}
       .form-actions
         = f.button :submit, 'continue', :class => 'btn-primary btn-large pull-right'
         %a.btn.btn-large.pull-left{href: migrations_zendesk_path} back

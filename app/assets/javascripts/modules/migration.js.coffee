@@ -1,11 +1,11 @@
-define ['jquery', 'modules/application'], ($, Application) ->
+define ['jquery', 'modules/mapping'], ($) ->
   class Migration
     app: null
     
     constructor: ->
-      @app = Application.getInstance()
       this.messages()
           .accordion()
+          .mapping()
     
     messages: ->
       do $('.message').slideDown().delay(5000).slideUp
@@ -17,29 +17,6 @@ define ['jquery', 'modules/application'], ($, Application) ->
       $('.accordion .collapse').on 'show', ->
         $(@).parents('.accordion-group').find('i').removeClass('icon-chevron-right').addClass('icon-chevron-down')
       @
-      
-# 
-# # Reference jQuery
-# $ = jQuery
-# 
-# $.fn.extend
-#   mapping: (options) ->
-#     @el   = $(this)
-#     @from = @el.find('.from')
-#     @to   = @el.find('.to')
-#     
-#     for key, value of @from.data 'mapping' 
-#       @from.append [
-#         '<li class="mapitem">'
-#           key
-#         '</li>'
-#       ].join ''
-#     
-#     for key, value of @to.data 'mapping'
-#       @to.append [
-#         '<li class="mapitem">'
-#           key
-#         '</li>'
-#       ].join ''
-#     
-#     return @each ()->
+    
+    mapping: ->
+      $('.mapping').mapping()

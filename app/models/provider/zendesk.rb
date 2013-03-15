@@ -15,12 +15,12 @@ class Provider::Zendesk < Provider
     end
   end
 
-  def markup
-    {
-      :case     => case_markup,
-      :customer => JSON.parse(File.new("#{Rails.root}/app/models/provider/zendesk/user.json").read)
-    }
-  end
+  # def markup
+  #   {
+  #     :case     => case_markup,
+  #     :customer => JSON.parse(File.new("#{Rails.root}/app/models/provider/zendesk/user.json").read)
+  #   }
+  # end
   
   def get_count(method)
     client.send(SUPPORTED_TYPES_MAP[method.to_s.singularize.to_sym].to_s.pluralize.to_sym).count
@@ -75,8 +75,8 @@ class Provider::Zendesk < Provider
     collection = client.users.include(:identities).page(filter.delete(:page)).per_page(filter.delete(:count)).select{ |resource| resource.role.id == 'end-user' }.map do |resource|
       twitter = nil
       if resource.identities.count > 1
-        resource.identities.each_page do |identity|
-          twitter = identity.value if identity.type == 'twitter'
+        twitter = resource.identities.each_page do |identity|
+          return identity.value if identity.type == 'twitter'
         end
       end
       
@@ -124,13 +124,13 @@ class Provider::Zendesk < Provider
     tmp
   end
 private
-  def case_markup
-    kase = []
-    client.ticket_fields.each_page{ |resource| kase.push({
-      id: resource.id,
-      name: resource.title.downcase,
-      type: nil
-    }) if resource.active }
-    JSON.parse(File.new("#{Rails.root}/app/models/provider/zendesk/ticket.json").read).merge custom_fields: kase
-  end
+  # def case_markup
+  #   kase = []
+  #   client.ticket_fields.each_page{ |resource| kase.push({
+  #     id: resource.id,
+  #     name: resource.title.downcase,
+  #     type: nil
+  #   }) if resource.active }
+  #   JSON.parse(File.new("#{Rails.root}/app/models/provider/zendesk/ticket.json").read).merge custom_fields: kase
+  # end
 end
