@@ -5,7 +5,9 @@
 
 %section.row
   .span10
-    = simple_form_for(@migration, url: migrations_mapping_path, html: { class: 'form-horizontal' }) do |f|
+    = simple_form_for(@migration, url: migrations_finish_path, html: { class: 'form-horizontal' }) do |f|
+      = f.input :from_id, as: :hidden
+      = f.input :to_id, as: :hidden
       %fieldset
         %legend Resources
         .row-fluid

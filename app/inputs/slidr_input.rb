@@ -1,4 +1,3 @@
-# app/inputs/image_preview_input.rb
 class SlidrInput < SimpleForm::Inputs::BooleanInput
   def input
     if nested_boolean_style?

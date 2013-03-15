@@ -60,10 +60,10 @@
                 %span.badge 3
                 Selection
                 %span.chevron
-              %li.wizard-step{class: controller_class == 'migrations-mapping' ? 'active' : ''}
-                %span.badge 4
-                Mapping
-                %span.chevron
+              / %li.wizard-step{class: controller_class == 'migrations-mapping' ? 'active' : ''}
+              /   %span.badge 4
+              /   Mapping
+              /   %span.chevron
               %li.wizard-step{class: controller_class == 'migrations-finish' ? 'active' : ''}
                 %span.badge 5
                 Finish
@@ -76,4 +76,4 @@
             %p
               = yield :tagline
       = yield
-    = javascript_include_tag :application
+    = requirejs_include_tag 'migration'

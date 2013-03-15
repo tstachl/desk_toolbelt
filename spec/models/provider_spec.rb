@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Provider do
+describe Provider, broken: true do
   describe Provider::Desk do
     before do
       @auth = FactoryGirl.create :auth
@@ -32,8 +32,8 @@ describe Provider do
     
     context '#cases' do
       it 'fetches cases' do
-        stub_request(:get, "https://devel.desk.com/api/v1/cases.json?count=10&page=1").
-           to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
+        stub_request(:get, /.*devel\.desk\.com.*/).
+           to_return(body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'))
         @auth.provider.cases(count: 10, page: 1)["count"].should == 10
       end
     end

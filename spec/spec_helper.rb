@@ -10,63 +10,31 @@ require 'rspec/autorun'
 require 'capybara/rspec'
 require 'faker'
 require 'webmock/rspec'
+require 'vcr'
 require 'omniauth'
 require 'omniauth-desk'
 require 'omniauth-zendesk'
-
-omniauth_name = Faker::Name.name
-omniauth_email = Faker::Internet.email(omniauth_name)
-
-OmniAuth.config.mock_auth[:desk] = OmniAuth::AuthHash.new({
-  provider:  'desk',
-  uid:       '1234565',
-  info: {
-    name:         omniauth_name,
-    name_public:  omniauth_name,
-    email:        omniauth_email,
-    user_level:   'siteadmin_billing',
-    login_count:  55,
-    time_zone:    '',
-    site:         'https://devel.desk.com'
-  },
-  credentials: {
-    token:        Faker::Lorem.characters,
-    secret:       Faker::Lorem.characters
-  }
-})
-
-OmniAuth.config.mock_auth[:desk_dan] = OmniAuth::AuthHash.new({
-  provider:  'desk',
-  uid:       '1324565',
-  info: {
-    name:         omniauth_name,
-    name_public:  omniauth_name,
-    email:        omniauth_email,
-    user_level:   'siteadmin_billing',
-    login_count:  55,
-    time_zone:    '',
-    site:         'https://zzz-dan.desk.com'
-  },
-  credentials: {
-    token:        Faker::Lorem.characters,
-    secret:       Faker::Lorem.characters
-  }
-})
-
-OmniAuth.config.mock_auth[:zendesk] = OmniAuth::AuthHash.new({
-  provider: 'zendesk',
-  uid:      '1234565',
-  credentials: {
-    token:        Faker::Lorem.characters,
-    secret:       Faker::Lorem.characters
-  }
-})
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+VCR.configure do |config|
+  config.cassette_library_dir     = 'spec/cassettes'
+  config.hook_into                :webmock
+  config.ignore_localhost         = true
+  config.default_cassette_options = { record: :none }
+end
+
 RSpec.configure do |config|
+  config.backtrace_clean_patterns = [
+    /\/lib\d*\/ruby\//,
+    /bin\//,
+    # /gems/,
+    /spec\/spec_helper\.rb/,
+    /lib\/rspec\/(core|expectations|matchers|mocks)/
+  ]
+  
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -102,4 +70,22 @@ RSpec.configure do |config|
   config.include ModelMacro
   config.include WebMock::API
   config.include FactoryGirl::Syntax::Methods
+  
+  # config.before(:all) do
+  #   stub_request(:get, /.*globalsurfco.zendesk.com\/api\/v2\/users.*/).
+  #           with(headers: {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'ZendeskAPI API 0.2.2'}).
+  #      to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/zendesk/users.json'))
+  # 
+  #   stub_request(:get, /.*devel.desk.com\/api\/v1\/cases.*/).
+  #           with(query: hash_including({ count: 1 })).
+  #      to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
+  # 
+  #   stub_request(:get, /.*devel.desk.com\/api\/v1\/cases.*/).
+  #           with(query: hash_including({ count: 10 })).
+  #      to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
+  # 
+  #   stub_request(:get, /.*devel.desk.com\/api\/v1\/cases.*/).
+  #           with(query: hash_including({ count: 100 })).
+  #      to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases_export.json'), headers: {content_type: "application/json; charset=utf-8"})
+  # end
 end

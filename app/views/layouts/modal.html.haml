@@ -8,5 +8,7 @@
   .modal-footer
     = yield :modal_footer
     :javascript
-      application.datepicker()
-                 .tooltips();
+      require(['modules/application'], function(Application) {
+        Application.getInstance().datepicker()
+                                 .tooltips();
+      });

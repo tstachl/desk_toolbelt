@@ -91,7 +91,7 @@ class Export < ActiveRecord::Base
   
 private
   def fetch count, page = 1
-    auth.provider.cases filter.merge(page: page, count: count)
+    auth.provider.send method, filter.merge(page: page, count: count)
   end
   
   def fetch_and_update count, page = 1
