@@ -23,11 +23,11 @@ class AuthsController < ApplicationController
 
   def create
     if logged_in?
-      auth = Auth.from_omniauth request.env['omniauth.auth'], current_auth.user
+      @auth = Auth.from_omniauth request.env['omniauth.auth'], current_auth.user
       
       # make sure we have the zendesk auth
       if session[:return_to] =~ /\/migrations\/zendesk/
-        return redirect_to migrations_zendesk_path(auth_id: auth.id)
+        return redirect_to migrations_zendesk_path(auth_id: @auth.id)
       end
       
       flash[:success] = 'Authentication has been saved.'

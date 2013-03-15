@@ -20,10 +20,12 @@ class Auth < ActiveRecord::Base
     original_provider
   end
   
-  def update_omniauth(hash)
+  def update_omniauth(hash, user = nil)
+    user ||= User.find_or_initialize_by_omniauth(hash)
+    
     if new_record?
       update_attributes({
-        user: user || User.find_or_initialize_by_omniauth(hash),
+        user: user,
         site: Site.find_or_create_by_name(hash.info.site)
       })
     end
@@ -32,7 +34,7 @@ class Auth < ActiveRecord::Base
     token = hash.credentials.token
     secret = hash.credentials.secret
     # Update the user
-    user.update_omniauth(hash)
+    user.update_omniauth hash if provider.kind_of? Provider::Desk
     
     save
   end
@@ -65,7 +67,7 @@ class Auth < ActiveRecord::Base
     
     def from_omniauth(hash, user = nil)
       auth = Auth.find_or_initialize_by_omniauth hash
-      auth.update_omniauth hash
+      auth.update_omniauth hash, user
       auth
     end
   end

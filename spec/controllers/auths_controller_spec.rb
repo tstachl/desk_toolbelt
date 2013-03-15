@@ -69,6 +69,24 @@ describe AuthsController do
           response.should redirect_to action: :index
         end
       end
+
+      context "with valid zendesk attributes" do
+        before do
+          request.env['omniauth.auth'] = OmniAuth.config.mock_auth[:zendesk]
+          session[:return_to] = '/migrations/zendesk'
+        end
+
+        it "saves a new auth record in the database" do
+          expect{
+            post :create, provider: 'zendesk'
+          }.to change(Auth, :count).by 1
+        end
+
+        it "redirects to index" do
+          post :create, provider: 'zendesk'
+          response.should redirect_to migrations_zendesk_path(auth_id: assigns(:auth).id)
+        end
+      end
     end
     
     context "user doesn't exist" do
