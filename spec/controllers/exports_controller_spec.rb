@@ -27,6 +27,18 @@ describe ExportsController do
       get :index
       response.should render_template :index
     end
+    
+    context "change to zendesk authentication" do
+      before do
+        @auth = Auth.from_omniauth OmniAuth.config.mock_auth[:zendesk]
+        session[:aid] = @auth.id
+      end
+      
+      it "redirects to root path" do
+        get :index
+        response.should redirect_to root_path
+      end
+    end
   end
   
   describe "GET #new" do
@@ -134,6 +146,33 @@ describe ExportsController do
         }
         response.should redirect_to action: :index
       end
+    end
+  end
+  
+  describe "GET #show" do
+    before do
+      Export.any_instance.stub(:save_attached_files).and_return(true)
+      @export = FactoryGirl.create(:exported_export, auth: @auth)
+    end
+    
+    it "populates an export object" do
+      get :show, id: @export.id
+      assigns(:export).should eq(@export)
+    end
+    
+    it "renders the :index view" do
+      get :show, id: @export.id
+      response.should render_template :show
+    end
+    
+    it "renders json" do
+      get :show, id: @export.id, format: :json
+      response.body.should be_json
+    end
+    
+    it "renders xml" do
+      get :show, id: @export.id, format: :xml
+      response.body.should be_xml
     end
   end
   
