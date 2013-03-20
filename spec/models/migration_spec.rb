@@ -21,8 +21,8 @@ describe Migration do
   context '#migrate' do
     before do
       @migration = FactoryGirl.create(:migration)
-      @migration.from.token = 'globalsurfco@gmail.com'
-      @migration.from.secret = 'globalsurf'
+      @migration.from.token = ENV['ZENDESK_USERNAME']
+      @migration.from.secret = ENV['ZENDESK_PASSWORD']
       @migration.save!
     end
 
@@ -31,6 +31,13 @@ describe Migration do
         tempfile = @migration.process_migration
         tempfile.rewind
         tempfile.read.should be_json
+        
+        tempfile.rewind
+        
+        output = File.open(Rails.root.join('log', 'export.json'), 'w+')
+        output << tempfile.read
+        output.close
+        tempfile.close
       end
     end
   end

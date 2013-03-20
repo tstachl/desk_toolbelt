@@ -74,9 +74,10 @@ class Provider::Zendesk < Provider
   def customers(filter = {})
     collection = client.users.include(:identities).page(filter.delete(:page)).per_page(filter.delete(:count)).select{ |resource| resource.role.id == 'end-user' }.map do |resource|
       twitter = nil
-      if resource.identities.count > 1
-        twitter = resource.identities.each_page do |identity|
-          return identity.value if identity.type == 'twitter'
+      
+      if resource.identities.size > 1
+        resource.identities.each do |identity|
+          twitter = identity.value if identity.type == 'twitter'
         end
       end
       
