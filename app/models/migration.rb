@@ -41,4 +41,17 @@ class Migration < ActiveRecord::Base
     tempfile.close
     tempfile.unlink
   end
+  
+  class << self    
+    def run(id)
+      Rails.logger.info("Starting migration with ID: #{id}")
+      migration = find(id)
+      # Rails.logger.info("Set :is_migrating to true")
+      # migration.update_attribute(:is_migrating, true)
+      Rails.logger.info("Starting the migration.")
+      migration.migrate
+      # Rails.logger.info("Updated :is_migrating to false and :is_migrated to true")
+      # migration.update_attributes(is_migrating: false, is_migrated: true)
+    end
+  end
 end

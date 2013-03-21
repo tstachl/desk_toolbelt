@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe MigrationsController do
+  render_views
   before(:each) do
     FactoryGirl.create :provider
     FactoryGirl.create :provider_zendesk
@@ -128,7 +129,78 @@ describe MigrationsController do
       end
     end
   end
-
+  
+  describe "POST 'create'" do
+    context "not logged in" do
+      it "redirects to login" do
+        post :create
+        response.should redirect_to login_path
+      end
+      
+      it "shows a flash error" do
+        post :create
+        flash[:error].should_not be_nil
+      end
+    end
+    
+    context "if logged in" do
+      before do
+        @auth = Auth.login_omniauth OmniAuth.config.mock_auth[:desk]
+        session[:aid] = @auth.id
+      end
+      
+      context "without valid attributes" do
+        it "doesn't save the migration" do
+          expect {
+            post :create, migration: Migration.new
+          }.not_to change(Migration, :count).by 1
+        end
+        
+        it "renders #new" do
+          post :create, migration: Migration.new
+          response.should render_template :new
+        end
+        
+        it "shows a flash error" do
+          post :create, migration: Migration.new
+          flash[:error].should_not be_nil
+        end
+      end
+      
+      context "with valid attributes" do
+        before do
+          @zenauth = Auth.from_omniauth(OmniAuth.config.mock_auth[:zendesk])
+          session[:zendesk] = @zenauth.id
+          @migration = FactoryGirl.attributes_for(:migration, from: nil, to: nil)
+        end
+        
+        it "saves the migration using current_auth and session[:zendesk]" do
+          expect {
+            post :create, migration: @migration
+          }.to change(Migration, :count).by 1
+        end
+        
+        it "saves the migration with from_id and to_id set" do
+          @migration = FactoryGirl.attributes_for(:migration, from_id: @zenauth.id, to_id: @auth.id)
+          expect {
+            post :create, migration: @migration
+          }.to change(Migration, :count).by 1
+        end
+        
+        it "redirects to index or to defined route" do
+          session[:return_to] = migrations_finish_path
+          post :create, migration: @migration
+          response.should redirect_to migrations_finish_path
+        end
+        
+        it "sets a flash success message" do
+          post :create, migration: @migration
+          flash[:success].should_not be_nil
+        end
+      end
+    end
+  end
+  
   # describe "GET 'mapping'", :pending do
   #   it "returns http success" do
   #     get 'mapping'

@@ -34,12 +34,12 @@ class ApplicationController < ActionController::Base
   private
 
   def redirect_back(default)
-    redirect_to(session[:return_to] || default)
+    redirect_to(session[:return_to] || request.env["HTTP_REFERER"] || default)
   end
 
   def require_login
     unless logged_in?
-      if params[:controller] == 'migrations'
+      if params[:controller] == 'migrations' and %w(zendesk select finish).include? params[:action]
         flash[:error] = "You must authenticate with your Desk.com environment before you can continue."
         return redirect_to migrations_desk_path
       end
