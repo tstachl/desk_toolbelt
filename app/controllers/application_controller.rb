@@ -39,6 +39,10 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless logged_in?
+      if params[:controller] == 'migrations'
+        flash[:error] = "You must authenticate with your Desk.com environment before you can continue."
+        return redirect_to migrations_desk_path
+      end
       flash[:error] = "You must be logged in to access this section"
       redirect_to login_path # halts request cycle
     end

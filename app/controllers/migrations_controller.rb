@@ -15,8 +15,6 @@ class MigrationsController < ApplicationController
     
     # clear zendesk in case we are returing one step
     session[:zendesk] = nil
-    # if we have a message it can only be an error message
-    flash[:error] = params[:message] if params[:message]
     # if we have a success flash it's most likely because we logged in with desk.com
     flash[:success] = 'Your Desk.com authorization has been saved.' if flash[:success]
     
@@ -26,6 +24,11 @@ class MigrationsController < ApplicationController
   end
 
   def select
+    unless session[:zendesk]
+      flash[:error] = 'You need to authenticate with Zendesk.'
+      return redirect_to action: :zendesk
+    end
+    
     @migration = Migration.new
     @migration.from = Auth.find session[:zendesk]
     @migration.to = current_auth

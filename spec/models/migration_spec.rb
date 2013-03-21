@@ -31,13 +31,6 @@ describe Migration do
         tempfile = @migration.process_migration
         tempfile.rewind
         tempfile.read.should be_json
-        
-        tempfile.rewind
-        
-        output = File.open(Rails.root.join('log', 'export.json'), 'w+')
-        output << tempfile.read
-        output.close
-        tempfile.close
       end
     end
   end
