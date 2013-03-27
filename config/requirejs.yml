@@ -1,0 +1,13 @@
+paths:
+  jquery: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min'
+  jqueryui: 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min'
+  bootstrap: 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min'
+  datepicker: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.0.0/js/bootstrap-datepicker.min'
+  plumb: 'libs/jsplumb'
+shim:
+  jqueryui: ['jquery']
+  bootstrap: ['jquery']
+  datepicker: ['bootstrap']
+  plumb: ['jquery']
+modules:
+  - name: 'application'
