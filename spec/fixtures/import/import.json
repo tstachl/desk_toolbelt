@@ -1,0 +1,91 @@
+{
+  "customers": [
+    {
+      "name": "Leena Cianflone",
+      "description": null,
+      "external_id": null,
+      "email": "leenacianflone@gmail.com",
+      "phone": null,
+      "twitter": null
+    },
+    {
+      "name": "Snappy",
+      "description": null,
+      "external_id": null,
+      "email": "hello@help.besnappy.com",
+      "phone": null,
+      "twitter": "snappy"
+    }
+  ],
+  "cases": [
+    {
+      "interaction_subject": "Customer Service, here is the test ticket you requested",
+      "customer_email": "noreply@zendesk.com",
+      "customer_name": "Zendesk",
+      "case_external_id": null,
+      "case_labels": "",
+      "interaction_channel": "email",
+      "interaction_body": "        Hello! This is a Zendesk ticket. We are going to go through the basic support ticket operation in Zendesk.\n\n        If you are in your email reading this, please click on the link in the header that starts with Ticket #.\n\n        If you are in your Zendesk reading this, you will see the ticket number, the customer who sent this ticket in, and drop down menus that allow you to set things like status and priority. You'll also notice a blank text box below this comment. That is for you to respond. Let's do that:\n\n        1. Write: \"Thanks for this information, please tell me more.\"\n        2. Change the drop-down field labeled Status to \"Pending\"\n        3. Click the submit button in the lower right.\n\n        If you follow these instructions, you'll get an email response back from us shortly.  You can also always see ticket updates by going back into your unsolved ticket view (click view in the top menu bar).\n",
+      "interactions": [
+        {
+          "interaction_subject": null,
+          "interaction_body": "Thanks for this information, please tell me more",
+          "customer_email": "globalsurfco@gmail.com",
+          "customer_name": "Customer Service"
+        },
+        {
+          "interaction_subject": null,
+          "interaction_body": "All right!\n\n    As a reminder: This is a Zendesk ticket. We are going to go through the basic support ticket operation in Zendesk.\n\n    If you are in your email reading this, please click on the link in the header that starts with Ticket #.\n\n    When you clicked submit, an email was generated and sent to your customer. When they reply to that email, it will automatically update here in the ticket like this.\n\n    One thing to point out is that the Status field now says \"open\". This automatically changed when the customer (in this case, me!) responded. When a ticket is pending it means that you are waiting for more information and so you don't need to be thinking about it right now. Open tickets are the ones that require your attention. Because the customer responded, the ticket needs your attention again, so it's automatically 'opened'.\n\n    Now let's solve the ticket:\n\n    1. Change status to 'solved'\n    2. Write something like \"Hope this resolves your issue, please let me know if you need anything else.\"\n\n    Click submit again.",
+          "customer_email": "noreply@zendesk.com",
+          "customer_name": "Zendesk"
+        }
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": 20801842,
+      "name": "Frequently Asked Questions",
+      "description": "Frequently Asked Questions",
+      "show_in_portal": true,
+      "articles": [
+        {
+          "subject": "Seriously. Should I be worried about sharks?",
+          "main_content": "<p>Seriously. Sharks.</p>",
+          "published": true,
+          "show_in_portal": true
+        },
+        {
+          "subject": "Should I be worried about sharks?",
+          "main_content": "<p><span>Shark attacks are very rate and you probably shouldn't worry about them.</span><br /><br /><span>Every year around 60 shark attacks are reported worldwide, although death is quite unusual. Despite the relative rarity of shark attacks, the fear of sharks is a common phenomenon, having been fueled by the occasional instances of serial attacks, such as the&nbsp;</span><a title=\"Jersey Shore shark attacks of 1916\" href=\"http://en.wikipedia.org/wiki/Jersey_Shore_shark_attacks_of_1916\">Jersey Shore shark attacks of 1916</a><span>, and by horror fiction and films, such as the&nbsp;</span><a title=\"Jaws (film)\" href=\"http://en.wikipedia.org/wiki/Jaws_(film)\">Jaws</a><span>&nbsp;series. Almost all shark experts feel that the danger presented by sharks has been exaggerated, and even the creator of the&nbsp;</span><span>Jaws</span><span>&nbsp;phenomenon, the late&nbsp;</span><a title=\"Peter Benchley\" href=\"http://en.wikipedia.org/wiki/Peter_Benchley\">Peter Benchley</a><span>, attempted to dispel the myth of sharks being man-eating monsters in the years before his death.</span><br /><br /><span>The Florida Museum of Natural History has put together a handy chart which demonstrated the likelihood of dying from a shark attack</span><br /><br /></p>\r\n<h5>Annual Risk Of Death During One's Lifetime</h5>\r\n<table class=\" cke_show_border\" cellpadding=\"4\" align=\"center\">\r\n<tbody>\r\n<tr><th align=\"left\" valign=\"bottom\" width=\"300\"><span style=\"text-decoration: underline;\">Disease and Accidental Causes of Deaths</span></th><th align=\"left\" valign=\"bottom\" width=\"90\"><span style=\"text-decoration: underline;\">Annual Deaths</span></th><th align=\"center\" valign=\"bottom\" width=\"100\"><span style=\"text-decoration: underline;\">Death Risk During One's Lifetime</span></th></tr>\r\n<tr>\r\n<td align=\"left\"><em>Heart disease</em></td>\r\n<td>652,486</td>\r\n<td align=\"center\">1 in 5</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Cancer</em></td>\r\n<td>553,888</td>\r\n<td align=\"center\">1 in 7</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Stroke</em></td>\r\n<td>150,074</td>\r\n<td align=\"center\">1 in 24</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Hospital Infections</em></td>\r\n<td>99,000</td>\r\n<td align=\"center\">1 in 38</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Flu</em></td>\r\n<td>59,664</td>\r\n<td align=\"center\">1 in 63</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Car accidents</em></td>\r\n<td>44,757</td>\r\n<td align=\"center\">1 in 84</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Suicide</em></td>\r\n<td>31,484</td>\r\n<td align=\"center\">1 in 119</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Accidental poisoning</em></td>\r\n<td>19,456</td>\r\n<td align=\"center\">1 in 193</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>MRSA (resistant bacteria)</em></td>\r\n<td>19,000</td>\r\n<td align=\"center\">1 in 197</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Falls</em></td>\r\n<td>17,229</td>\r\n<td align=\"center\">1 in 218</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Drowning</em></td>\r\n<td>3,306</td>\r\n<td align=\"center\">1 in 1,134</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Bike accident</em></td>\r\n<td>762</td>\r\n<td align=\"center\">1 in 4,919</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Air/space accident</em></td>\r\n<td>742</td>\r\n<td align=\"center\">1 in 5,051</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Excessive cold</em></td>\r\n<td>620</td>\r\n<td align=\"center\">1 in 6,045</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Sun/heat exposure</em></td>\r\n<td>273</td>\r\n<td align=\"center\">1 in 13,729</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Lightning</em></td>\r\n<td>47</td>\r\n<td align=\"center\">1 in 79,746</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Train crash</em></td>\r\n<td>24</td>\r\n<td align=\"center\">1 in 156,169</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Fireworks</em></td>\r\n<td>11</td>\r\n<td align=\"center\">1 in 340,733</td>\r\n</tr>\r\n<tr>\r\n<td align=\"left\"><em>Shark attack</em></td>\r\n<td>1</td>\r\n<td align=\"center\">1 in 3,748,067</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p><br /><span>Source:</span><a href=\"http://en.wikipedia.org/wiki/Shark_attack\">&nbsp;http://en.wikipedia.org/wiki/Shark_attack</a><span>,&nbsp;</span><a href=\"http://www.flmnh.ufl.edu/fish/sharks/attacks/relarisklifetime.html\">http://www.flmnh.ufl.edu/fish/sharks/attacks/relarisklifetime.html</a></p>",
+          "published": true,
+          "show_in_portal": true
+        },
+        {
+          "subject": "Am I required to have travel insurance?",
+          "main_content": "<p>Yes, you are now required to have travel insurance on all of our trips.</p>\r\n<p><br />Surfing is inherently dangerous and some of the locations that we travel to have limited medical resources. Most people think they are covered if they already have existing health care insurance. Within the United States, that&amp;rsquo;s true. Outside the U.S., however, is a big IF.</p>\r\n<p><br />And in many cases, even if you are covered for basic emergency care overseas (again, a big IF), in almost all cases, your current health insurance does NOT cover you to evacuate you and repatriate you back to the U.S. This is where Medical Evacuation and Repatriation insurance comes into play. I believe this is essential for anyone who travels. It's an insurance program (usually an annual premium, not often purchased per trip) where if you get sick or injured overseas the policy will get you treated, stabilized and flown back to the U.S. There are a number of good companies that provide this plan, two of which are Travel Guard and Medjet Assist. The annual premium is about $300, and it's the card you hope you never have to use. My Advice: YES, get this, with another important caveat: read the fine print. With Travel Guard and Medjet assist, these policies provide that they will get you initially treated and stabilized and then send a medically equipped and staffed jet to fly you to the doctor and medical facility of your choice. This is crucial. Outside of Travel Guard and Medjet assist, many other companies that offer this insurance will fly you to the doctor and medical facility of their choice.</p>\r\n<p><br />And then there's another reason for getting this coverage: If you're in a foreign country, particularly a developing country, many hospitals will admit you without caring about coverage, but they won't let you leave until you pay. Travel insurance can help facilitate payment, and act as an advocate so that you're not overcharged because you're an American.</p>",
+          "published": true,
+          "show_in_portal": true
+        },
+        {
+          "subject": "What happens if there is a hurricane / typhoon?",
+          "main_content": "<p><span>In the unlikely event of a hurricane / typhoon and we have to cancel your trip, we will refund you 100% of your reservation and provide you with priority access to the next tour.</span></p>",
+          "published": true,
+          "show_in_portal": true
+        },
+        {
+          "subject": "What happens if I miss my flight?",
+          "main_content": "<p><span>If you miss your flight for any reason, please call your travel agent as soon as possible so that they can make alternate arrangements. Due to the location of some of our trips, we recommend that you do everything that you can to make your flight as alternate flights might be available for some time and, in certain locations you may also literally miss the boat.</span></p>",
+          "published": true,
+          "show_in_portal": true
+        },
+        {
+          "subject": "What is your refund policy?",
+          "main_content": "<p><span>We're committed to providing wonderful service and an amazing experience. If at any time you would like to request a refund, please contact your travel agent and we will process your refund as soon as possible.</span></p>",
+          "published": true,
+          "show_in_portal": true
+        }
+      ]
+    }
+  ]
+}

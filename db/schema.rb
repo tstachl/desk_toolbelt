@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130214103317) do
+ActiveRecord::Schema.define(:version => 20130322181339) do
 
   create_table "auths", :force => true do |t|
     t.string   "uid"
@@ -66,6 +66,24 @@ ActiveRecord::Schema.define(:version => 20130214103317) do
 
   add_index "exports", ["auth_id"], :name => "index_exports_on_auth_id"
 
+  create_table "imports", :force => true do |t|
+    t.integer  "auth_id"
+    t.integer  "migration_id"
+    t.boolean  "is_importing"
+    t.boolean  "is_imported"
+    t.boolean  "is_error"
+    t.text     "messages"
+    t.text     "description"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "imports", ["auth_id"], :name => "index_imports_on_auth_id"
+
   create_table "migrations", :force => true do |t|
     t.integer  "to_id"
     t.integer  "from_id"
@@ -76,6 +94,8 @@ ActiveRecord::Schema.define(:version => 20130214103317) do
     t.boolean  "articles"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.boolean  "is_migrating"
+    t.boolean  "is_migrated"
   end
 
   add_index "migrations", ["from_id"], :name => "index_migrations_on_from_id"

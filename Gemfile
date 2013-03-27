@@ -15,6 +15,7 @@ gem 'paperclip', '3.4.0'
 gem 'nokogiri', '1.5.5'
 gem 'newrelic_rpm', '3.5.5.38'
 gem 'attr_encryptor', '1.0.2'
+gem 'yajl-ruby', '1.1.0'
 
 group :test, :development do
   gem 'rspec-rails', '2.11.4'

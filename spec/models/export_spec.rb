@@ -6,21 +6,17 @@ describe Export do
   end
   
   context 'has to be valid and' do
-    before do
-      @export = Export.new
-    end
-  
     it 'validates the filter is present' do
-      is_valid(@export, :filter, Faker::Lorem.word)
+      is_valid(Export.new, :filter, Faker::Lorem.word)
     end
     it 'validates the method is present' do
-      is_valid(@export, :method, Faker::Lorem.word)
+      is_valid(Export.new, :method, Faker::Lorem.word)
     end
     it 'validates the format is present' do
-      is_valid(@export, :format, 'xml')
+      is_valid(Export.new, :format, 'xml')
     end
     it 'validates the auth is present' do
-      is_valid(@export, :auth, Auth.new)
+      is_valid(Export.new, :auth, Auth.new)
     end
   end
   

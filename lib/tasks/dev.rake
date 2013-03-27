@@ -20,6 +20,16 @@ namespace :dev do
       system('foreman run -e config/environments/test.env bundle exec rake spec:controllers')
     end
     
+    namespace :models do
+      Dir.foreach(Rails.root.join('spec', 'models')) do |file|
+        unless ['.', '..'].include? file
+          task file.sub(/_spec\.rb/, '').to_sym do
+            system("foreman run -e config/environments/test.env bundle exec rspec spec/models/#{file}")
+          end
+        end
+      end
+    end
+    
     desc 'run model tests'
     task :models do
       system('foreman run -e config/environments/test.env bundle exec rake spec:models')
