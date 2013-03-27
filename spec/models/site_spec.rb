@@ -26,5 +26,13 @@ describe Site do
     it "doesn't look at the domain as long as desk is in it" do
       Site.new(name: 'https://zzz-dan.desk-staging.com/').name_clean.should == 'Zzz Dan'
     end
+    
+    it "doesn't look at the domain any longer" do
+      Site.new(name: 'https://devel.zendesk.com/').name_clean.should == 'Devel'
+    end
+    
+    it "doesn't check for the protocol either" do
+      Site.new(name: 'http://devel.desk.com').name_clean.should == 'Devel'
+    end
   end
 end
