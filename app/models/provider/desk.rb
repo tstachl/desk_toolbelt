@@ -23,9 +23,8 @@ class Provider::Desk < Provider
     end
   end
   
-  
-  def cases(filter = {})
-    client.cases(prepare_filter(filter))
+  %w(cases interactions customers).each do |method|
+    define_method(method) { |filter = {}| client.send(method, prepare_filter(filter)) }
   end
 private
   def prepare_filter(filter)
