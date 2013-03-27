@@ -13,6 +13,7 @@ gem 'paperclip', '3.4.0'
 gem 'nokogiri', '1.5.5'
 gem 'newrelic_rpm', '3.5.5.38'
 gem 'attr_encryptor', '1.0.2'
+gem 'requirejs-rails', '~> 0.9.1'
 
 group :test, :development do
   gem 'rspec-rails', '2.11.4'
@@ -46,7 +47,6 @@ group :assets do
   gem 'bootstrap-sass', '~> 2.1.1.0'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
-  gem 'requirejs-rails', '~> 0.9.1'
 end
 
 gem 'jquery-rails', '2.1.3'
