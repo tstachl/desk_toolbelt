@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'thin', '1.5.0'
 gem 'foreman', '0.60.2'
