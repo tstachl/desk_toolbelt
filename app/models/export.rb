@@ -62,19 +62,15 @@ class Export < ActiveRecord::Base
     Rails.logger.info("Creating the tempfile for the export.")
     tempfile = Tempfile.new(["#{Time.now.strftime('%Y%m%d%H%M%S')}_#{method}", ".#{format}"])
 
-    page = 0
-    while true
-      page += 1
-      
+    page = 1
+    begin
       Rails.logger.info("Exporting page #{page} of #{pages} pages.")
       results = fetch_export(Export::DEFAULT_MAX_COUNT, page)
       results['results'].each_index{ |index|
         tempfile << header(results['results'].at(index)) if tempfile.size == 0
         tempfile << row(results['results'].at(index), ((page == pages) && (results['results'].size == index + 1)))
       }
-      
-      break if page == pages
-    end
+    end while (page += 1) <= pages
 
     Rails.logger.info("Writing the footer to the tempfile.")
     tempfile << footer
@@ -83,7 +79,10 @@ class Export < ActiveRecord::Base
   
   def export
     tempfile = process_export
+    tempfile.rewind
+    
     update_attribute(:file, tempfile)
+    
     Rails.logger.info("Removing the tempfile.")
     tempfile.close
     tempfile.unlink
