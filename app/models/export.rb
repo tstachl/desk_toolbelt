@@ -62,19 +62,15 @@ class Export < ActiveRecord::Base
     Rails.logger.info("Creating the tempfile for the export.")
     tempfile = Tempfile.new(["#{Time.now.strftime('%Y%m%d%H%M%S')}_#{method}", ".#{format}"])
 
-    page = 0
-    while true
-      page += 1
-      
+    page = 1
+    begin
       Rails.logger.info("Exporting page #{page} of #{pages} pages.")
       results = fetch_export(Export::DEFAULT_MAX_COUNT, page)
       results['results'].each_index{ |index|
         tempfile << header(results['results'].at(index)) if tempfile.size == 0
         tempfile << row(results['results'].at(index), ((page == pages) && (results['results'].size == index + 1)))
       }
-      
-      break if page == pages
-    end
+    end while (page += 1) <= pages
 
     Rails.logger.info("Writing the footer to the tempfile.")
     tempfile << footer
@@ -83,24 +79,18 @@ class Export < ActiveRecord::Base
   
   def export
     tempfile = process_export
+    tempfile.rewind
+    
     update_attribute(:file, tempfile)
+    
     Rails.logger.info("Removing the tempfile.")
     tempfile.close
     tempfile.unlink
   end
   
 private
-  def prepare_filter
-    tmp = {}
-    filter.each_pair{ |key, value| 
-      tmp[key] = (DateTime.strptime(value, "%m/%d/%y").strftime("%s") rescue value)
-    }
-    tmp
-  end
-  
   def fetch count, page = 1
-    client = Object.const_get("#{auth.provider.capitalize}").client subdomain: auth.site.name, oauth_token: auth.token, oauth_token_secret: auth.secret, max_requests: 50
-    client.send(method, prepare_filter.merge(page: page, count: count))
+    auth.provider.send method, filter.merge(page: page, count: count)
   end
   
   def fetch_and_update count, page = 1

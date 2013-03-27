@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'thin', '1.5.0'
 gem 'foreman', '0.60.2'
@@ -13,6 +13,7 @@ gem 'paperclip', '3.4.0'
 gem 'nokogiri', '1.5.5'
 gem 'newrelic_rpm', '3.5.5.38'
 gem 'attr_encryptor', '1.0.2'
+gem 'requirejs-rails', '~> 0.9.1'
 
 group :test, :development do
   gem 'rspec-rails', '2.11.4'
@@ -45,7 +46,6 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'bootstrap-sass', '~> 2.1.1.0'
   gem 'coffee-rails', '~> 3.2.1'
-
   gem 'uglifier', '>= 1.0.3'
 end
 

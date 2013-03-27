@@ -49,6 +49,5 @@
           %a.wizard-action.btn.btn-success.btn-large.disabled{href: '#', rel: 'nofollow'}
             %i.icon-download.icon-white
             Download
-          %a.wizard-action.btn.btn-danger.btn-large.disabled{href: '#', rel: 'nofollow'}
-            %i.icon-remove.icon-white
-            Delete
+          = form_for export, html: { method: :delete } do |f|
+            = f.submit value: 'Delete', class: 'wizard-action btn btn-danger btn-large disabled'

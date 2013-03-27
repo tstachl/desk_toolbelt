@@ -1,0 +1,14 @@
+{
+    "interaction_subject": "Welcome to Desk.com",
+    "customer_id": 1,
+    "customer_twitter": "thomasstachl",
+    "customer_email": "thomas@stachl.me",
+    "customer_name": "Thomas Stachl",
+    "external_id": 1,
+    "case_labels": [
+        "label1",
+        "label2"
+    ],
+    "interaction_channel": "email",
+    "interaction_body": "this is a test of the Desk.com interaction create api"
+}

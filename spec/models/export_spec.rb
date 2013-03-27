@@ -25,12 +25,9 @@ describe Export do
   end
   
   context '#preview' do
-    before do
-      @export = FactoryGirl.create :preview_export
-    end
-    
     it 'fetches and return 10 cases' do
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?assigned_group=&assigned_user=&attachments=&case_id=&channels=&company=&count=10&created=&description=&email=&first_name=&labels=&last_name=&max_created_at=&max_id=&max_updated_at=&name=&notes=&page=1&phone=&priority=&since_created_at=&since_id=&since_updated_at=&subject=&twitter=&updated=").
+      @export = FactoryGirl.create :exporting_export
+      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?#{@export.filter.merge(count: 10, page: 1).to_query}").
          to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
       @export.preview['count'].should == 10 
     end
@@ -38,9 +35,9 @@ describe Export do
 
   context '#header' do
     before do
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?assigned_group=&assigned_user=&attachments=&case_id=&channels=&company=&count=10&created=&description=&email=&first_name=&labels=&last_name=&max_created_at=&max_id=&max_updated_at=&name=&notes=&page=1&phone=&priority=&since_created_at=&since_id=&since_updated_at=&subject=&twitter=&updated=").
-         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
       @export = FactoryGirl.create :exporting_export
+      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?#{@export.filter.merge(count: 10, page: 1).to_query}").
+         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
       @item = @export.preview['results'].first
     end
 
@@ -62,9 +59,9 @@ describe Export do
 
   context '#row' do
     before do
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?assigned_group=&assigned_user=&attachments=&case_id=&channels=&company=&count=10&created=&description=&email=&first_name=&labels=&last_name=&max_created_at=&max_id=&max_updated_at=&name=&notes=&page=1&phone=&priority=&since_created_at=&since_id=&since_updated_at=&subject=&twitter=&updated=").
-         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
       @export = FactoryGirl.create :exporting_export
+      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?#{@export.filter.merge(count: 10, page: 1).to_query}").
+         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
       @item = @export.preview['results'].first
     end
 
@@ -86,9 +83,9 @@ describe Export do
 
   context '#footer' do
     before do
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?assigned_group=&assigned_user=&attachments=&case_id=&channels=&company=&count=10&created=&description=&email=&first_name=&labels=&last_name=&max_created_at=&max_id=&max_updated_at=&name=&notes=&page=1&phone=&priority=&since_created_at=&since_id=&since_updated_at=&subject=&twitter=&updated=").
-         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
       @export = FactoryGirl.create :exporting_export
+      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?#{@export.filter.merge(count: 10, page: 1).to_query}").
+         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'), headers: {content_type: "application/json; charset=utf-8"})
     end
 
     it 'returns the case file header for json' do
@@ -104,9 +101,8 @@ describe Export do
   
   context '#export' do
     before do
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?assigned_group=&assigned_user=&attachments=&case_id=&channels=&company=&count=100&created=&description=&email=&first_name=&labels=&last_name=&max_created_at=&max_id=&max_updated_at=&name=&notes=&page=1&phone=&priority=&since_created_at=&since_id=&since_updated_at=&subject=&twitter=&updated=").
-         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases_export.json'), headers: {content_type: "application/json; charset=utf-8"})
-      @export = FactoryGirl.create :preview_export
+      @export = export_preview({ count: 100, page: 1 })
+      @export.save
     end
 
     it 'exports valid json' do
@@ -133,10 +129,9 @@ describe Export do
   
   context '#fetch_export' do
     before do
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?assigned_group=&assigned_user=&attachments=&case_id=&channels=&company=&count=100&created=&description=&email=&first_name=&labels=&last_name=&max_created_at=&max_id=&max_updated_at=&name=&notes=&page=2&phone=&priority=&since_created_at=&since_id=&since_updated_at=&subject=&twitter=&updated=").
-         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases_export.json'), headers: {content_type: "application/json; charset=utf-8"})
       Export.any_instance.stub(:save_attached_files).and_return(true)
-      @export = FactoryGirl.create :preview_export
+      @export = export_preview({ count: 100, page: 2 })
+      @export.save
     end
     
     context 'testing max requests' do
@@ -162,10 +157,9 @@ describe Export do
   
   context '#run' do
     before do
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?assigned_group=&assigned_user=&attachments=&case_id=&channels=&company=&count=100&created=&description=&email=&first_name=&labels=&last_name=&max_created_at=&max_id=&max_updated_at=&name=&notes=&page=1&phone=&priority=&since_created_at=&since_id=&since_updated_at=&subject=&twitter=&updated=").
-         to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases_export.json'), headers: {content_type: "application/json; charset=utf-8"})
       Export.any_instance.stub(:save_attached_files).and_return(true)
-      @export = FactoryGirl.create :preview_export
+      @export = export_preview({ count: 100, page: 1 })
+      @export.save
     end
     
     it 'sets :is_exporting to false' do

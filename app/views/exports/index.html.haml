@@ -8,18 +8,19 @@
     = semantic_navigation config: :bootstrap, class: 'nav-pills' do |n|
       - n.item 'Exports', '#exports', class: 'active'
       - n.item 'Cases', '#cases'
-      - n.item 'Customers', '#customers'
       - n.item 'Interactions', '#interactions'
+      - n.item 'Customers', '#customers'
       / - n.item 'Users', '#users'
       / - n.item 'Groups', '#groups'
       / - n.item 'Topics', '#topics'
       / - n.item 'Articles', '#articles'
       / - n.item 'Macros', '#macros'
+        
 
 = render 'exports/index/export'
 = render 'exports/index/cases'
-= render 'exports/index/customers'
 = render 'exports/index/interactions'
+= render 'exports/index/customers'
 / = render 'exports/index/users'
 / = render 'exports/index/groups'
 / = render 'exports/index/topics'

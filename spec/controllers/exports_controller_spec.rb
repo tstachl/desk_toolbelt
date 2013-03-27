@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe ExportsController do
   render_views
-    
-  before do
+  before(:each) do
+    FactoryGirl.create :provider
+    FactoryGirl.create :provider_zendesk
     @auth = Auth.login_omniauth OmniAuth.config.mock_auth[:desk]
     session[:aid] = @auth.id
   end
@@ -30,9 +31,7 @@ describe ExportsController do
   
   describe "GET #new" do
     before do
-      stub_request(:get, "https://devel.desk.com/api/v1/cases.json?assigned_group=&assigned_user=&attachments=&case_id=&channels=&company=&count=10&created=&description=&email=&first_name=&labels=&last_name=&max_created_at=&max_id=&max_updated_at=&name=&notes=&page=1&phone=&priority=&since_created_at=&since_id=&since_updated_at=&subject=&twitter=&updated=").
-        to_return(status: 200, body: File.new(Rails.root + 'spec/fixtures/desk/cases_export.json'), headers: {content_type: "application/json; charset=utf-8"})
-      @filter = FactoryGirl.build(:preview_export, auth: @auth).filter
+      @filter = export_preview({ count: 10, page: 1 }, @auth).filter
     end
     
     it "assigns export" do
