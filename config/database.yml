@@ -3,9 +3,14 @@
 #
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
+<%
+  # http://mislav.uniqpath.com/rails/branching-the-database-along-with-your-code/
+  branch = `git symbolic-ref HEAD 2>/dev/null`.chomp.sub('refs/heads/', '').split('/')
+  suffix = branch.first == 'feature' && `git config --bool branch.#{branch.last}.database`.chomp == 'true' ? "_#{branch.last}" : ""
+%>
 development:
   adapter: sqlite3
-  database: db/development.sqlite3
+  database: db/development<%= suffix %>.sqlite3
   pool: 5
   timeout: 5000
 
