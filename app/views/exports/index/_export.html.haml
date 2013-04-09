@@ -33,7 +33,7 @@
             = export.description
           %h4 Filter
           %hr
-          = export_filter export.filter
+          = export_filter export.get_filter
           %h4 Export
           %hr
           .row-fluid
@@ -49,5 +49,5 @@
           %a.wizard-action.btn.btn-success.btn-large.disabled{href: '#', rel: 'nofollow'}
             %i.icon-download.icon-white
             Download
-          = form_for export, html: { method: :delete } do |f|
+          = form_for export, url: export_path(export), html: { method: :delete } do |f|
             = f.submit value: 'Delete', class: 'wizard-action btn btn-danger btn-large disabled'

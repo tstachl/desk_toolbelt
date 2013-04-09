@@ -1,0 +1,28 @@
+%section.row#knowledge
+  .span12
+    %h2
+      Knowledge Base
+      %small Exports your complete knowledge base (all articles in all topics).
+      
+  = simple_form_for Export::Knowledge.new, { url: exports_path, defaults: { required: false, input_html: { class: 'input-block-level' } } } do |f|
+    .span12
+      %fieldset
+        %legend Export
+        = f.input :description, hint: "Describe your export that way you'll know what it was about.", input_html: { rows: 3, class: 'input-block-level' }
+    = f.input :format, as: :hidden, input_html: { value: '' }
+    .span12
+      .form-actions
+        .pull-right
+          .btn-group.dropup
+            %a.btn.btn-primary.btn-large.submit{href: '#', onclick: "$('#export_knowledge_format').val('csv'); $(this).parents('form').submit(); return false;"}
+              %i.icon-file.icon-white
+              CSV
+            %button.btn.btn-large.btn-primary.dropdown-toggle{'data-toggle' => 'dropdown'}
+              %span.caret{style: 'border-bottom-color: #FFF;'}
+            %ul.dropdown-menu.pull-right
+              %li
+                %a.submit{href: '#', onclick: "$('#export_knowledge_format').val('xml'); $(this).parents('form').submit(); return false;"}
+                  XML
+              %li
+                %a.submit{href: '#', onclick: "$('#export_knowledge_format').val('json'); $(this).parents('form').submit(); return false;"}
+                  JSON

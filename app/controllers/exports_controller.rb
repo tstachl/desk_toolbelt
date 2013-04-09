@@ -36,12 +36,16 @@ class ExportsController < ApplicationController
   end
 
   def create
-    # parse the filter if json
-    if params[:export][:filter].is_a?(String) and params[:export][:filter].json?
-      params[:export][:filter] = JSON.parse! params[:export][:filter]
+    if params[:export_knowledge]
+      @export = Export::Knowledge.new params[:export_knowledge]
+    else
+      # parse the filter if json
+      if params[:export][:filter].is_a?(String) and params[:export][:filter].json?
+        params[:export][:filter] = JSON.parse! params[:export][:filter]
+      end
+      @export = Export.new params[:export]
     end
     
-    @export = Export.new params[:export]
     @export.auth = current_auth
     
     if @export.save
