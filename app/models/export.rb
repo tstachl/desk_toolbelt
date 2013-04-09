@@ -6,20 +6,24 @@ class Export < ActiveRecord::Base
   
   belongs_to :auth
   serialize :filter
-  attr_accessible :filter, :is_exported, :is_exporting, :method, :description, :format, :total, :pages, :file
+  attr_accessible :filter, :is_exported, :is_exporting, :method, :description, :format, :total, :pages, :file, :type
   
-  validates :filter, presence: true
-  validates :method, presence: true
-  validates :format, presence: true
-  validates :auth, presence: true
+  validates_presence_of :filter, unless: Proc.new { |export| export.type == "Export::Knowledge" }
+  validates_presence_of :method
+  validates_presence_of :format
+  validates_presence_of :auth
   
   has_attached_file :file
+  
+  def get_filter
+    self.filter ||= {}
+  end
   
   def preview
     fetch_and_update(10)
   end
   
-  def header(item)
+  def header(item = nil)
     # write the file header
     if format == 'json'
       # write json header
@@ -89,12 +93,13 @@ class Export < ActiveRecord::Base
   end
   
 private
-  def fetch count, page = 1
-    auth.provider.send method, filter.merge(page: page, count: count)
+  def fetch count, page = 1, id = nil
+    return auth.provider.send method, get_filter.merge(page: page, count: count) unless id
+    auth.provider.send method, id, get_filter.merge(page: page, count: count)
   end
   
-  def fetch_and_update count, page = 1
-    result = fetch(count, page)
+  def fetch_and_update count, page = 1, id = nil
+    result = fetch(count, page, id)
     if result['total'].to_i != self.total or not self.pages
       self.total = result['total'].to_i
       self.pages = (self.total/Export::DEFAULT_MAX_COUNT.to_f).ceil
@@ -102,16 +107,16 @@ private
     result
   end
   
-  def fetch_export count, page = 1
+  def fetch_export count, page = 1, id = nil
     if page == 1
-      fetch_and_update(count, page)
+      fetch_and_update(count, page, id)
     else
-      fetch(count, page)
+      fetch(count, page, id)
     end
   rescue Desk::TooManyRequests
     # sleep 5 seconds and try again
     sleep(5)
-    fetch_export(count, page)
+    fetch_export(count, page, id)
   end
   
   class << self    
