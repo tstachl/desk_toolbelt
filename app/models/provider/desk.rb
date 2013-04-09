@@ -23,8 +23,12 @@ class Provider::Desk < Provider
     end
   end
   
-  %w(cases interactions customers).each do |method|
+  %w(cases interactions customers topics).each do |method|
     define_method(method) { |filter = {}| client.send(method, prepare_filter(filter)) }
+  end
+  
+  %w(articles).each do |method|
+    define_method(method) { |id = nil, filter = {}| client.send(method, id, prepare_filter(filter)) }
   end
 private
   def prepare_filter(filter)
