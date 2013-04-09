@@ -1,11 +1,9 @@
 define ['jquery'], ($) ->
   class Export
-    constructor: (config = {}) ->
+    constructor: (@dom_el, config = {}) ->
       for key, value of config
         @[key] = value
-
       @data_url = "/exports/#{@id}.json"
-      @dom_el = $ "#export_#{@id}"
       @btnGroup = @dom_el.find '.wizard-actions'
       @counter = 0
 
@@ -18,7 +16,7 @@ define ['jquery'], ($) ->
           for key, value of data
             @[key] = value
           do @process
-      if @counter == 0 then 200 else 2000)
+      if @counter == 0 then 200 else 10000)
     
     process: ->
       if @is_exported
