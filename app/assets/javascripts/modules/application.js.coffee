@@ -79,5 +79,5 @@ define ['jquery', 'modules/export', 'bootstrap', 'datepicker'], ($, Export) ->
   
     exports: ->
       $('[data-export]').each (index, item) ->
-        new Export $(item).data('export')
+        new Export $(item), $(item).data('export')
       @
