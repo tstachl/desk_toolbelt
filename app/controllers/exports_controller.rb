@@ -49,7 +49,6 @@ class ExportsController < ApplicationController
     @export.auth = current_auth
     
     if @export.save
-      Export.delay.run @export.id
       flash[:success] = "New export job has been created."
       redirect_back action: :index
     else

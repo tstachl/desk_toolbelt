@@ -15,6 +15,8 @@ class Export < ActiveRecord::Base
   
   has_attached_file :file
   
+  after_create { |export| Export.delay.run export.id }
+  
   def get_filter
     self.filter ||= {}
   end
