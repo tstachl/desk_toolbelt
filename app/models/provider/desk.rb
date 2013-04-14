@@ -25,6 +25,13 @@ class Provider::Desk < Provider
   
   %w(cases interactions customers topics).each do |method|
     define_method(method) { |filter = {}| client.send(method, prepare_filter(filter)) }
+    define_method("create_#{method.singularize}") do |element = {}|
+      unless method == 'cases'
+        client.send("create_#{method.singularize}", element)
+      else
+        client.send("create_interaction", element)
+      end
+    end
   end
   
   %w(articles).each do |method|
