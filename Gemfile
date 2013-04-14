@@ -14,6 +14,8 @@ gem 'nokogiri', '1.5.5'
 gem 'newrelic_rpm', '3.5.5.38'
 gem 'attr_encryptor', '1.0.2'
 gem 'requirejs-rails', '~> 0.9.1'
+gem 'htmlentities', '~> 4.3.1'
+gem 'oj', '~> 2.0.10'
 
 group :test, :development do
   gem 'rspec-rails', '2.11.4'
