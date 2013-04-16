@@ -16,7 +16,7 @@ gem 'attr_encryptor', '1.0.2'
 gem 'requirejs-rails', '~> 0.9.1'
 gem 'htmlentities', '~> 4.3.1'
 gem 'oj', '~> 2.0.10'
-gem 'ox', '~> 1.9.4'
+gem 'ox', '~> 1.9.0'
 
 group :test, :development do
   gem 'rspec-rails', '2.11.4'
