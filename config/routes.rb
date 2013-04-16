@@ -3,6 +3,8 @@ DeskToolbelt::Application.routes.draw do
     get 'change', on: :member
   end
   resources :exports
+  resources :translations
+  resources :imports
 
   scope '/auth' do
     get 'login' => 'sessions#new', as: :login

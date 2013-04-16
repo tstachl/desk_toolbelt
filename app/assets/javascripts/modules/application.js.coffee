@@ -1,4 +1,4 @@
-define ['jquery', 'modules/export', 'bootstrap', 'datepicker'], ($, Export) ->
+define ['jquery', 'modules/status', 'bootstrap', 'datepicker'], ($, StatusUpdater) ->
   class Application
     @click: 'click'
     @instance: null
@@ -12,7 +12,7 @@ define ['jquery', 'modules/export', 'bootstrap', 'datepicker'], ($, Export) ->
           .datepicker()
           .tooltips()
           .events()
-          .exports()
+          .status()
     
     events: ->
       @doc.on Application.click, 'a[href="#"]', (e) ->
@@ -61,7 +61,14 @@ define ['jquery', 'modules/export', 'bootstrap', 'datepicker'], ($, Export) ->
         type: method
         success: (data, textStatus, jqXHR) ->
           button.button 'reset'
-          modal = $('body').append(data).find('.modal').last().modal()
+          modal = $('body').append(data).find('.modal').last()
+          
+          modal.find('.modal-header h3').text($this.data('title')) if $this.data('title')
+          modal.find($this.data('hide')).hide() if $this.data('hide')
+          modal.find('.modal-footer .btn-primary').text($this.data('create-text')) if $this.data('create-text')
+          modal.find('.modal-footer .btn[data-dismiss="modal"]').text($this.data('close-text')) if $this.data('close-text') 
+          
+          modal.modal()
     
           modal.on Application.click, '[data-submit="modal"]', (e) ->
             modal.find('form').submit()
@@ -77,7 +84,7 @@ define ['jquery', 'modules/export', 'bootstrap', 'datepicker'], ($, Export) ->
       form.find('input:text, input:password, input:file, select, textarea').val ''
       form.find('input:radio, input:checkbox').removeAttr('checked').removeAttr 'selected'
   
-    exports: ->
-      $('[data-export]').each (index, item) ->
-        new Export $(item), $(item).data('export')
+    status: ->
+      $('[data-status]').each (index, item) ->
+        new StatusUpdater $(item), $(item).data('status')
       @

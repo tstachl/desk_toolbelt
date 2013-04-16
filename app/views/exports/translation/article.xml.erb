@@ -1,0 +1,42 @@
+  <file original="<%= article.id %>" datatype="plaintext"
+        source-language="<%= source %>"
+        target-language="<%= target %>">
+    <body>
+      <trans-unit id="subject">
+        <source><![CDATA[<%= html_decode(source_translation.subject) %>]]></source>
+        <target state="<%= target_translation ? 'translated' : 'needs-translation' %>"><![CDATA[<%= html_decode(target_translation ? target_translation.subject : source_translation.subject) %>]]></target>
+      </trans-unit>
+      <trans-unit id="main_content" data-type="htmlbody">
+        <source><![CDATA[<%= html_decode(source_translation.main_content) %>]]></source>
+        <target state="<%= target_translation ? 'translated' : 'needs-translation' %>"><![CDATA[<%= html_decode(target_translation ? target_translation.main_content : source_translation.main_content) %>]]></target>
+      </trans-unit>
+      <trans-unit id="agent_content">
+        <source><![CDATA[<%= html_decode(source_translation.agent_content) %>]]></source>
+        <target state="<%= target_translation ? 'translated' : 'needs-translation' %>"><![CDATA[<%= html_decode(target_translation ? target_translation.agent_content : source_translation.agent_content) %>]]></target>
+      </trans-unit>
+      <trans-unit id="email">
+        <source><![CDATA[<%= html_decode(source_translation.email) %>]]></source>
+        <target state="<%= target_translation ? 'translated' : 'needs-translation' %>"><![CDATA[<%= html_decode(target_translation ? target_translation.email : source_translation.email) %>]]></target>
+      </trans-unit>
+      <trans-unit id="chat">
+        <source><![CDATA[<%= html_decode(source_translation.chat) %>]]></source>
+        <target state="<%= target_translation ? 'translated' : 'needs-translation' %>"><![CDATA[<%= html_decode(target_translation ? target_translation.chat : source_translation.chat) %>]]></target>
+      </trans-unit>
+      <trans-unit id="twitter">
+        <source><![CDATA[<%= html_decode(source_translation.twitter) %>]]></source>
+        <target state="<%= target_translation ? 'translated' : 'needs-translation' %>"><![CDATA[<%= html_decode(target_translation ? target_translation.twitter : source_translation.twitter) %>]]></target>
+      </trans-unit>
+      <trans-unit id="question">
+        <source><![CDATA[<%= html_decode(source_translation.question_answer) %>]]></source>
+        <target state="<%= target_translation ? 'translated' : 'needs-translation' %>"><![CDATA[<%= html_decode(target_translation ? target_translation.question_answer : source_translation.question_answer) %>]]></target>
+      </trans-unit>
+      <trans-unit id="phone">
+        <source><![CDATA[<%= html_decode(source_translation.phone) %>]]></source>
+        <target state="<%= target_translation ? 'translated' : 'needs-translation' %>"><![CDATA[<%= html_decode(target_translation ? target_translation.phone : source_translation.phone) %>]]></target>
+      </trans-unit>
+      <trans-unit id="facebook">
+        <source><![CDATA[<%= html_decode(source_translation.facebook) %>]]></source>
+        <target state="<%= target_translation ? 'translated' : 'needs-translation' %>"><![CDATA[<%= html_decode(target_translation ? target_translation.facebook : source_translation.facebook) %>]]></target>
+      </trans-unit>
+    </body>
+  </file>

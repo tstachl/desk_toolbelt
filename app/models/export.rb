@@ -6,14 +6,14 @@ class Export < ActiveRecord::Base
   
   belongs_to :auth
   serialize :filter
-  attr_accessible :filter, :is_exported, :is_exporting, :method, :description, :format, :total, :pages, :file, :type
+  attr_accessible :filter, :is_exported, :is_exporting, :method, :description, :format, :total, :pages, :file, :type, :target, :source
   
-  validates_presence_of :filter, unless: Proc.new { |export| export.type == "Export::Knowledge" }
+  validates_presence_of :filter, unless: Proc.new { |export| ["Export::Knowledge", "Export::Knowledge::Translation"].include? export.type }
   validates_presence_of :method
   validates_presence_of :format
   validates_presence_of :auth
   
-  has_attached_file :file
+  has_attached_file :file, path: "tempfiles/exporter/#{Rails.env}/export/:filename"
   
   after_create { |export| Export.delay.run export.id }
   
@@ -86,7 +86,7 @@ class Export < ActiveRecord::Base
   def export
     tempfile = process_export
     tempfile.rewind
-    
+
     update_attribute(:file, tempfile)
     
     Rails.logger.info("Removing the tempfile.")
@@ -94,7 +94,7 @@ class Export < ActiveRecord::Base
     tempfile.unlink
   end
   
-private
+protected
   def fetch count, page = 1, id = nil
     return auth.provider.send method, get_filter.merge(page: page, count: count) unless id
     auth.provider.send method, id, get_filter.merge(page: page, count: count)

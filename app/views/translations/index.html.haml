@@ -1,0 +1,79 @@
+- content_for :title do
+  Translations
+- content_for :tagline do
+  Desk.com is multilingual, if you are too you can use this section to download translation files in XLIFF.<br/>
+  All you need to know about <a href="http://en.wikipedia.org/wiki/XLIFF" title="XML Localisation Interchange File Format">XLIFF</a> can be found on Wikipedia.
+
+%section.row#new
+  .span12
+    %h2
+      New Translation
+      %small Create a new translation by giving us some important information.
+
+  = simple_form_for @translation, { url: translations_path, defaults: { required: false, input_html: { class: 'input-block-level' } } } do |f|
+    = render 'shared/error_messages', object: f.object
+    .span6
+      %fieldset
+        %legend From
+        = f.input :source, collection: Export::Knowledge::Translation::SUPPORTED_LANGUAGES.map{ |lang| ["#{lang[:name]} - #{lang[:translation]}", lang[:code]] }
+    .span6
+      %fieldset
+        %legend To
+        = f.input :target, collection: Export::Knowledge::Translation::SUPPORTED_LANGUAGES.map{ |lang| ["#{lang[:name]} - #{lang[:translation]}", lang[:code]] }
+    .span12
+      .form-actions
+        .pull-right
+          = f.submit value: 'Export Translation', class: 'btn btn-primary btn-large'
+
+%section.row#translations
+  .span12
+    %h2
+      Translations
+      %small
+        List of all translations for the current user.
+    %hr
+  - @translations.each do |translation|
+    .translation.span6
+      %h3
+        = translation.target_name
+        %small= translation.target_translation
+      %hr
+      .wizard{id: dom_id(translation), 'data-translation' => "#{translation.attributes.merge(url: translation.file.expiring_url(300)).to_json}"}
+        %ul.wizard-steps
+          %li.wizard-step
+            %span.badge 1
+            Exporting
+            %span.chevron
+          %li.wizard-step
+            %span.badge 2
+            Importing
+            %span.chevron
+          %li.wizard-step
+            %span.badge 3
+            Finished
+            %span.chevron
+        .wizard-content
+          %h4 Information
+          %hr
+          .row-fluid
+            .span6
+              %h5 Source
+              %p= translation.source_translation
+            .span6
+              %h5 Target
+              %p= translation.target_translation
+          .row-fluid
+            .span6
+              %h5 Created At
+              %p= translation.created_at.to_formatted_s(:short)
+            .span6
+              %h5 Updated At
+              %p= translation.updated_at.to_formatted_s(:short)
+        .wizard-actions
+          %a.wizard-action.btn.btn-large.disabled{href: '#', rel: 'nofollow'}
+            %i.icon-download
+            Download
+          = link_to(icon('upload', 'Upload'), new_import_path, data: { modal: 'true', title: 'Upload Translation', hide: '#new_import .control-group.select', 'create-text' => 'Upload' }, class: 'wizard-action btn btn-large disabled')
+          = form_for translation, url: translation_path(translation), html: { method: :delete } do |f|
+            = f.submit value: 'Delete', class: 'wizard-action btn btn-danger btn-large'
+%p

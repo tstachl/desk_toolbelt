@@ -6,6 +6,8 @@ class Auth < ActiveRecord::Base
   belongs_to :provider
   
   has_many :exports
+  has_many :imports
+  has_many :translations
   
   attr_accessible :provider, :uid, :user, :site
   attr_encrypted :secret, key: ENV['ENCRYPTION_KEY'], encode: true

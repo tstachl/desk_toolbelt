@@ -1,0 +1,22 @@
+- content_for :title do
+  New Import
+- content_for :tagline do
+  Preview of cases that'll be exported.
+- content_for :modal_footer do
+  %a.btn{href: '#', 'data-dismiss' => 'modal', 'aria-hidden' => true} Close
+  %a.btn.btn-primary{href: '#', 'data-submit' => 'modal'} Create
+
+= simple_form_for @import, { defaults: { required: false, input_html: { class: 'input-block-level' } } } do |f|
+  = render 'shared/error_messages', object: f.object
+  .span6
+    %fieldset
+      = f.input :file
+      = f.input :method, collection: %w(cases interactions customers topics).map{ |el| [el.titleize, el] }
+  .span6
+    %fieldset
+      = f.input :description, { input_html: { rows: 5 } }
+  - unless xhr?
+    .span12
+      .form-actions
+        .pull-right
+          = f.submit value: 'Create Import', class: 'btn btn-primary btn-large'

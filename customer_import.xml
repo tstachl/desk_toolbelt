@@ -1,0 +1,16 @@
+<customers>
+  <customer>
+    <name>John Smith</name>
+    <company>Desk.com</company>
+    <title>Senior Vice President of Sales</title>
+    <description>This is a description.</description>
+    <email>john@desk.com</email>
+    <phone>(415) 555-0108</phone>
+    <twitter>Desk</twitter>
+    <custom-my-custom-field>Some text</custom-my-custom-field>
+    <custom-my-number-field>13</custom-my-number-field>
+    <custom-my-boolean-field type="boolean">true</custom-my-boolean-field>
+    <custom-my-date-field>2011-05-13</custom-my-date-field>
+    <custom-my-list-field>First Element,Second Element</custom-my-list-field>
+  </customer>
+</customers>

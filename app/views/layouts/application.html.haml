@@ -40,6 +40,8 @@
               - n.item 'Home', '/'
               / - n.item 'Dashboard', '/dashboard', hidden_unless: proc{ logged_in? }
               - n.item 'Export', exports_path, hidden_unless: proc{ logged_in? }
+              - n.item 'Import', imports_path, hidden_unless: proc{ logged_in? }
+              - n.item 'Translation', translations_path, hidden_unless: proc { logged_in? }
             = semantic_navigation config: :bootstrap, class: 'pull-right' do |n|
               - if logged_in?
                 - n.group username_with_icon do

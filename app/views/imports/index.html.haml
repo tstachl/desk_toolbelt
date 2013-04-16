@@ -1,0 +1,72 @@
+- content_for :title do
+  Imports
+- content_for :tagline do
+  Importing data into Desk.com is as easy as exporting. Just upload a file containing your data in XML, JSON or CSV.
+
+%section.row#imports
+  .span12
+    %h2
+      Import
+      %small
+        If you have currently have imports running they'll show up here.
+    %hr
+  - @imports.each do |import|
+    .import.span6
+      %h3
+        = import.file_file_name
+      %hr
+      .wizard{id: dom_id(import), 'data-status' => "#{import.attributes.merge(url: import.file.expiring_url(300), type: 'imports').to_json}"}
+        %ul.wizard-steps
+          %li.wizard-step
+            %span.badge 1
+            In Queue
+            %span.chevron
+          %li.wizard-step
+            %span.badge 2
+            Importing
+            %span.chevron
+          %li.wizard-step
+            %span.badge 3
+            Finished
+            %span.chevron
+        .wizard-content
+          - unless import.description.empty?
+            %h4 Description
+            %hr
+            %p
+              = import.description
+          %h4 Information
+          %hr
+          .row-fluid
+            .span6
+              %h5 Created At
+              %p= import.created_at.to_formatted_s(:short)
+            .span6
+              %h5 Updated At
+              %p= import.updated_at.to_formatted_s(:short)
+        .wizard-actions
+          %a.wizard-action.btn.btn-success.btn-large{href: '#', rel: 'nofollow'}
+            %i.icon-download.icon-white
+            Download Log
+          = form_for import, url: import_path(import), html: { method: :delete } do |f|
+            = f.submit value: 'Delete', class: 'wizard-action btn btn-danger btn-large disabled'
+
+%section.row#new
+  .span12
+    %h2
+      New Import
+      %small Create a new import by uploading a source file.
+    %hr
+  = simple_form_for @import, { defaults: { required: false, input_html: { class: 'input-block-level' } } } do |f|
+    = render 'shared/error_messages', object: f.object
+    .span6
+      %fieldset
+        = f.input :file
+        = f.input :method, collection: %w(cases interactions customers topics).map{ |el| [el.titleize, el] }
+    .span6
+      %fieldset
+        = f.input :description, { input_html: { rows: 5 } }
+    .span12
+      .form-actions
+        .pull-right
+          = f.submit value: 'Create Import', class: 'btn btn-primary btn-large'
