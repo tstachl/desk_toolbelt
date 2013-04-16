@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/masterkain/net-http-spy.git
+  revision: 58dc111094a61884c1ab699a09aa1ccc77cf7472
+  ref: 58dc111094a61884c1ab699a09aa1ccc77cf7472
+  specs:
+    net-http-spy (0.2.1)
+
+GIT
   remote: git://github.com/tstachl/desk.git
   revision: 473dda719f6ecf7c02460b625bbde8299a9d21f4
   tag: v0.3.3toolbelt
@@ -166,6 +173,7 @@ GEM
     omniauth-oauth (1.0.1)
       oauth
       omniauth (~> 1.0)
+    ox (1.9.4)
     paperclip (3.4.0)
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
@@ -189,6 +197,7 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    railroady (1.1.0)
     rails (3.2.11)
       actionmailer (= 3.2.11)
       actionpack (= 3.2.11)
@@ -294,13 +303,16 @@ DEPENDENCIES
   htmlentities (~> 4.3.1)
   jquery-rails (= 2.1.3)
   navigasmic (= 1.0.4)
+  net-http-spy!
   newrelic_rpm (= 3.5.5.38)
   nokogiri (= 1.5.5)
   oj (~> 2.0.10)
   omniauth-desk (= 0.1.4)
+  ox (~> 1.9.4)
   paperclip (= 3.4.0)
   pg (~> 0.14.1)
   rack-livereload (= 0.3.8)
+  railroady (= 1.1.0)
   rails (= 3.2.11)
   rb-fsevent (= 0.9.1)
   requirejs-rails (~> 0.9.1)

@@ -36,6 +36,8 @@ class Provider::Desk < Provider
   
   %w(articles).each do |method|
     define_method(method) { |id = nil, filter = {}| client.send(method, id, prepare_filter(filter)) }
+    define_method("create_#{method.singularize}") { |id = nil, hash = {}| client.send("create_#{method.singularize}", id, hash) }
+    define_method("update_#{method.singularize}") { |id = nil, hash = {}| client.send("update_#{method.singularize}", id, hash) }
   end
 private
   def prepare_filter(filter)

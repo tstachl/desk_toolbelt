@@ -1,9 +1,9 @@
 define ['jquery'], ($) ->
-  class Export
+  class StatusUpdater
     constructor: (@dom_el, config = {}) ->
       for key, value of config
         @[key] = value
-      @data_url = "/exports/#{@id}.json"
+      @data_url = "/#{@type}/#{@id}.json"
       @btnGroup = @dom_el.find '.wizard-actions'
       @counter = 0
 
@@ -16,12 +16,12 @@ define ['jquery'], ($) ->
           for key, value of data
             @[key] = value
           do @process
-      if @counter == 0 then 200 else 10000)
+      if @counter == 0 then 200 else 2000)
     
     process: ->
-      if @is_exported
+      if @is_exported or @is_imported
         do @finish
-      else if @is_exporting
+      else if @is_exporting or @is_importing
         do @progress
       else
         do @queue
@@ -38,9 +38,9 @@ define ['jquery'], ($) ->
 
     delete: (enabled = false) ->
       if enabled
-        @btnGroup.find('.btn-danger').removeClass('disabled').attr('href', "/exports/#{@id}").attr('data-method', 'delete')
+        @btnGroup.find('.btn-danger').removeClass('disabled')
       else
-        @btnGroup.find('.btn-danger').addClass('disabled').attr('href', '#').removeAttr('data-method')
+        @btnGroup.find('.btn-danger').addClass('disabled')
 
     finish: ->
       @step 3

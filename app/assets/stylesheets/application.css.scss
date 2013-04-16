@@ -5,6 +5,9 @@
 @import "application/modalfix";
 @import "application/subnav";
 @import "application/sessions";
+@import "application/herounit";
+
+h1, h2, h3, h4, h5, h6 { text-overflow: ellipsis; overflow: hidden; }
 
 .control-group.hidden{
   position: absolute; 

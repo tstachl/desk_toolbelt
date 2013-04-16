@@ -1,0 +1,8 @@
+- if object.errors.any?
+  .span12
+    .alert.alert-block.alert-error
+      %button.close{type: 'button', 'data-dismiss' => 'alert'} &times;
+      %h4= "#{pluralize(object.errors.count, 'error')}:"
+      %ul
+        - object.errors.full_messages.each do |msg|
+          %li= msg

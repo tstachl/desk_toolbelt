@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130405211523) do
+ActiveRecord::Schema.define(:version => 20130411204713) do
 
   create_table "auths", :force => true do |t|
     t.string   "uid"
@@ -63,9 +63,33 @@ ActiveRecord::Schema.define(:version => 20130405211523) do
     t.datetime "file_updated_at"
     t.integer  "pages"
     t.string   "type",              :default => "Export"
+    t.string   "source"
+    t.string   "target"
   end
 
   add_index "exports", ["auth_id"], :name => "index_exports_on_auth_id"
+
+  create_table "imports", :force => true do |t|
+    t.string   "method"
+    t.string   "format"
+    t.text     "description"
+    t.boolean  "is_imported"
+    t.boolean  "is_importing"
+    t.integer  "auth_id"
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
+    t.string   "logfile_file_name"
+    t.string   "logfile_content_type"
+    t.integer  "logfile_file_size"
+    t.datetime "logfile_updated_at"
+    t.string   "type"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  add_index "imports", ["auth_id"], :name => "index_imports_on_auth_id"
 
   create_table "providers", :force => true do |t|
     t.string "type"

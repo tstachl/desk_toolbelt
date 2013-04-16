@@ -12,7 +12,7 @@
         %small
           = export.format
       %hr
-      .wizard{ id: dom_id(export), 'data-export' => "#{export.attributes.merge(url: export.file.expiring_url(300)).to_json}" }
+      .wizard{ id: dom_id(export), 'data-status' => "#{export.attributes.merge(url: export.file.expiring_url(300), type: 'exports').to_json}" }
         %ul.wizard-steps
           %li.wizard-step.active
             %span.badge 1
@@ -26,15 +26,17 @@
             %span.badge 3
             Finished
             %span.chevron
-        .wizard-content    
-          %h4 Description
-          %hr
-          %p
-            = export.description
-          %h4 Filter
-          %hr
-          = export_filter export.get_filter
-          %h4 Export
+        .wizard-content
+          - if export.description
+            %h4 Description
+            %hr
+            %p
+              = export.description
+          - unless export_filter(export.get_filter).empty?
+            %h4 Filter
+            %hr
+            = export_filter export.get_filter
+          %h4 Information
           %hr
           .row-fluid
             .span6
