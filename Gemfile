@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '1.9.3'
 
 gem 'thin', '1.5.0'
 gem 'foreman', '0.60.2'
