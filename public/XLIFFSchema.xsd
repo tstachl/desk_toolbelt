@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified">
-	<xs:attribute name="type" type="xs:string" />
-	<xs:attribute name="published" type="xs:boolean" />
-</xs:schema>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified">
+	<xsd:attribute name="type" type="xs:string" />
+	<xsd:attribute name="published" type="xs:boolean" default="false" />
+</xsd:schema>
