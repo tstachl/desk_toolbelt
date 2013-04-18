@@ -131,7 +131,7 @@ protected
   rescue Desk::TooManyRequests
     # sleep 5 seconds and try again
     sleep(5)
-    create_element method, element
+    update_element method, id, hash
   end
   
   def validate_and_extract_attributes(method, hash)
