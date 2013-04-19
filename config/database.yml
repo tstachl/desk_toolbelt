@@ -3,7 +3,7 @@ defaults: &defaults
   encoding: unicode
   pool: 5
   timeout: 5000
-  username: toolbelt_dev
+  username: toolbelt
   password: 88as4685
 
 development:
@@ -12,4 +12,4 @@ development:
 
 test:
   <<: *defaults
-  database: toolbelt_dev
+  database: toolbelt_test
