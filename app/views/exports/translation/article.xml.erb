@@ -1,6 +1,7 @@
   <file original="<%= article.id %>" datatype="plaintext"
 				source-language="<%= source %>" target-language="<%= target %>"
 				desk:published="<%= article.publish_at ? 'true' : 'false' %>"
+				desk:show="<%= article.show_in_portal ? 'true' : 'false' %>"
 				desk:type="article">
     <body>
       <trans-unit id="subject">
