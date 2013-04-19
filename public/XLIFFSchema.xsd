@@ -2,4 +2,5 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified">
 	<xsd:attribute name="type" type="xs:string" />
 	<xsd:attribute name="published" type="xs:boolean" default="false" />
+	<xsd:attribute name="show" type="xs:boolean" default="false" />
 </xsd:schema>
