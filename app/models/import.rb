@@ -49,10 +49,16 @@ class Import < ActiveRecord::Base
   def import_xlf
     Rails.logger.info("Importing a xliff file.")
     doc = Ox.parse(open(file.expiring_url(300)).read)
+    
+    # find the namespace
+    @_ns = find_namespace(doc)
+    
     doc.root.nodes.each do |n|
       if n.value == 'file'
-        update_element(:articles, get_id(n), { 
+        update_element(get_type(n), get_id(n), { 
           language: get_language(n),
+          published: get_published(n),
+          show_in_portal: get_show(n),
           subject: get_translation_for_key('subject', n),
           main_content: get_translation_for_key('main_content', n),
           agent_content: get_translation_for_key('agent_content', n),
@@ -143,12 +149,30 @@ protected
     end
   end
   
+  def find_namespace(doc)
+    doc.root.attributes.select do |key, value| 
+      key.to_s.start_with? 'xmlns' and value.include? 'desk'
+    end.keys.first.to_s.split(':').last
+  end
+  
+  def get_type(node)
+    node.attributes["#{@_ns}:type".to_sym].pluralize.to_sym
+  end
+  
   def get_id(node)
     node.attributes[:original]
   end
 
   def get_language(node)
     node.attributes[:'target-language']
+  end
+  
+  def get_published(node)
+    !!(node.attributes["#{@_ns}:published".to_sym] =~ /^(true|t|yes|y|1)$/i)
+  end
+  
+  def get_show(node)
+    !!(node.attributes["#{@_ns}:show".to_sym] =~ /^(true|t|yes|y|1)$/i)
   end
 
   def get_translation_for_key(key, node)
@@ -160,7 +184,7 @@ protected
 
     if transunit
       translation = transunit.nodes.select{ |n| n.value == 'target' }.first
-      if translation && translation.attributes[:state] == 'translated'
+      if translation
         translation.nodes.first.value
       end
     end
