@@ -3,9 +3,9 @@ class Export::Knowledge < Export
   
   def topic_header(topic)
     if format == 'json'
-      "{\"id\":#{topic.id},\"name\":\"#{topic.name}\",\"description\":\"#{topic.description}\",\"position\":#{topic.position},\"show_in_portal\":#{topic.show_in_portal},\"articles\":["
+      "{\"id\":#{topic.id},\"name\":#{topic.name.to_json},\"description\":#{topic.description.to_json},\"position\":#{topic.position},\"show_in_portal\":#{topic.show_in_portal},\"articles\":["
     else
-      "<topic><id>#{topic.id}</id><name>#{topic.name}</name><description>#{topic.description}</description><position>#{topic.position}</position><show_in_portal>#{topic.show_in_portal}</show_in_portal><articles>"
+      "<topic><id>#{topic.id}</id><name>#{coder.encode topic.name}</name><description>#{coder.encode topic.description}</description><position>#{topic.position}</position><show_in_portal>#{topic.show_in_portal}</show_in_portal><articles>"
     end
   end
   
@@ -102,5 +102,9 @@ class Export::Knowledge < Export
 protected
   def set_defaults
     self.method = 'knowledge_base'
+  end
+
+  def coder
+    @_coder ||= HTMLEntities.new
   end
 end

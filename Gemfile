@@ -24,7 +24,6 @@ group :test, :development do
   gem 'guard-bundler', '1.0.0'
   gem 'railroady', '1.1.0'
   gem 'sqlite3'
-  gem 'net-http-spy', :git => 'git://github.com/masterkain/net-http-spy.git', :ref => '58dc111094a61884c1ab699a09aa1ccc77cf7472'
 end
 
 group :test do
@@ -42,6 +41,7 @@ group :development do
   gem 'guard-rails', '0.1.1'
   gem 'rack-livereload', '0.3.8'
   gem 'guard-livereload', '1.1.0'
+  gem 'net-http-spy', :git => 'git://github.com/masterkain/net-http-spy.git', :ref => '58dc111094a61884c1ab699a09aa1ccc77cf7472'
 end
 
 group :production do
