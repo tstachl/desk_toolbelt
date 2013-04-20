@@ -2,8 +2,8 @@ FactoryGirl.define do
   factory :auth do
     provider
     uid '21084237'
-    token Faker::Lorem.characters
-    secret Faker::Lorem.characters
+    token Faker::Lorem.characters(10)
+    secret Faker::Lorem.characters(20)
     user
     site
     
