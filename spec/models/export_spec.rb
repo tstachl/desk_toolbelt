@@ -101,7 +101,9 @@ describe Export do
   
   context '#export' do
     before do
-      @export = export_preview({ count: 100, page: 1 })
+      stub_request(:get, /.*devel\.desk\.com.*/).
+         to_return(body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'))
+      @export = FactoryGirl.build(:preview_export)
       @export.save
     end
 
@@ -130,7 +132,9 @@ describe Export do
   context '#fetch_export' do
     before do
       Export.any_instance.stub(:save_attached_files).and_return(true)
-      @export = export_preview({ count: 100, page: 2 })
+      stub_request(:get, /.*devel\.desk\.com.*/).
+         to_return(body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'))
+      @export = FactoryGirl.build(:preview_export)
       @export.save
     end
     
@@ -158,7 +162,9 @@ describe Export do
   context '#run' do
     before do
       Export.any_instance.stub(:save_attached_files).and_return(true)
-      @export = export_preview({ count: 100, page: 1 })
+      stub_request(:get, /.*devel\.desk\.com.*/).
+         to_return(body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'))
+      @export = FactoryGirl.build(:preview_export)
       @export.save
     end
     

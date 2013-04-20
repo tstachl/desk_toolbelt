@@ -6,16 +6,22 @@ class Export < ActiveRecord::Base
   
   belongs_to :auth
   serialize :filter
-  attr_accessible :filter, :is_exported, :is_exporting, :method, :description, :format, :total, :pages, :file, :type, :target, :source
+  attr_accessible :filter, :is_exported, :is_exporting, :method, :description, :format, :total, :pages, :file, :type
+  # Export::Knowledge::Translation
+  attr_accessible :target, :source
   
-  validates_presence_of :filter, unless: Proc.new { |export| ["Export::Knowledge", "Export::Knowledge::Translation"].include? export.type }
+  validates_presence_of :filter, if: Proc.new { |export| export.type == 'Export' }
   validates_presence_of :method
   validates_presence_of :format
   validates_presence_of :auth
   
-  has_attached_file :file, path: "tempfiles/exporter/#{Rails.env}/export/:filename"
+  has_attached_file :file, path: "Toolbelt/#{Rails.env}/export/:filename"
   
   after_create { |export| Export.delay.run export.id }
+  before_post_process { |export|
+    ext = File.extname(file_file_name)
+    self.file.instance_write(:file_name, "#{method}_#{SecureRandom.hex.first(8)}#{ext}")
+  }
   
   def get_filter
     self.filter ||= {}
@@ -121,7 +127,7 @@ protected
     fetch_export(count, page, id)
   end
   
-  class << self    
+  class << self
     def run(id)
       Rails.logger.info("Starting export with ID: #{id}")
       export = find(id)

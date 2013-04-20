@@ -82,4 +82,4 @@
         = flash_messages
       = yield
     
-    = requirejs_include_tag 'main'
+    = requirejs_include_tag('application'){ |c| { 'main' => 'application'} }

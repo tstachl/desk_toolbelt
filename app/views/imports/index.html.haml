@@ -15,7 +15,7 @@
       %h3
         = import.file_file_name
       %hr
-      .wizard{id: dom_id(import), 'data-status' => "#{import.attributes.merge(url: import.file.expiring_url(300), type: 'imports').to_json}"}
+      .wizard{id: dom_id(import), 'data-status' => "#{import.attributes.merge(url: import.logfile.expiring_url(300), type: 'imports').to_json}"}
         %ul.wizard-steps
           %li.wizard-step
             %span.badge 1
@@ -30,7 +30,7 @@
             Finished
             %span.chevron
         .wizard-content
-          - unless import.description.empty?
+          - unless import.description.nil?
             %h4 Description
             %hr
             %p

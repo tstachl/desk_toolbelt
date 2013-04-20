@@ -1,0 +1,20 @@
+- content_for :title do
+  Zendesk Authorization
+- content_for :tagline do
+  Please authenticate with your Zendesk credentials so we can pull data from it.
+
+%section.row
+  .span10
+    = simple_form_for(@auth, url: '/auth/zendesk', html: { class: 'form-horizontal' }) do |f|
+      %fieldset
+        %legend Zendesk
+        = f.input :token, label: 'Username', hint: 'Enter your Zendesk username', input_html: { name: 'email' }
+        = f.input :secret, label: 'Password', required: true, as: :password, hint: 'Enter your Zendesk password', input_html: { name: 'password' }
+        = simple_fields_for @auth.site do |s|
+          = s.input :name, wrapper: :append_and_prepend, hint: 'Enter the name of your Zendesk site' do
+            = content_tag :span, 'https://', class: 'add-on'
+            = s.input_field :name, name: 'site', class: 'input-small', placeholder: 'devel'
+            = content_tag :span, '.zendesk.com', class: 'add-on'
+      .form-actions
+        = f.button :submit, 'continue', :class => 'btn-primary btn-large pull-right'
+        %a.btn.btn-large.pull-left{href: migrations_desk_path} back

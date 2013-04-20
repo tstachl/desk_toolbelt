@@ -31,7 +31,9 @@ describe ExportsController do
   
   describe "GET #new" do
     before do
-      @filter = export_preview({ count: 10, page: 1 }, @auth).filter
+      @filter = FactoryGirl.build(:preview_export, auth: @auth).filter
+      stub_request(:get, /.*devel\.desk\.com.*/).
+         to_return(body: File.new(Rails.root + 'spec/fixtures/desk/cases.json'))
     end
     
     it "assigns export" do

@@ -8,6 +8,7 @@ class Auth < ActiveRecord::Base
   has_many :exports
   has_many :imports
   has_many :translations
+  has_many :migrations, foreign_key: 'from_id', class_name: 'Export::Migration'
   
   attr_accessible :provider, :uid, :user, :site
   attr_encrypted :secret, key: ENV['ENCRYPTION_KEY'], encode: true
@@ -22,10 +23,12 @@ class Auth < ActiveRecord::Base
     original_provider
   end
   
-  def update_omniauth(hash)
+  def update_omniauth(hash, user = nil)
+    user ||= User.find_or_initialize_by_omniauth(hash)
+    
     if new_record?
       update_attributes({
-        user: user || User.find_or_initialize_by_omniauth(hash),
+        user: user,
         site: Site.find_or_create_by_name(hash.info.site)
       })
     end
@@ -67,7 +70,7 @@ class Auth < ActiveRecord::Base
     
     def from_omniauth(hash, user = nil)
       auth = Auth.find_or_initialize_by_omniauth hash
-      auth.update_omniauth hash
+      auth.update_omniauth hash, user
       auth
     end
   end

@@ -52,5 +52,15 @@ FactoryGirl.define do
     factory :exporting_export do
       is_exporting true
     end
+    
+    factory :knowledge_export do
+      filter nil
+      method nil
+      description 'RSpec Knowledge test'
+      format 'json'
+      total nil
+      pages nil
+      auth
+    end
   end
 end

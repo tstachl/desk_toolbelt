@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130411204713) do
+ActiveRecord::Schema.define(:version => 20130421205015) do
 
   create_table "auths", :force => true do |t|
     t.string   "uid"
@@ -65,9 +65,16 @@ ActiveRecord::Schema.define(:version => 20130411204713) do
     t.string   "type",              :default => "Export"
     t.string   "source"
     t.string   "target"
+    t.boolean  "articles"
+    t.boolean  "cases"
+    t.boolean  "interactions"
+    t.boolean  "customers"
+    t.boolean  "topics"
+    t.integer  "from_id"
   end
 
   add_index "exports", ["auth_id"], :name => "index_exports_on_auth_id"
+  add_index "exports", ["from_id"], :name => "index_exports_on_from_id"
 
   create_table "imports", :force => true do |t|
     t.string   "method"

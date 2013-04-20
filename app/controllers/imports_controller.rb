@@ -14,9 +14,10 @@ class ImportsController < ApplicationController
 
   def show
     @import = current_auth.imports.find params[:id]
+    url = @import.is_imported ? @import.logfile.expiring_url(300) : ''
     respond_to do |format|
-      format.json { render json: @import }
-      format.xml { render xml: @import }
+      format.json { render json: @import.attributes.merge(url: url) }
+      format.xml { render xml: @import.attributes.merge(url: url) }
       format.html
     end
   end

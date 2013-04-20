@@ -17,7 +17,20 @@ module ApplicationHelper
       end
     end.join.html_safe
   end
-  
+
+  def migration_flash
+    f_names = [:warning, :error, :success, :info]
+    flash.collect do |message|
+      if f_names.include?(message[0].to_sym)
+        """
+        <div class=\"#{message[0]} message\">
+          <h3>#{message[0].to_s.titleize}! <small>#{message[1]}</small></h3>
+        </div>
+        """
+      end
+    end.join.html_safe
+  end
+
   def icon(icon, text = '', white = false)
     "<i class=\"icon-#{icon} #{white ? 'icon-white' : ''}\"></i> #{text}".html_safe
   end

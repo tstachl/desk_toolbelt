@@ -1,0 +1,16 @@
+- content_for :title do
+  Desk.com Authorization
+- content_for :tagline do
+  The migration is going to pull data from your Zendesk environment into your Desk.com environment. Please authenticate with the Desk.com site you want the data to be pushed into.
+
+%section.row
+  .span10
+    = simple_form_for(Site.new, :url => '/auth/desk', :html => {:class => 'form-horizontal' }) do |f|
+      %fieldset
+        %legend Desk.com
+        = f.input :name, :wrapper => :append_and_prepend, :hint => 'Enter the name of your desk.com site' do
+          = content_tag :span, 'https://', :class => 'add-on'
+          = f.input_field :name, :name => 'desk_site', :class => 'input-small', :placeholder => 'devel'
+          = content_tag :span, '.desk.com', :class => 'add-on' 
+      .form-actions
+        = f.button :submit, 'continue', :class => 'btn-primary btn-large pull-right'

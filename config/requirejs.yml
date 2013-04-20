@@ -11,3 +11,4 @@ shim:
   plumb: ['jquery']
 modules:
   - name: 'application'
+  - name: 'migration'

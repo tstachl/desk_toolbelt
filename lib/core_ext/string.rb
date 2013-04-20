@@ -20,4 +20,8 @@ class String
   rescue
     false
   end
+  
+  def sanitize
+    self.gsub(/[^a-z0-9\-_]+/i, ' ').strip.gsub(/\s\s+/, ' ').gsub(/ /, '-').downcase
+  end
 end

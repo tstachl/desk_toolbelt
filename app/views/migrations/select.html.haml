@@ -1,0 +1,21 @@
+- content_for :title do
+  Selection
+- content_for :tagline do
+  Select the resources you want to migrate. <strong>Attention</strong> those names reflect the Desk.com resources (Cases = Tickets, ...).
+
+%section.row
+  .span10
+    = simple_form_for(@migration, url: migrations_path, html: { class: 'form-horizontal' }) do |f|
+      %fieldset
+        %legend Resources
+        .row-fluid
+          .span5
+            = f.input :customers, as: :slidr, slidr_html: { class: 'slidr-success' }
+            = f.input :cases, as: :slidr, slidr_html: { class: 'slidr-success' }
+            = f.input :interactions, as: :slidr, slidr_html: { class: 'slidr-success' }
+          .span5
+            = f.input :topics, as: :slidr, slidr_html: { class: 'slidr-success' }
+            = f.input :articles, as: :slidr, slidr_html: { class: 'slidr-success' }
+      .form-actions
+        = f.button :submit, 'continue', :class => 'btn-primary btn-large pull-right'
+        %a.btn.btn-large.pull-left{href: migrations_zendesk_path} back

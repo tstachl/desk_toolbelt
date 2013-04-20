@@ -4,10 +4,10 @@ require 'ox'
 
 class Import < ActiveRecord::Base
   POSSIBLE_ATTRIBUTES = {
-    cases: %w(interaction_subject customer_id customer_twitter customer_email customer_name customer_language case_id external_id case_labels case_language interaction_channel interaction_body customer_custom_* case_custom_*),
+    cases: %w(interaction_subject customer_id customer_twitter customer_email customer_name customer_language case_id external_id case_labels case_language interaction_channel interaction_body customer_custom_* case_custom_* interactions),
     customers: %w(name company title description external_id email phone language custom_*),
-    cases: %w(interaction_subject customer_id customer_twitter customer_email customer_name customer_language case_id external_id case_labels case_language interaction_channel interaction_body customer_custom_* case_custom_*),
-    topics: %w(name description show_in_portal),
+    interactions: %w(interaction_subject customer_id customer_twitter customer_email customer_name customer_language case_id external_id case_labels case_language interaction_channel interaction_body customer_custom_* case_custom_*),
+    topics: %w(name description show_in_portal articles),
     macros: %w(name enabled labels),
     articles: %w(subject main_content published show_in_portal agent_content email chat twitter question phone quickcode language)
   }
@@ -21,11 +21,16 @@ class Import < ActiveRecord::Base
   validates_presence_of :format
   validates_attachment_presence :file
   
-  has_attached_file :file, path: "tempfiles/exporter/#{Rails.env}/import/:filename"
-  has_attached_file :logfile, path: "tempfiles/exporter/#{Rails.env}/logfiles/:filename"
+  has_attached_file :file, path: "Toolbelt/#{Rails.env}/import/:filename"
+  has_attached_file :logfile, path: "Toolbelt/#{Rails.env}/logfiles/:filename"
   
   after_create { |import| Import.delay.run import.id }
   before_validation { |import| import.format = File.extname(file_file_name)[1..-1] }
+  before_post_process { |import|
+    ext = File.extname(file_file_name)
+    self.file.instance_write(:file_name, "import_#{SecureRandom.hex.first(8)}#{ext}")
+    self.logfile.instance_write(:file_name, "import-log_#{SecureRandom.hex.first(8)}.log")
+  }
   
   def import_json
     Rails.logger.info("Importing a json file.")
@@ -34,7 +39,11 @@ class Import < ActiveRecord::Base
   
   def import_xml
     Rails.logger.info("Importing a xml file.")
-    import_hash Hash.from_xml open(file.expiring_url(300)).read
+    import_hash Hash.from_xml(open(file.expiring_url(300)).read).tap do |hash|
+      hash.each_pair do |method, element|
+        hash[method] = element[method.singularize].kind_of?(Array) ? element[method.singularize] : [element[method.singularize]]
+      end
+    end
   end
   
   def import_csv
@@ -76,7 +85,7 @@ class Import < ActiveRecord::Base
     begin
       Rails.logger.info("Creating a templog file.")
       @tmplog = Tempfile.new(['import', '.log'])
-      @tmplog.write(open(logfile.expiring_url(300)).read) if logfile.expiring_url(300)
+      @tmplog.write(open(logfile.expiring_url(300)).read) if logfile.exists?
     
       Rails.logger.info("Importing: #{format}")
       send "import_#{format}" if respond_to? "import_#{format}".to_sym
@@ -91,6 +100,12 @@ class Import < ActiveRecord::Base
     end
   end
   
+  def notify
+    unless logfile.blank?
+      ImportMailer.delay.notify_email(id)
+    end
+  end
+  
 protected
   def logger
     @_logger ||= Logger.new(@tmplog)
@@ -99,7 +114,7 @@ protected
   def import_hash(hash)
     if hash.kind_of? Hash
       hash.each_pair do |method, elements|
-        elements.each do |element|
+        (elements.kind_of?(Hash) && elements.key?(method.singularize) ? elements[method.singularize] : elements).each do |element|
           create_element method, element.kind_of?(Array) ? element.last : element
         end
       end
@@ -120,7 +135,7 @@ protected
   rescue Desk::TooManyRequests
     # sleep 5 seconds and try again
     sleep(5)
-    create_element method, element
+    create_element method, hash
   end
 
   def update_element(method, id, hash)
@@ -200,6 +215,8 @@ protected
       import.import
       Rails.logger.info("Updating :is_importing to false and :is_imported to true")
       import.update_attributes(is_importing: false, is_imported: true)
+      Rails.logger.info("Send an email with the log")
+      import.notify
     end
   end
 end

@@ -1,0 +1,74 @@
+!!! 5
+-# paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7 no-js"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7 no-js"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8 no-js"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9 no-js"> <![endif]-->
+<!--[if gt IE 9]>  <html class="no-js"> <![endif]-->
+<!--[if !IE]><!-->
+%html.no-js
+  <!--<![endif]-->
+  %head
+    %meta{:'http-equiv' => "Content-Type", content: "text/html; charset=utf-8"}
+    %meta{name: "lang", content: "en"}
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}
+    
+    %title
+      = "#{yield(:title) ? yield(:title) + ' - ' : ''}Migration - Desk.com Toolbelt"
+    
+    = csrf_meta_tag
+    
+    = stylesheet_link_tag :migrations
+    %link{href: "/favicon.png", rel: "shortcut icon", type: "image/png"}
+    %script{src: '//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js'}
+    
+    - if Rails.env.production?
+      :javascript
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32104003-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+  
+  %body{class: controller_class, 'data-spy' => 'scroll', 'data-target' => '.subnav', 'data-offset' => '50', 'data-twttr-rendered' => 'true'}
+    .messages
+      = migration_flash
+    .container
+      %header.row
+        .span10
+          %h1.logo
+            %a{href: '/', title: 'Desk.com Toolbelt'}
+              %span Desk.com Toolbelt
+      %section.row
+        .span10
+          .wizard
+            %ul.wizard-steps
+              %li.wizard-step{class: controller_class == 'migrations-desk' ? 'active' : ''}
+                %span.badge 1
+                Desk.com
+                %span.chevron
+              %li.wizard-step{class: controller_class == 'migrations-zendesk' ? 'active' : ''}
+                %span.badge 2
+                Zendesk
+                %span.chevron
+              %li.wizard-step{class: controller_class == 'migrations-select' ? 'active' : ''}
+                %span.badge 3
+                Selection
+                %span.chevron
+              %li.wizard-step{class: controller_class == 'migrations-finish' ? 'active' : ''}
+                %span.badge 4
+                Finish
+                %span.chevron
+      %section.row
+        .span10
+          .hero-unit
+            %h1
+              = yield :title
+            %p
+              = yield :tagline
+      = yield
+      
+    = requirejs_include_tag('migration'){ |c| { 'main' => 'migration'} }
