@@ -16,13 +16,13 @@ describe Auth do
       is_valid(@auth, :provider, Provider.new)
     end
     it 'validates the uid is present' do
-      is_valid(@auth, :uid, Faker::Lorem.characters)
+      is_valid(@auth, :uid, Faker::Lorem.characters(10))
     end
     it 'validates the user is present' do
       is_valid(@auth, :user, User.new)
     end
     it 'validates the token is present' do
-      is_valid(@auth, :token, Faker::Lorem.characters)
+      is_valid(@auth, :token, Faker::Lorem.characters(10))
     end
   end
   
@@ -62,8 +62,8 @@ describe Auth do
       before do
         @hash = OmniAuth.config.mock_auth[:desk]
         @auth = Auth.login_omniauth OmniAuth.config.mock_auth[:desk]
-        @auth.token = Faker::Lorem.characters
-        @auth.secret = Faker::Lorem.characters
+        @auth.token = Faker::Lorem.characters(10)
+        @auth.secret = Faker::Lorem.characters(20)
         @auth.save!
       end
       

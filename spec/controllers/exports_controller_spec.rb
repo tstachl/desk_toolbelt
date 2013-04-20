@@ -20,7 +20,7 @@ describe ExportsController do
     
     it "populates an array of exports" do
       get :index
-      assigns(:exports).should eq(@exports)
+      assigns(:exports).should =~ @exports
     end
     
     it "renders the :index view" do

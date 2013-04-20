@@ -28,8 +28,8 @@ OmniAuth.config.mock_auth[:desk] = OmniAuth::AuthHash.new({
     site:         'https://devel.desk.com'
   },
   credentials: {
-    token:        Faker::Lorem.characters,
-    secret:       Faker::Lorem.characters
+    token:        Faker::Lorem.characters(10),
+    secret:       Faker::Lorem.characters(20)
   }
 })
 
@@ -46,8 +46,8 @@ OmniAuth.config.mock_auth[:desk_dan] = OmniAuth::AuthHash.new({
     site:         'https://zzz-dan.desk.com'
   },
   credentials: {
-    token:        Faker::Lorem.characters,
-    secret:       Faker::Lorem.characters
+    token:        Faker::Lorem.characters(10),
+    secret:       Faker::Lorem.characters(20)
   }
 })
 
@@ -55,8 +55,8 @@ OmniAuth.config.mock_auth[:zendesk] = OmniAuth::AuthHash.new({
   provider: 'zendesk',
   uid:      '1234565',
   credentials: {
-    token:        Faker::Lorem.characters,
-    secret:       Faker::Lorem.characters
+    token:        Faker::Lorem.characters(10),
+    secret:       Faker::Lorem.characters(20)
   }
 })
 
