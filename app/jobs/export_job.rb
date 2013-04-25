@@ -8,7 +8,7 @@ class ExportJob < Struct.new(:id)
     ExportMailer.export_started_email({
       email: export.auth.user.email,
       name: export.auth.user.name
-    })
+    }).deliver
   end
   
   def success(job)
@@ -16,7 +16,7 @@ class ExportJob < Struct.new(:id)
     ExportMailer.export_finished_email({
       email: export.auth.user.email,
       name: export.auth.user.name
-    })
+    }).deliver
     
     export.destroy if export.type == 'Export::Migration'
   end
@@ -26,7 +26,7 @@ class ExportJob < Struct.new(:id)
     ExportMailer.export_failed_email({
       email: export.auth.user.email,
       name: export.auth.user.name
-    })
+    }).deliver
     
     export.destroy if export.type == 'Export::Migration'
     Delayed::Job.find(self).destroy
