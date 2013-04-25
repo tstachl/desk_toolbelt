@@ -43,7 +43,7 @@ protected
   def create_import
     # :description, :file, :format, :is_imported, :is_importing, :method, :type, :logfile
     if self.is_exported
-      import = Import.new
+      import = Import::Migration.new
       import.auth = self.auth
       import.file = self.file
       import.save

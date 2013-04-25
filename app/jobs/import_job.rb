@@ -17,6 +17,8 @@ class ImportJob < Struct.new(:id)
       email: import.auth.user.email,
       name: import.auth.user.name
     }).deliver
+    
+    import.destroy if import.type == 'Import::Migration'
   end
   
   def error(job, exception)
@@ -26,6 +28,7 @@ class ImportJob < Struct.new(:id)
       name: import.auth.user.name
     }).deliver
     
+    import.destroy if import.type == 'Import::Migration'
     Delayed::Job.find(self).destroy
   end
 end
