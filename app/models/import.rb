@@ -4,7 +4,7 @@ require 'ox'
 
 class Import < ActiveRecord::Base
   POSSIBLE_ATTRIBUTES = {
-    cases: %w(interaction_subject customer_id customer_twitter customer_email customer_name customer_language case_id external_id case_labels case_language interaction_channel interaction_body customer_custom_* case_custom_* interactions),
+    cases: %w(interaction_subject customer_id customer_twitter customer_email customer_name customer_language case_id external_id case_labels case_language case_status interaction_channel interaction_body customer_custom_* case_custom_* interactions),
     customers: %w(name company title description external_id email phone language custom_*),
     interactions: %w(interaction_subject customer_id customer_twitter customer_email customer_name customer_language case_id external_id case_labels case_language interaction_channel interaction_body customer_custom_* case_custom_*),
     topics: %w(name description show_in_portal articles),
@@ -24,7 +24,7 @@ class Import < ActiveRecord::Base
   has_attached_file :file, path: "Toolbelt/#{Rails.env}/import/:filename"
   has_attached_file :logfile, path: "Toolbelt/#{Rails.env}/logfiles/:filename"
   
-  after_create { |import| Import.delay.run import.id }
+  after_create { |import| Delayed::Job.enqueue ImportJob.new(import.id) }
   before_validation { |import| import.format = File.extname(file_file_name)[1..-1] }
   before_post_process { |import|
     ext = File.extname(file_file_name)
@@ -99,13 +99,6 @@ class Import < ActiveRecord::Base
       @tmplog.unlink
     end
   end
-  
-  def notify
-    unless logfile.blank?
-      ImportMailer.delay.notify_email(id)
-    end
-  end
-  
 protected
   def logger
     @_logger ||= Logger.new(@tmplog)
@@ -132,10 +125,6 @@ protected
   rescue Desk::InternalServerError
     # we know from test, Desk throws this error if eg. a customer already exists.
     logger.error("==== FAILED: The last element has not been imported. ====")
-  rescue Desk::TooManyRequests
-    # sleep 5 seconds and try again
-    sleep(5)
-    create_element method, hash
   end
 
   def update_element(method, id, hash)
@@ -149,10 +138,6 @@ protected
   rescue Desk::InternalServerError
     # we know from test, Desk throws this error if eg. a customer already exists.
     logger.error("==== FAILED: The last translation has not been imported. ====")
-  rescue Desk::TooManyRequests
-    # sleep 5 seconds and try again
-    sleep(5)
-    update_element method, id, hash
   end
   
   def validate_and_extract_attributes(method, hash)
@@ -215,8 +200,6 @@ protected
       import.import
       Rails.logger.info("Updating :is_importing to false and :is_imported to true")
       import.update_attributes(is_importing: false, is_imported: true)
-      Rails.logger.info("Send an email with the log")
-      import.notify
     end
   end
 end

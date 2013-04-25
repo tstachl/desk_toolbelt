@@ -1,11 +1,18 @@
 class ImportMailer < ActionMailer::Base
   default from: "tom@desk.com"
   
-  def notify_email(import_id)
-    import = Import.find import_id
-    attachments['ImportLogfile.log'] = open(import.logfile.expiring_url(300)).read
-    
-    @user = import.auth.user
-    mail(to: @user.email, subject: "IMPORT - The import is finished")
+  def import_started_email(hash)
+    @name = hash[:name]
+    mail(to: hash[:email], subject: 'IMPORT - We just started the import')
+  end
+  
+  def import_finished_email(hash)
+    @name = hash[:name]
+    mail(to: hash[:email], subject: 'IMPORT - Your import is finished')
+  end
+  
+  def import_failed_email(hash)
+    @name = hash[:name]
+    mail(to: hash[:email], subject: 'IMPORT FAILED - Something went wrong during your import')
   end
 end

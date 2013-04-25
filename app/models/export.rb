@@ -17,7 +17,7 @@ class Export < ActiveRecord::Base
   
   has_attached_file :file, path: "Toolbelt/#{Rails.env}/export/:filename"
   
-  after_create { |export| Export.delay.run export.id }
+  after_create { |export| Delayed::Job.enqueue ExportJob.new(export.id) }
   before_post_process { |export|
     ext = File.extname(file_file_name)
     self.file.instance_write(:file_name, "#{method}_#{SecureRandom.hex.first(8)}#{ext}")

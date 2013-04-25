@@ -46,12 +46,7 @@ protected
       import = Import.new
       import.auth = self.auth
       import.file = self.file
-      
-      if import.save
-        MigrationMailer.delay.starting_import_email(self.id)
-      else
-        MigrationMailer.delay.create_import_failed_email(self.id)
-      end
+      import.save
     end
   end
 end

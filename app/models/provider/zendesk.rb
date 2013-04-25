@@ -7,6 +7,15 @@ class Provider::Zendesk < Provider
     :article      => :topic
   }
   
+  STATUS_MAP = {
+    'new'         => 10,
+    'open'        => 30,
+    'pending'     => 50,
+    'hold'        => 50,
+    'solved'      => 70,
+    'closed'      => 90
+  }
+  
   def client
     @client ||= ::ZendeskAPI::Client.new do |config|
       config.url      = "#{auth.site.name}/api/v2"
@@ -32,6 +41,7 @@ class Provider::Zendesk < Provider
         customer_name: resource.submitter.name,
         case_external_id: resource.external_id,
         case_labels: resource.tags.join(','),
+        case_status: get_status_for(resource.status),
         interaction_channel: resource.submitter.email.blank? ? 'phone' : 'email',
         interaction_body: resource.description,
         interactions: inter
@@ -117,5 +127,9 @@ class Provider::Zendesk < Provider
     end
     
     tmp
+  end
+  
+  def get_status_for(status)
+    STATUS_MAP.key?(status) ? STATUS_MAP[status] : 70
   end
 end

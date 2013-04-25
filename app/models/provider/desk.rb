@@ -1,51 +1,46 @@
 class Provider::Desk < Provider
-  def client
-    @client ||= ::Desk.client({
-      subdomain: auth.site.name, 
-      oauth_token: auth.token, 
-      oauth_token_secret: auth.secret
-    })
-  end
-  
   %w(cases customers interactions topics macros).each do |method|
-    define_method(method) { |filter = {}| client.send(method, prepare_filter(filter)) }
+    define_method(method) { |filter = {}| client(method, prepare_filter(filter)) }
   end
   
   %w(customer interaction).each do |method|
     define_method("create_#{method}") do |hash = {}|
-      client.send("create_#{method}", hash)
+      client("create_#{method}", hash)
     end
   end
   
   def create_case(hash = {})
     # get interactions if exist
     interactions = hash.delete('interactions')
+    # get status if exists
+    status = hash.delete('case_status')
     # create the case
     result = create_interaction(hash)
     # run through interactions if exist
-    if interactions and result.case and result.case.id
+    if result.case and result.case.id
       interactions.each do |interaction|
         if result.case and result.case.id
           interaction['case_id'] = result.case.id
           create_interaction(interaction)
         end
-      end
+      end if interactions
+      
+      # set the status to resolved
+      update_case(result.case.id, { case_status_type_id: status || 70 })
     end
-    # set the status to resolved
-    update_case(result.case.id, { case_status_type_id: 70 })
     # return the initial result
     result
   end
   
   def update_case(id, hash = {})
-    client.update_case(id, hash)
+    client("update_case", id, hash)
   end
 
   def create_topic(hash = {})
     # get articles if exist
     articles = hash.delete('articles')
     # create the topic
-    result = client.create_topic(hash['name'], hash)
+    result = client("create_topic", hash['name'], hash)
     # run through articles if exist
     if articles and result and result.id
       articles.each do |article|
@@ -59,12 +54,12 @@ class Provider::Desk < Provider
   end
   
   %w(articles).each do |method|
-    define_method(method) { |id = nil, filter = {}| client.send(method, id, prepare_filter(filter)) }
+    define_method(method) { |id = nil, filter = {}| client(method, id, prepare_filter(filter)) }
     define_method("create_#{method.singularize}") { |id = nil, hash = {}|
       hash['main_content'] = extract_images(hash['main_content'], hash['host'], hash['subject']) if hash.key?('main_content')
-      client.send("create_#{method.singularize}", id, hash)
+      client("create_#{method.singularize}", id, hash)
     }
-    define_method("update_#{method.singularize}") { |id = nil, hash = {}| client.send("update_#{method.singularize}", id, hash) }
+    define_method("update_#{method.singularize}") { |id = nil, hash = {}| client("update_#{method.singularize}", id, hash) }
   end
   
 protected
@@ -115,5 +110,21 @@ private
       tmp[key] = (DateTime.strptime(value, "%m/%d/%y").strftime("%s") rescue value)
     }
     tmp
+  end
+  
+  def client(method, *args)
+    get_client.send method, *args
+  rescue ::Desk::TooManyRequests
+    # sleep 5 seconds and try again
+    sleep(5)
+    client method, *args
+  end
+
+  def get_client
+    @client ||= ::Desk.client({
+      subdomain: auth.site.name, 
+      oauth_token: auth.token, 
+      oauth_token_secret: auth.secret
+    })
   end
 end
